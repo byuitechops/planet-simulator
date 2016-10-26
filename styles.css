@@ -1,3 +1,7 @@
+/* IMPORTS */
+/* Roboto font */
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+
 * {
   box-sizing: border-box;
 }
@@ -7,8 +11,27 @@ main {
   margin: 0 auto;
 }
 
+
+/* SVG */
 svg {
   width: 100%;
   height: auto;
   border: 1px solid #000;
+}
+
+text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 9px;
+    fill: #fff;
+}
+
+.notBold {
+    font-weight: 400;
+}
+
+.smallText {
+    font-size: 7px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
 }
