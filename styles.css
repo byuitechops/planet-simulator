@@ -1,13 +1,12 @@
 /* IMPORTS */
 /* Roboto font */
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700, 900');
 
 * {
   box-sizing: border-box;
 }
 
 main {
-  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -16,13 +15,12 @@ main {
 svg {
   width: 100%;
   height: auto;
-  border: 1px solid #000;
 }
 
 text {
     font-family: 'Roboto', sans-serif;
-    font-weight: 700;
-    font-size: 9px;
+    font-weight: 900;
+    font-size: 14px;
     fill: #fff;
 }
 
@@ -31,7 +29,7 @@ text {
 }
 
 .smallText {
-    font-size: 7px;
+    font-size: 12px;
     font-weight: 400;
-    letter-spacing: 1.5px;
+/*    letter-spacing: 1.5px;*/
 }
