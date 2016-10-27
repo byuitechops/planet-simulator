@@ -33,3 +33,23 @@ text {
     font-weight: 400;
 /*    letter-spacing: 1.5px;*/
 }
+
+.operator {
+	font-size: 28px
+}
+
+#timeline g text {
+	font-size: 12px;
+}
+
+#timeline g > image {
+	display: none;
+}
+
+#timeline g.active > image {
+	display: inline;
+}
+
+#timeline g.active text {
+	fill: #235255;
+}

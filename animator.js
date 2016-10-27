@@ -47,7 +47,7 @@ Frame.prototype.setFrameAmount = function (amount) {
 /*
  * THE ANIMATOR CLASS
  */
-function Animator(states, isFrame, x, y) {
+function Animator(states, isFrame, x, y, scale) {
     this.x = x;
     this.y = y;
     this.states = states;
@@ -58,14 +58,19 @@ function Animator(states, isFrame, x, y) {
     this.Name = undefined;
     this.transitionDuration = 500;
     this.frames = [];
+	this.scale = scale;
 }
 
 Animator.prototype.display = function () {
         var currentAnimator = this;
         var group = document.createElementNS("http://www.w3.org/2000/svg", "g");
         group.setAttributeNS(null, "id", this.getName());
-        group.setAttributeNS(null, "transform", "translate(" + this.getX() + "," + this.getY() + ")");
-        document.querySelector("#target").appendChild(group);
+		if (this.scale) {
+			group.setAttributeNS(null, "transform", "translate(" + this.getX() + "," + this.getY() + ") scale(" + this.scale + ")");
+		} else {
+			group.setAttributeNS(null, "transform", "translate(" + this.getX() + "," + this.getY() + ")");
+		}
+        document.querySelector("svg").appendChild(group);
         var items = this.states.map(function (frame, index) {
 
 

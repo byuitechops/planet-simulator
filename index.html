@@ -13,49 +13,121 @@
 <!--        Had set at 1000 500 -->
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1730 938" preserveAspectRatio="xMidYMid meet">
             <g id="background">
+                <image href="images/paper-doll/background2.jpg" x="0" y="0" width="1730" height="938" opacity=".4"></image>
                 <image href="images/paper-doll/background.png" x="0" y="0" width="1730" height="938"></image>
-                <image href="images/paper-doll/waves.gif" x="1007" y="553" width="460" height="250"></image>
+                <image href="images/paper-doll/waves.gif" x="1007" y="553" width="460" height="250" opacity=".7"></image>
                 <image href="images/paper-doll/seaFloor.png" x="1037" y="630" width="374" height="199"></image>
-                <image href="images/paper-doll/rainRight.gif" x="1368" y="404" width="204" height="168"></image>
+                <image href="images/paper-doll/rainleft.gif" x="880" y="404" width="204" height="168"></image>
+                <image href="images/paper-doll/rainRight.gif" x="1396" y="407" width="204" height="168"></image>
                 <text x="126" y="90">FORCING &amp; RESPONSE SIMULATOR</text>
+                <text x="207" y="147" class="operator notBold">+</text>
+                <text x="110" y="233" class="operator notBold">+</text>
+                <text x="769" y="233" class="operator notBold">=</text>
                 <text x="874" y="90">PROCESS SIMULATOR</text>
                 <text x="535" y="790" class="notBold">CO<tspan class="smallText" dy="-5">2</tspan></text>
                 <text x="550" y="831" class="notBold">TEMP.</text>
                 <text x="1075" y="212">ATMOSPHERE</text>
-                <text x="1055" y="497">WEATHERING</text>
-                <text x="1055" y="516" class="smallText">CARBON BURIAL</text>
-                <text x="1332" y="478">WEATHERING</text>
-                <text x="1332" y="497" class="smallText">CARBON RELEASE</text>
-                <text x="1211" y="610">CARBONATE</text>
-                <text x="1211" y="628">DEPOSITION</text>
-                <text x="1211" y="647" class="smallText">CARBON BURIAL</text>
-                <text x="1003" y="675">SEDIMENT</text>
-                <text x="1003" y="694" class="smallText">CARBON BURIAL</text>
-                <text x="1332" y="704">VOLCANO</text>
-                <text x="1332" y="722" class="smallText">CARBON RELEASE</text>
-                <text x="900" y="610">IGNEOUS &amp;</text>
-                <text x="900" y="628">METAMORPHIC</text>
-                <text x="900" y="647">ROCK</text>
-                <text x="1500" y="610">CARBONATE</text>
-                <text x="1545" y="628">ROCK</text>
+                <text x="1027" y="510">WEATHERING</text>
+                <text x="1027" y="523" class="smallText">CARBON BURIAL</text>
+                <text x="1382" y="514">WEATHERING</text>
+                <text x="1382" y="528" class="smallText">CARBON RELEASE</text>
+                <text x="1246" y="640">CARBONATE</text>
+                <text x="1246" y="655">DEPOSITION</text>
+                <text x="1246" y="669" class="smallText">CARBON BURIAL</text>
+                <text x="1003" y="666">SEDIMENT</text>
+                <text x="1003" y="679" class="smallText">CARBON BURIAL</text>
+                <text x="1412" y="677">VOLCANO</text>
+                <text x="1412" y="692" class="smallText">CARBON RELEASE</text>
+                <text x="900" y="596">IGNEOUS &amp;</text>
+                <text x="900" y="611">METAMORPHIC</text>
+                <text x="900" y="629">ROCK</text>
+                <text x="1503" y="601">CARBONATE</text>
+                <text x="1545" y="615">ROCK</text>
                 <text x="136" y="854">CLIMATE SIMULATOR 7.5</text>
             </g>
-			<g id="co2Meter" transform="translate(620,558)">
-				<image href="images/animations/co2Meter/co2Meter9.png" x="0" y="0" width="70" height="135"></image>
+			<g id="timeline" transform="translate(147,204) scale(1 1.2)">
+				<g id="time1" class="active" transform="translate(0,0)">
+					<a href="#"><image href="images/paper-doll/time1Off.png" x="0" y="0" width="64" height="30"></image></a>
+					<image href="images/paper-doll/time1On.png" x="0" y="0" width="64" height="30"></image>
+					<text x="6" y="20">INITIAL</text>
+				</g>
+				<g id="time2" transform="translate(44,0)">
+					<a href="#"><image href="images/paper-doll/time2Off.png" x="0" y="0" width="90" height="30"></image></a>
+					<image href="images/paper-doll/time2On.png" x="0" y="0" width="90" height="30"></image>
+					<text x="17" y="20">100-1000 Y</text>
+				</g>
+				<g id="time3" transform="translate(113,0)">
+					<a href="#"><image href="images/paper-doll/time3Off.png" x="0" y="0" width="119" height="30"></image></a>
+					<image href="images/paper-doll/time3On.png" x="0" y="0" width="119" height="30"></image>
+					<text x="22" y="20">100 KY</text>
+				</g>
+				<g id="time4" transform="translate(217,0)">
+					<a href="#"><image href="images/paper-doll/time4Off.png" x="0" y="0" width="162" height="30"></image></a>
+					<image href="images/paper-doll/time4On.png" x="0" y="0" width="162" height="30"></image>
+					<text x="22" y="20">1 MY</text>
+				</g>
+				<g id="time5" transform="translate(364,0)">
+					<a href="#"><image href="images/paper-doll/time5Off.png" x="0" y="0" width="229" height="30"></image></a>
+					<image href="images/paper-doll/time5On.png" x="0" y="0" width="229" height="30"></image>
+					<text x="22" y="20">10 MY</text>
+				</g>
 			</g>
-			<g id="tempMeter" transform="translate(620,558)">
-				<image href="" x="0" y="0" width="70" height="135"></image>
+			<g id="forcers" transform="translate(272,107)">
+				<image href="images/paper-doll/mountains(default).png" x="0" y="0" width="56" height="70"></image>			
+				<image href="images/paper-doll/volcanoes(default).png" x="116" y="-2" width="54" height="70"></image>		
+				<image href="images/paper-doll/carbonBurial(default).png" x="220" y="3" width="74" height="65"></image>		
+				<image href="images/paper-doll/carbonRelease(default).png" x="336" y="3" width="81" height="66"></image>		
+				<image href="images/paper-doll/insulation(default).png" x="471" y="-1" width="52" height="70"></image>		
+			</g>
+<!--
+			<g id="lightRays" transform="translate(-4,214)">
+				<image href="images/animations/lightRays/lightRay1.png" x="0" y="0" width="334" height="412"></image>
+			</g>
+			<g id="co2Meter" transform="translate(482,281) scale(4.3)">
+				<image href="images/animations/co2Meter/co2Meter1.png" x="0" y="0" width="70" height="135"></image>
+			</g>
+			<g id="tempMeter" transform="translate(484,282) scale(4.25)">
+				<image href="images/animations/tempMeter/tempMeter1.png" x="0" y="0" width="70" height="135"></image>
 			</g>
 			<g id="mountains" transform="translate(155,456)">
-				<image href="images/animations/mountains/mountains5.png" x="0" y="0" width="187" height="238"></image>
+				<image href="images/animations/mountains/mountain5.png" x="0" y="0" width="187" height="238"></image>
 			</g>
-			<g id="volanoes" transform="translate(274,425)">
-				<image href="images/animations/volcanoes/volcanoes2.png" x="0" y="0" width="325" height="322"></image>
+			<g id="volcanoes" transform="translate(274,425)">
+				<image href="images/animations/volcanoes/volcano5.png" x="0" y="0" width="325" height="322"></image>
 			</g>
+			<g id="underwaterVolcanoes" transform="translate(1287,419)">
+				<image href="images/animations/underwaterVolcanoes/volcano1.gif" x="0" y="0" width="164" height="305"></image>
+				<image href="images/animations/underwaterVolcanoes/volcano2.gif" x="0" y="0" width="164" height="305"></image>
+				<image href="images/animations/underwaterVolcanoes/volcano3.gif" x="0" y="0" width="164" height="305"></image>
+				<image href="images/animations/underwaterVolcanoes/volcano4.gif" x="0" y="0" width="164" height="305"></image>
+				<image href="images/animations/underwaterVolcanoes/volcano5.gif" x="0" y="0" width="164" height="305"></image>
+			</g>
+			<g id="sediment" transform="translate(978,527)">
+				<image href="images/animations/sediment/sediment1.gif" x="0" y="0" width="129" height="129"></image>
+				<image href="images/animations/sediment/sediment2.gif" x="0" y="0" width="129" height="129"></image>
+				<image href="images/animations/sediment/sediment3.gif" x="0" y="0" width="129" height="129"></image>
+				<image href="images/animations/sediment/sediment4.gif" x="0" y="0" width="129" height="129"></image>
+				<image href="images/animations/sediment/sediment5.gif" x="0" y="0" width="129" height="129"></image>
+			</g>
+			<g id="seaSnow" transform="translate(1165,564)">
+				<image href="images/animations/seaSnow/seaSnow1.gif" x="0" y="0" width="120" height="216"></image>
+				<image href="images/animations/seaSnow/seaSnow2.gif" x="0" y="0" width="120" height="216"></image>
+				<image href="images/animations/seaSnow/seaSnow3.gif" x="0" y="0" width="120" height="216"></image>
+				<image href="images/animations/seaSnow/seaSnow4.gif" x="0" y="0" width="120" height="216"></image>
+				<image href="images/animations/seaSnow/seaSnow5.gif" x="0" y="0" width="120" height="216"></image>
+			</g>
+			<g id="carbonateRock" transform="translate(1396,396)">
+				<image href="images/animations/carbonateRock/carbonateRock1.gif" x="0" y="0" width="204" height="168"></image>
+				<image href="images/animations/carbonateRock/carbonateRock2.gif" x="0" y="0" width="204" height="168"></image>
+				<image href="images/animations/carbonateRock/carbonateRock3.gif" x="0" y="0" width="204" height="168"></image>
+				<image href="images/animations/carbonateRock/carbonateRock4.gif" x="0" y="0" width="204" height="168"></image>
+				<image href="images/animations/carbonateRock/carbonateRock5.gif" x="0" y="0" width="204" height="168"></image>
+			</g>
+-->
         </svg>
     </main>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<!--    <script src="animator.js"></script>-->
+    <script src="animator.js"></script>
     <script src="main.js"></script>
 </body>
 
