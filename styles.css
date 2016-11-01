@@ -2,6 +2,14 @@
 /* Roboto font */
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700, 900');
 
+a + * + text, a > image, a+*{
+    cursor: pointer;
+}
+
+#timeline{
+    z-index: 10;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -23,7 +31,19 @@ text {
     font-weight: 900;
     font-size: 14px;
     fill: #fff;
+    filter: url(#f1);
 }
+
+.textShadow {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    fill: #1f1f1f;
+
+
+}
+
+
 
 .notBold {
     font-weight: 400;
@@ -32,6 +52,12 @@ text {
 .smallText {
     font-size: 12px;
     font-weight: 400;
+/*    letter-spacing: 1.5px;*/
+}
+.smallTextShadow {
+    font-size: 12px;
+    font-weight: 400;
+    fill: #1f1f1f;
 /*    letter-spacing: 1.5px;*/
 }
 

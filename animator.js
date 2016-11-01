@@ -70,7 +70,7 @@ Animator.prototype.display = function () {
 		} else {
 			group.setAttributeNS(null, "transform", "translate(" + this.getX() + "," + this.getY() + ")");
 		}
-        document.querySelector("svg").appendChild(group);
+        document.querySelector("#other_crap").appendChild(group);
         var items = this.states.map(function (frame, index) {
 
 

@@ -1,5 +1,28 @@
 var containers = [
     {
+        name: "floods",
+        isFrame: true,
+        items: 5,
+        width: 392,
+        height: 392,
+        x: 205,
+        y: 351,
+        path: "./images/animations/flooding/flood",
+        ext: ".png",
+        scale:1.1
+    }, {
+        name: "iceCaps",
+        isFrame: false,
+        items: 5,
+        width: 304,
+        height: 392,
+        x: 249,
+        y: 351,
+        path: "./images/animations/iceCaps/iceCap",
+        ext: ".png",
+        scale:1.1
+    },
+    {
         name: "lightRays",
         isFrame: true,
         items: 5,
@@ -45,17 +68,18 @@ var containers = [
         path: "./images/animations/mountains/mountain",
         ext: ".png"
     },
-    {
-        name: "volcanoes",
-        isFrame: false,
-        items: 5,
-        width: 325,
-        height: 322,
-        x: 274,
-        y: 425,
-        path: "./images/animations/volcanoes/volcano",
-        ext: ".png"
-    },
+/* Commented out because they were too darn ugly with the transparency issues!*/
+//    {
+//        name: "volcanoes",
+//        isFrame: false,
+//        items: 5,
+//        width: 325,
+//        height: 322,
+//        x: 274,
+//        y: 425,
+//        path: "./images/animations/volcanoes/volcano",
+//        ext: ".png"
+//    },
     {
         name: "underwaterVolcanoes",
         isFrame: true,
@@ -99,7 +123,19 @@ var containers = [
         y: 396,
         path: "./images/animations/carbonateRock/carbonateRock",
         ext: ".gif"
-    }
+    },
+    {
+        name: "shadow",
+        isFrame: true,
+        items: 1,
+        width: 392,
+        height: 392,
+        x: 205,
+        y: 351,
+        path: "./images/paper-doll/shadow",
+        ext: ".png",
+        scale:1.1
+    },
 ];
 
 var boxen = containers.map(function (container, index) {
@@ -116,7 +152,8 @@ var boxen = containers.map(function (container, index) {
         .display();
 });
 
-$("a").on("click", function () {
+// modified to make text clickable too
+$("a, a + * + text").on("click", function () {
     var step = parseInt(this.parentElement.id.slice(-1),10) - 1;
     // Set active state
     $("#timeline g").removeClass("active");

@@ -11,6 +11,7 @@
 <body>
     <main>
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1730 938" preserveAspectRatio="xMidYMid meet">
+
             <g id="background">
                 <image href="images/paper-doll/background2.jpg" x="0" y="0" width="1730" height="938" opacity=".4"></image>
                 <image href="images/paper-doll/background.png" x="0" y="0" width="1730" height="938"></image>
@@ -18,6 +19,15 @@
                 <image href="images/paper-doll/seaFloor.png" x="1037" y="630" width="374" height="199"></image>
                 <image href="images/paper-doll/rainLeft.gif" x="880" y="404" width="204" height="168"></image>
                 <image href="images/paper-doll/rainRight.gif" x="1396" y="407" width="204" height="168"></image>
+            </g>
+
+
+<!--All dynamically appended elements will be put into this group-->
+            <g id="other_crap"></g>
+
+<!--All buttons and menus will be added last-->
+            <g>
+
                 <text x="126" y="90">FORCING &amp; RESPONSE SIMULATOR</text>
                 <text x="207" y="147" class="operator notBold">+</text>
                 <text x="110" y="233" class="operator notBold">+</text>
@@ -44,6 +54,7 @@
                 <text x="1545" y="615">ROCK</text>
                 <text x="136" y="854">CLIMATE SIMULATOR 7.5</text>
             </g>
+
 			<g id="timeline" transform="translate(147,204) scale(1 1.2)">
 				<g id="time1" class="active" transform="translate(0,0)">
 					<a href="#"><image href="images/paper-doll/time1Off.png" x="0" y="0" width="64" height="30"></image></a>
@@ -78,6 +89,10 @@
 				<image href="images/paper-doll/carbonRelease(default).png" x="336" y="3" width="81" height="66"></image>		
 				<image href="images/paper-doll/insulation(default).png" x="471" y="-1" width="52" height="70"></image>		
 			</g>
+<!--Some Debugging Stuff-->
+            <g>
+                    <text x="783" y="30" filter="url(#f1)">This is some awesome stuff!</text>
+            </g>
 <!--
 			<g id="lightRays" transform="translate(-4,214)">
 				<image href="images/animations/lightRays/lightRay1.png" x="0" y="0" width="334" height="412"></image>
