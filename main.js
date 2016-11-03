@@ -176,14 +176,14 @@ function transitionBoxen(step){
     function loopBoxen(box){
         var cc = boxen[box];
         console.log(cc.width);
-        moveLightBeam(cc.x+(cc.width*cc.scale)/2,cc.y+(cc.height*cc.scale)/2, 1500,function(){
+        moveLightBeam(cc.x+(cc.width*cc.scale)/2,cc.y+(cc.height*cc.scale)/2, cc.width*cc.scale, cc.height*cc.scale, 1500,function(){
             cc.transitionToStep(step);
             window.setTimeout(function(){
                  currentBoxen++;
                 if(currentBoxen < boxen.length)
                     loopBoxen(currentBoxen);
                 else
-                    $("#spotter").animate({opacity:0},0);
+                    $("#spotter").animate({opacity:0},2000);
             },2500);
         });
     }
