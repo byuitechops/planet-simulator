@@ -58,7 +58,9 @@ function Animator(states, isFrame, x, y, scale) {
     this.Name = undefined;
     this.transitionDuration = 500;
     this.frames = [];
-	this.scale = scale;
+	this.scale = scale || 1;
+    this.width = this.states[0].width;
+    this.height = this.states[0].height;
 }
 
 Animator.prototype.display = function () {

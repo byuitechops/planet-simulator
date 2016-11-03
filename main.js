@@ -175,7 +175,8 @@ function transitionBoxen(step){
     var currentBoxen = 0;
     function loopBoxen(box){
         var cc = boxen[box];
-        moveLightBeam(cc.x,cc.y, 1500,function(){
+        console.log(cc.width);
+        moveLightBeam(cc.x+(cc.width*cc.scale)/2,cc.y+(cc.height*cc.scale)/2, 1500,function(){
             cc.transitionToStep(step);
             window.setTimeout(function(){
                  currentBoxen++;
