@@ -170,17 +170,20 @@ $("a, a + * + text").on("click", function () {
  * Steps through with spotlight
  * Centers Spotlight on specified x,y
  */
-
+var properOrder = [2,1,0,3,4,5,6,7,8,9,10];
 function transitionBoxen(step){
     var currentBoxen = 0;
     function loopBoxen(box){
-        var cc = boxen[box];
+        var cc = boxen[properOrder[box]];
         console.log(cc.width);
-        moveLightBeam(cc.x+(cc.width*cc.scale)/2,cc.y+(cc.height*cc.scale)/2, cc.width*cc.scale, cc.height*cc.scale, 1500,function(){
+        //move spotlight
+        moveLightBeam(cc.x+(cc.width*cc.scale)/2,cc.y+(cc.height*cc.scale)/2,
+                      cc.width*cc.scale, cc.height*cc.scale, 1500,
+                      function(){
             cc.transitionToStep(step);
             window.setTimeout(function(){
                  currentBoxen++;
-                if(currentBoxen < boxen.length)
+                if(currentBoxen < properOrder.length)
                     loopBoxen(currentBoxen);
                 else
                     $("#spotter").animate({opacity:0},2000);

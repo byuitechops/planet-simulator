@@ -15,7 +15,7 @@ function createSpotlight(){
 }
 
 /*
- * Centers Spotlight at Specific x & y coords
+ * Centers Spotlight at Specific x & y coords and ajusts the width and height accordingly
  */
 function moveLightBeam(x,y, width, height, durration, callback){
     var light_beam = document.getElementById("spotter");
@@ -27,7 +27,7 @@ function moveLightBeam(x,y, width, height, durration, callback){
     console.log("Greatest" ,pixelsToPercent(greatest, 2588));
     greatest = pixelsToPercent(greatest, 2588)/2;
     stoppers[0].setAttributeNS(null, "offset", greatest+"%");
-    stoppers[1].setAttributeNS(null, "offset", (greatest+2)+"%");
+    stoppers[1].setAttributeNS(null, "offset", (greatest+2.5)+"%");
 
     $("#spotter").animate({opacity:0},durration/2, function(){
         light_beam.setAttributeNS(null, "cx", x);
