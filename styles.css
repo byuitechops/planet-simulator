@@ -80,3 +80,7 @@ text {
 #timeline g.active text {
 	fill: #235255;
 }
+
+.hide {
+    display: none;
+}

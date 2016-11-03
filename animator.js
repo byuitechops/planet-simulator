@@ -219,7 +219,7 @@ Animator.prototype.crossfadeTransition = function (cback) {
         return;
     }
 
-    console.log(typeof this.currentFrame);
+//    console.log(typeof this.currentFrame);
     
     var startFrame = this.currentFrame;
     var nextFrame = (this.targetFrame < startFrame) ? startFrame - 1 : startFrame + 1;

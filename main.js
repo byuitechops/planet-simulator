@@ -9,7 +9,7 @@ var containers = [
         y: 351,
         path: "./images/animations/flooding/flood",
         ext: ".png",
-        scale:1.1
+        scale: 1.1
     }, {
         name: "iceCaps",
         isFrame: false,
@@ -20,7 +20,7 @@ var containers = [
         y: 351,
         path: "./images/animations/iceCaps/iceCap",
         ext: ".png",
-        scale:1.1
+        scale: 1.1
     },
     {
         name: "lightRays",
@@ -34,7 +34,7 @@ var containers = [
         ext: ".png"
     },
     {
-        name: "c02Meter",
+        name: "co2Meter",
         isFrame: true,
         items: 9,
         width: 70,
@@ -43,7 +43,7 @@ var containers = [
         y: 281,
         path: "./images/animations/co2Meter/co2Meter",
         ext: ".png",
-		scale: 4.3
+        scale: 4.3
     },
     {
         name: "tempMeter",
@@ -55,7 +55,7 @@ var containers = [
         y: 281,
         path: "./images/animations/tempMeter/tempMeter",
         ext: ".png",
-		scale: 4.25
+        scale: 4.25
     },
     {
         name: "mountains",
@@ -134,66 +134,98 @@ var containers = [
         y: 351,
         path: "./images/paper-doll/shadow",
         ext: ".png",
-        scale:1.1
+        scale: 1.1
     },
 ];
 
-var boxen = containers.map(function (container, index) {
-    var frames = new Array(container.items);
-    for (var i = 0; i < frames.length; i++) frames[i] = container.path + (i + 1) + container.ext;
-    frames = frames.map(function (url) {
-        var frame = new Frame(url, container.width, container.height);
-        if (container.frames) frame.setFrameAmount(container.frames);
-        return frame;
-    });
-    var box = new Animator(frames, container.isFrame, container.x, container.y, container.scale);
-    return box.setName(container.name)
-        .setTargetStep(0)
-        .display();
-});
-
-// modified to make text clickable too
-$("a, a + * + text").on("click", function () {
-    var step = parseInt(this.parentElement.id.slice(-1),10) - 1;
-    // Set active state
-    $("#timeline g").removeClass("active");
-	$(this.parentElement).addClass("active");
-    transitionBoxen(step);
-    // Transition to next step
-//    boxen.forEach(function (box) {
-//        box.transitionToStep(step);
-//    });
-});
-
-
-/*
- * Steps through with spotlight
- * Centers Spotlight on specified x,y
- */
-var properOrder = [2,1,0,3,4,5,6,7,8,9,10];
-function transitionBoxen(step){
-    var currentBoxen = 0;
-    function loopBoxen(box){
-        var cc = boxen[properOrder[box]];
-        console.log(cc.width);
-        //move spotlight
-        moveLightBeam(cc.x+(cc.width*cc.scale)/2,cc.y+(cc.height*cc.scale)/2,
-                      cc.width*cc.scale, cc.height*cc.scale, 1500,
-                      function(){
-            cc.transitionToStep(step);
-            window.setTimeout(function(){
-                 currentBoxen++;
-                if(currentBoxen < properOrder.length)
-                    loopBoxen(currentBoxen);
-                else
-                    $("#spotter").animate({opacity:0},2000);
-            },2500);
-        });
+function init(csvData) {
+    var animationInProgress = false;
+    var forcers = ["mountain","volcano","cBurial","buriedCRelease","insolation"];
+    
+    var activeForcer = forcers.indexOf(csvData[0].forcer);
+    console.log(activeForcer);
+    if(activeForcer > -1){
+        $("#forcers g:nth-child("+(activeForcer + 1)+") image:nth-of-type(2)").toggleClass("hide");
+        
     }
 
-    loopBoxen(currentBoxen);
+    var boxen = containers.map(function (container, index) {
+        var frames = new Array(container.items);
+        for (var i = 0; i < frames.length; i++) frames[i] = container.path + (i + 1) + container.ext;
+        frames = frames.map(function (url) {
+            var frame = new Frame(url, container.width, container.height);
+            if (container.frames) frame.setFrameAmount(container.frames);
+            return frame;
+        });
+        var box = new Animator(frames, container.isFrame, container.x, container.y, container.scale);
+        return box.setName(container.name)
+            .setTargetStep(0)
+            .display();
+    });
+
+    // modified to make text clickable too
+    $("a, a + * + text").on("click", function () {
+        if (animationInProgress) return;
+        var step = parseInt(this.parentElement.id.slice(-1), 10) - 1;
+        // Set active state
+        $("#timeline g").removeClass("active");
+        $(this.parentElement).addClass("active");
+        animationInProgress = true;
+        transitionBoxen(csvData[step]);
+        // Transition to next step
+        //    boxen.forEach(function (box) {
+        //        box.transitionToStep(step);
+        //    });
+    });
+
+
+    /*
+     * Steps through with spotlight
+     * Centers Spotlight on specified x,y
+     */
+    var properOrder = [2, 1, 0, 3, 4, 5, 6, 7, 8, 9];
+
+    function transitionBoxen(stepData) {
+        var currentBoxen = 0;
+
+        function loopBoxen(box) {
+            var cc = boxen[properOrder[box]];
+            //move spotlight
+            moveLightBeam(cc.x + (cc.width * cc.scale) / 2, cc.y + (cc.height * cc.scale) / 2,
+                cc.width * cc.scale, cc.height * cc.scale, 1500,
+                function () {
+                console.log('name: ' + cc.Name);
+                    cc.transitionToStep(stepData[cc.Name] - 1);
+                    window.setTimeout(function () {
+                        currentBoxen++;
+                        if (currentBoxen < properOrder.length) {
+                            loopBoxen(currentBoxen);
+                        } else {
+                            $("#spotter").animate({
+                                opacity: 0
+                            }, 2000);
+                            animationInProgress = false;
+                        }
+                    }, 2500);
+                });
+        }
+
+        loopBoxen(currentBoxen);
+    }
+
+    //creates spotlight
+    createSpotlight();
+    $("#spotter").animate({
+        opacity: 0
+    }, 0);
 }
 
-//creates spotlight
-createSpotlight();
-$("#spotter").animate({opacity:0},0);
+// Get CSV
+getCSV(function (err, csvData) {
+    if (err) {
+        console.log("error:", err);
+        return;
+    }
+    console.log("scenario:", csvData);
+    init(csvData);
+});
