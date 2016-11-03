@@ -154,7 +154,7 @@ Animator.prototype.getY = function () {
     return this.y;
 }
 
-Animator.prototype.transitionToStep = function (targetStep) {
+Animator.prototype.transitionToStep = function (targetStep, cback) {
     // Dont move if you are already there
     if (targetStep === this.targetStep) return this;
     
@@ -173,14 +173,17 @@ Animator.prototype.transitionToStep = function (targetStep) {
 
     // Transistion
     if (this.isFrame) {
-        this.frameTransition();   
+        this.frameTransition(cback);
     } else {
-        this.crossfadeTransition();
+        this.crossfadeTransition(cback);
     }
 }
 
-Animator.prototype.frameTransition = function () {
-    if (this.currentFrame === this.targetFrame) return;
+Animator.prototype.frameTransition = function (cback) {
+    if (this.currentFrame === this.targetFrame){
+        if(cback)cback();
+        return;
+    }
     
     var frameIndex;
     // Determine frame to animate and set necessary values
@@ -202,10 +205,19 @@ Animator.prototype.frameTransition = function () {
 
     // Animate
     this.fade(frameIndex, this.transitionDuration, complete);
+
+    if(frameIndex === this.targetFrame){
+        if(cback)cback();
+    }
 }
 
-Animator.prototype.crossfadeTransition = function () {
-    if (this.currentFrame === this.targetFrame) return;
+Animator.prototype.crossfadeTransition = function (cback) {
+    if (this.currentFrame === this.targetFrame){
+        if(cback)cback();
+        return;
+    }
+
+    console.log(typeof this.currentFrame);
     
     var startFrame = this.currentFrame;
     var nextFrame = (this.targetFrame < startFrame) ? startFrame - 1 : startFrame + 1;
@@ -226,6 +238,9 @@ Animator.prototype.crossfadeTransition = function () {
     // Animate - only one should have the callback to keep animation from moving to fast
     this.fade(startFrame, this.transitionDuration, complete);
     this.fade(nextFrame, this.transitionDuration);
+
+    if(nextFrame === this.targetFrame)
+         if(cback)cback();
 }
 
 Animator.prototype.fade = function (frameIndex, durration, callback) {

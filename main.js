@@ -158,8 +158,38 @@ $("a, a + * + text").on("click", function () {
     // Set active state
     $("#timeline g").removeClass("active");
 	$(this.parentElement).addClass("active");
+    transitionBoxen(step);
     // Transition to next step
-    boxen.forEach(function (box) {
-        box.transitionToStep(step);
-    });
+//    boxen.forEach(function (box) {
+//        box.transitionToStep(step);
+//    });
 });
+
+
+/*
+ * Steps through with spotlight
+ * Centers Spotlight on specified x,y
+ */
+
+function transitionBoxen(step){
+    var currentBoxen = 0;
+    function loopBoxen(box){
+        var cc = boxen[box];
+        moveLightBeam(cc.x,cc.y, 1500,function(){
+            cc.transitionToStep(step);
+            window.setTimeout(function(){
+                 currentBoxen++;
+                if(currentBoxen < boxen.length)
+                    loopBoxen(currentBoxen);
+                else
+                    $("#spotter").animate({opacity:0},0);
+            },2500);
+        });
+    }
+
+    loopBoxen(currentBoxen);
+}
+
+//creates spotlight
+createSpotlight();
+$("#spotter").animate({opacity:0},0);

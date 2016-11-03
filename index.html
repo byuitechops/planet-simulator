@@ -11,6 +11,13 @@
 <body>
     <main>
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1730 938" preserveAspectRatio="xMidYMid meet">
+            <defs>
+                <filter id="f1" x="0" y="0" width="200%" height="200%">
+                    <feOffset result="offOut" in="SourceAlpha" dx="5" dy="5" />
+                    <feGaussianBlur result="blurOut" in="offOut" stdDeviation="5" />
+                    <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+                </filter>
+            </defs>
 
             <g id="background">
                 <image href="images/paper-doll/background2.jpg" x="0" y="0" width="1730" height="938" opacity=".4"></image>
@@ -25,6 +32,18 @@
 <!--All dynamically appended elements will be put into this group-->
             <g id="other_crap"></g>
 
+<!--Some Debugging Stuff-->
+            <g id="demo">
+                    <text x="783" y="30" filter="url(#f1)">This is some awesome stuff!</text>
+                    <defs>
+                        <radialGradient id="light_beamz" cx= "50%" cy= "50%" >
+                            <stop offset="5.5%" stop-color="transparent"></stop>
+                            <stop offset="7%" stop-color="rgba(0, 0, 0, 0.76)"></stop>
+                        </radialGradient>
+                    </defs>
+
+<!--                <circle id = "spotlight" fill="url(#light_beam)" cx = "865" cy = "469" r ="1725"></circle>-->
+            </g>
 <!--All buttons and menus will be added last-->
             <g>
 
@@ -89,10 +108,6 @@
 				<image href="images/paper-doll/carbonRelease(default).png" x="336" y="3" width="81" height="66"></image>		
 				<image href="images/paper-doll/insulation(default).png" x="471" y="-1" width="52" height="70"></image>		
 			</g>
-<!--Some Debugging Stuff-->
-            <g>
-                    <text x="783" y="30" filter="url(#f1)">This is some awesome stuff!</text>
-            </g>
 <!--
 			<g id="lightRays" transform="translate(-4,214)">
 				<image href="images/animations/lightRays/lightRay1.png" x="0" y="0" width="334" height="412"></image>
@@ -142,6 +157,7 @@
     </main>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="animator.js"></script>
+    <script src="spotlight.js"></script>
     <script src="main.js"></script>
 </body>
 
