@@ -13,6 +13,18 @@ var containers = [
         ext: ".png",
         scale: 1.1
     },
+    /* Commented out because they were too darn ugly with the transparency issues!*/
+    {
+        name: "volcanoes",
+        isFrame: false,
+        items: 5,
+        width: 325,
+        height: 322,
+        x: 274,
+        y: 425,
+        path: "./images/animations/volcanoes/volcano",
+        ext: ".png"
+    },
     {
         name: "iceCaps",
         isFrame: false,
@@ -47,18 +59,6 @@ var containers = [
         path: "./images/animations/mountains/mountain",
         ext: ".png"
     },
-    /* Commented out because they were too darn ugly with the transparency issues!*/
-//    {
-//        name: "volcanoes",
-//        isFrame: false,
-//        items: 5,
-//        width: 325,
-//        height: 322,
-//        x: 274,
-//        y: 425,
-//        path: "./images/animations/volcanoes/volcano",
-//        ext: ".png"
-//    },
     {
         name: "co2Meter",
         isFrame: true,
@@ -204,7 +204,7 @@ function init(forcerObj, timeScaleOps) {
         var currentBoxen = 0;
 
         function loopBoxen(box) {
-            var properOrder = [2,3,1,0,4,5,8,7,6,9],
+            var properOrder = [3,4,2,0,1,6,7,8,9,10],
                 cc = boxen[properOrder[box]];
             //move spotlight
             moveLightBeam(cc.x + (cc.width * cc.scale) / 2, cc.y + (cc.height * cc.scale) / 2,
