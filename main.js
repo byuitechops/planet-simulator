@@ -254,7 +254,7 @@ function init(forcerObj, timeScaleOps) {
         opacity: 0
     }, 0);
 }
-
+//windows stinks!
 /******************************* START ***************************************/
 // Get CSV with file name from url
 getCSV(function (err, csvData) {
