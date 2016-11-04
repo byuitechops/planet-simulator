@@ -2,7 +2,7 @@
 /*global $:false, Frame:false, Animator:false, moveLightBeam:false, transitionBoxen:false, createSpotlight:false, getCSV:false*/
 var containers = [
     {
-        name: "floods",
+        name: "sea",
         isFrame: true,
         items: 5,
         width: 392,
@@ -28,7 +28,7 @@ var containers = [
         maceroni:{needed:false}
     },
     {
-        name: "iceCaps",
+        name: "ice",
         isFrame: false,
         items: 5,
         width: 304,
@@ -41,7 +41,7 @@ var containers = [
         maceroni:{needed:false}
     },
     {
-        name: "lightRays",
+        name: "insolation",
         isFrame: true,
         items: 5,
         width: 334,
@@ -65,7 +65,18 @@ var containers = [
         maceroni:{needed:false}
     },
     {
-        name: "co2Meter",
+        name: "volcano",
+        isFrame: false,
+        items: 5,
+        width: 325,
+        height: 322,
+        x: 274,
+        y: 425,
+        path: "./images/animations/volcanoes/volcano",
+        ext: ".png"
+    },
+    {
+        name: "co2",
         isFrame: true,
         items: 9,
         width: 70,
@@ -78,7 +89,7 @@ var containers = [
         maceroni:{needed:false}
     },
     {
-        name: "tempMeter",
+        name: "temperature",
         isFrame: true,
         items: 9,
         width: 70,
@@ -91,7 +102,7 @@ var containers = [
         maceroni:{needed:false}
     },
     {
-        name: "underwaterVolcanoes",
+        name: "underwaterVolcano",
         isFrame: true,
         items: 5,
         width: 164,
@@ -103,7 +114,7 @@ var containers = [
         maceroni:{needed:true, x:1386, y:653, malicious:false}
     },
     {
-        name: "seaSnow",
+        name: "co3Desposition",
         isFrame: true,
         items: 5,
         width: 120,
@@ -127,7 +138,7 @@ var containers = [
         maceroni:{needed:true, x:979, y:642, malicious:false}
     },
     {
-        name: "weatheringRelease",
+        name: "weatheringCRelease",
         isFrame: true,
         items: 5,
         width: 204,
@@ -157,7 +168,6 @@ function setForcers(forcerObj) {
     "use strict";
     var forcers = ["mountains", "volcanoes", "weatheringBurial", "weatheringRelease", "lightRays"],
         showIcons = false,
-        activeForcer = 4,
         processedText;
 
     forcers.forEach(function (forcer, forcerIndex) {
@@ -208,7 +218,7 @@ function init(forcerObj, timeScaleOps) {
         });
         box = new Animator(frames, container.isFrame, container.x, container.y, container.scale);
         box.setName(container.name)
-            .setTargetStep(0)
+            .setTargetStep(timeScaleOps[0][container.name] - 1)
             .display();
         if(container.maceroni.needed)
             box.createMaceroniMeter(container.maceroni.x, container.maceroni.y, container.maceroni.malicious);
@@ -216,16 +226,24 @@ function init(forcerObj, timeScaleOps) {
     });
 
     function transitionBoxen(stepData) {
-        var currentBoxen = 0;
+        var currentBoxen = 0,
+            properOrder = [2, 3, 1, 0, 4, 5, 8, 7, 6, 9];
+
+        properOrder = properOrder.filter(function (val) {
+            if (boxen[val].targetStep === stepData[boxen[val].Name] - 1) {
+                return false;
+            }
+            console.log('Run: ' + boxen[val].Name);
+            return true;
+        });
 
         function loopBoxen(box) {
-            var properOrder = [3,4,2,0,1,6,7,8,9],
-                cc = boxen[properOrder[box]];
+            var cc = boxen[properOrder[box]];
+
             //move spotlight
             moveLightBeam(cc.x + (cc.width * cc.scale) / 2, cc.y + (cc.height * cc.scale) / 2,
                 cc.width * cc.scale, cc.height * cc.scale, 1500,
                 function () {
-                console.log(cc.Name);
                     cc.transitionToStep(stepData[cc.Name] - 1);
                     window.setTimeout(function () {
                         currentBoxen++;
@@ -274,12 +292,16 @@ function init(forcerObj, timeScaleOps) {
 // Get CSV with file name from url
 getCSV(function (err, csvData) {
     "use strict";
-    var forcerObj = csvData.shift();
+    var forcerObj;
 
     if (err) {
         console.log("error:", err);
+        $("#error").toggleClass("hide");
+        $("svg").toggleClass("hide");
         return;
     }
+
+    forcerObj = csvData.shift();
     console.log("scenario:", csvData);
     console.log("forcerObj:", forcerObj);
 

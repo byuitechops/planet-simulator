@@ -37,7 +37,7 @@ var getCSV = (function () {
         fileName = getFileNameFromURL();
 
         if (!fileName) {
-            console.log("No filename in URL.");
+            callBack("No filename in URL.", null);
             return;
         }
 
@@ -54,17 +54,17 @@ var getCSV = (function () {
                     rowHeading: d["Row Heading"],
                     other: d.Other,
                     sediment: zeroOrNum(d.Sediment),
-                    co2Meter: zeroOrNum(d.CO2),
-                    iceCaps: zeroOrNum(d.Ice),
-                    lightRays: zeroOrNum(d.Insolation),
+                    co2: zeroOrNum(d.CO2),
+                    ice: zeroOrNum(d.Ice),
+                    insolation: zeroOrNum(d.Insolation),
                     mountains: zeroOrNum(d.Mountains),
-                    floods: zeroOrNum(d.Sea),
-                    tempMeter: zeroOrNum(d.Temperature),
-                    volcanoes: zeroOrNum(d.Volcano),
-                    underwaterVolcanoes: zeroOrNum(d.Volcano),
-                    seaSnow: zeroOrNum(d["CO3 Desposition"]),
-                    weatheringRelease: zeroOrNum(d["Weathering C Release"]),
-                    weatheringBurial: zeroOrNum(d["Weathering C Burial"])
+                    sea: zeroOrNum(d.Sea),
+                    temperature: zeroOrNum(d.Temperature),
+                    volcano: zeroOrNum(d.Volcano),
+                    underwaterVolcano: zeroOrNum(d.Volcano),
+                    co3Desposition: zeroOrNum(d["CO3 Desposition"]),
+                    weatheringCRelease: zeroOrNum(d["Weathering C Release"]),
+                    weatheringCBurial: zeroOrNum(d["Weathering C Burial"])
                 };
             });
 

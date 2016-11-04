@@ -205,9 +205,9 @@ var Animator = (function () {
             this.MiniMaceroniMeter.transitionToStep(targetStep);
 
         var framesPerStep, targetFrame;
-
         // Dont move if you are already there
         if (targetStep === this.targetStep) {
+            console.log('no transition needed');
             return this;
         }
 
