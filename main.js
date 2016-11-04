@@ -13,6 +13,18 @@ var containers = [
         ext: ".png",
         scale: 1.1
     },
+    /* Commented out because they were too darn ugly with the transparency issues!*/
+    {
+        name: "volcanoes",
+        isFrame: false,
+        items: 5,
+        width: 325,
+        height: 322,
+        x: 274,
+        y: 425,
+        path: "./images/animations/volcanoes/volcano",
+        ext: ".png"
+    },
     {
         name: "ice",
         isFrame: false,
@@ -47,6 +59,7 @@ var containers = [
         path: "./images/animations/mountains/mountain",
         ext: ".png"
     },
+<<<<<<< HEAD
     /* Commented out because they were too darn ugly with the transparency issues!*/
 //    {
 //        name: "volcano",
@@ -59,6 +72,8 @@ var containers = [
 //        path: "./images/animations/volcanoes/volcano",
 //        ext: ".png"
 //    },
+=======
+>>>>>>> 2f66647c58e2c454b59c258242fe42a4c9f991a3
     {
         name: "co2",
         isFrame: true,
@@ -212,7 +227,12 @@ function init(forcerObj, timeScaleOps) {
 		});
 		
         function loopBoxen(box) {
+<<<<<<< HEAD
             var cc = boxen[properOrder[box]];
+=======
+            var properOrder = [3,4,2,0,1,6,7,8,9,10],
+                cc = boxen[properOrder[box]];
+>>>>>>> 2f66647c58e2c454b59c258242fe42a4c9f991a3
             //move spotlight
             moveLightBeam(cc.x + (cc.width * cc.scale) / 2, cc.y + (cc.height * cc.scale) / 2,
                 cc.width * cc.scale, cc.height * cc.scale, 1500,
@@ -260,7 +280,7 @@ function init(forcerObj, timeScaleOps) {
         opacity: 0
     }, 0);
 }
-
+//windows stinks!
 /******************************* START ***************************************/
 // Get CSV with file name from url
 getCSV(function (err, csvData) {
