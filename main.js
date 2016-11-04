@@ -277,12 +277,16 @@ function init(forcerObj, timeScaleOps) {
 // Get CSV with file name from url
 getCSV(function (err, csvData) {
     "use strict";
-    var forcerObj = csvData.shift();
+    var forcerObj;
 
     if (err) {
         console.log("error:", err);
+        $("#error").toggleClass("hide");
+        $("svg").toggleClass("hide");
         return;
     }
+
+    forcerObj = csvData.shift();
     console.log("scenario:", csvData);
     console.log("forcerObj:", forcerObj);
 

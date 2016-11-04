@@ -92,3 +92,11 @@ text {
     font-weight: 400;
     fill: white;
 }
+
+#error {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    width: 50%;
+    margin: 15px auto;
+    color: red;
+}

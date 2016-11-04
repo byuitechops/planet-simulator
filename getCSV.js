@@ -37,7 +37,7 @@ var getCSV = (function () {
         fileName = getFileNameFromURL();
 
         if (!fileName) {
-            console.log("No filename in URL.");
+            callBack("No filename in URL.", null);
             return;
         }
 
