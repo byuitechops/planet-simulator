@@ -28,23 +28,22 @@
                 <image href="images/paper-doll/rainRight.gif" x="1396" y="407" width="204" height="168"></image>
             </g>
 
-
-<!--All dynamically appended elements will be put into this group-->
+            <!--All dynamically appended elements will be put into this group-->
             <g id="other_crap"></g>
 
-<!--Some Debugging Stuff-->
+            <!--Some Debugging Stuff-->
             <g id="demo">
-<!--                    <text x="783" y="30" filter="url(#f1)">This is some awesome stuff!</text>-->
-                    <defs>
-                        <radialGradient id="light_beamz" cx= "50%" cy= "50%" >
-                            <stop offset="22%" stop-color="transparent"></stop>
-                            <stop offset="25%" stop-color="rgba(0, 0, 0, 0.76)"></stop>
-                        </radialGradient>
-                    </defs>
+                <!--                    <text x="783" y="30" filter="url(#f1)">This is some awesome stuff!</text>-->
+                <defs>
+                    <radialGradient id="light_beamz" cx="50%" cy="50%">
+                        <stop offset="22%" stop-color="transparent"></stop>
+                        <stop offset="25%" stop-color="rgba(0, 0, 0, 0.76)"></stop>
+                    </radialGradient>
+                </defs>
 
-<!--                <circle id = "spotlight" fill="url(#light_beam)" cx = "865" cy = "469" r ="1725"></circle>-->
+                <!--                <circle id = "spotlight" fill="url(#light_beam)" cx = "865" cy = "469" r ="1725"></circle>-->
             </g>
-<!--All buttons and menus will be added last-->
+            <!--All buttons and menus will be added last-->
             <g>
 
                 <text x="126" y="90">FORCING &amp; RESPONSE SIMULATOR</text>
@@ -53,7 +52,9 @@
                 <text x="110" y="233" class="operator notBold">+</text>
                 <text x="769" y="233" class="operator notBold">=</text>
                 <text x="874" y="90">PROCESS SIMULATOR</text>
-                <text x="535" y="790" class="notBold">CO<tspan class="smallText" dy="-5">2</tspan></text>
+                <text x="535" y="790" class="notBold">CO
+                    <tspan class="smallText" dy="-5">2</tspan>
+                </text>
                 <text x="550" y="831" class="notBold">TEMP.</text>
                 <text x="1075" y="212">ATMOSPHERE</text>
                 <text x="1027" y="510">WEATHERING</text>
@@ -75,56 +76,69 @@
                 <text x="136" y="854">CLIMATE SIMULATOR 7.5</text>
             </g>
 
-			<g id="timeline" transform="translate(147,204) scale(1 1.2)">
-				<g id="time1" class="active" transform="translate(0,0)">
-					<a href="#"><image href="images/paper-doll/time1Off.png" x="0" y="0" width="64" height="30"></image></a>
-					<image href="images/paper-doll/time1On.png" x="0" y="0" width="64" height="30"></image>
-					<text x="6" y="20">INITIAL</text>
-				</g>
-				<g id="time2" transform="translate(44,0)">
-					<a href="#"><image href="images/paper-doll/time2Off.png" x="0" y="0" width="90" height="30"></image></a>
-					<image href="images/paper-doll/time2On.png" x="0" y="0" width="90" height="30"></image>
-					<text x="17" y="20">100-1000 Y</text>
-				</g>
-				<g id="time3" transform="translate(113,0)">
-					<a href="#"><image href="images/paper-doll/time3Off.png" x="0" y="0" width="119" height="30"></image></a>
-					<image href="images/paper-doll/time3On.png" x="0" y="0" width="119" height="30"></image>
-					<text x="22" y="20">100 KY</text>
-				</g>
-				<g id="time4" transform="translate(217,0)">
-					<a href="#"><image href="images/paper-doll/time4Off.png" x="0" y="0" width="162" height="30"></image></a>
-					<image href="images/paper-doll/time4On.png" x="0" y="0" width="162" height="30"></image>
-					<text x="22" y="20">1 MY</text>
-				</g>
-				<g id="time5" transform="translate(364,0)">
-					<a href="#"><image href="images/paper-doll/time5Off.png" x="0" y="0" width="229" height="30"></image></a>
-					<image href="images/paper-doll/time5On.png" x="0" y="0" width="229" height="30"></image>
-					<text x="22" y="20">10 MY</text>
-				</g>
-			</g>
-			<g id="forcers" transform="translate(272,107)">
+            <g id="timeline" transform="translate(147,204) scale(1 1.2)">
+                <g id="time1" class="active" transform="translate(0,0)">
+                    <a href="#">
+                        <image href="images/paper-doll/time1Off.png" x="0" y="0" width="64" height="30"></image>
+                    </a>
+                    <image href="images/paper-doll/time1On.png" x="0" y="0" width="64" height="30"></image>
+                    <text x="6" y="20">INITIAL</text>
+                </g>
+                <g id="time2" transform="translate(44,0)">
+                    <a href="#">
+                        <image href="images/paper-doll/time2Off.png" x="0" y="0" width="90" height="30"></image>
+                    </a>
+                    <image href="images/paper-doll/time2On.png" x="0" y="0" width="90" height="30"></image>
+                    <text x="17" y="20">100-1000 Y</text>
+                </g>
+                <g id="time3" transform="translate(113,0)">
+                    <a href="#">
+                        <image href="images/paper-doll/time3Off.png" x="0" y="0" width="119" height="30"></image>
+                    </a>
+                    <image href="images/paper-doll/time3On.png" x="0" y="0" width="119" height="30"></image>
+                    <text x="22" y="20">100 KY</text>
+                </g>
+                <g id="time4" transform="translate(217,0)">
+                    <a href="#">
+                        <image href="images/paper-doll/time4Off.png" x="0" y="0" width="162" height="30"></image>
+                    </a>
+                    <image href="images/paper-doll/time4On.png" x="0" y="0" width="162" height="30"></image>
+                    <text x="22" y="20">1 MY</text>
+                </g>
+                <g id="time5" transform="translate(364,0)">
+                    <a href="#">
+                        <image href="images/paper-doll/time5Off.png" x="0" y="0" width="229" height="30"></image>
+                    </a>
+                    <image href="images/paper-doll/time5On.png" x="0" y="0" width="229" height="30"></image>
+                    <text x="22" y="20">10 MY</text>
+                </g>
+            </g>
+            <g id="forcers" transform="translate(272,107)">
                 <g>
-				    <image href="images/paper-doll/mountains_inactive.png" x="0" y="0" width="56" height="70"></image>			
-				    <image class="hide" href="images/paper-doll/mountains_active.png" x="0" y="0" width="56" height="70"></image>
+                    <image href="images/paper-doll/mountains_inactive.png" x="0" y="0" width="56" height="70"></image>
+                    <image class="hide" href="images/paper-doll/mountains_active.png" x="0" y="0" width="56" height="70"></image>
                 </g>
                 <g>
-				<image href="images/paper-doll/volcanoes_inactive.png" x="116" y="-2" width="54" height="70"></image>		
-				<image class="hide" href="images/paper-doll/volcanoes_active.png" x="116" y="-2" width="54" height="70"></image>
+                    <image href="images/paper-doll/volcanoes_inactive.png" x="116" y="-2" width="54" height="70"></image>
+                    <image class="hide" href="images/paper-doll/volcanoes_active.png" x="116" y="-2" width="54" height="70"></image>
                 </g>
                 <g>
-				<image href="images/paper-doll/carbon%20burial_inactive.png" x="220" y="3" width="74" height="65"></image>		
-				<image class="hide" href="images/paper-doll/carbonBurial_active.png" x="220" y="3" width="74" height="65"></image>
+                    <image href="images/paper-doll/carbon%20burial_inactive.png" x="220" y="3" width="74" height="65"></image>
+                    <image class="hide" href="images/paper-doll/carbonBurial_active.png" x="220" y="3" width="74" height="65"></image>
                 </g>
                 <g>
-				<image href="images/paper-doll/carbon%20release_inactive.png" x="336" y="3" width="81" height="66"></image>		
-				<image class="hide" href="images/paper-doll/carbon%20release_active.png" x="336" y="3" width="81" height="66"></image>
+                    <image href="images/paper-doll/carbon%20release_inactive.png" x="336" y="3" width="81" height="66"></image>
+                    <image class="hide" href="images/paper-doll/carbon%20release_active.png" x="336" y="3" width="81" height="66"></image>
                 </g>
                 <g>
-				<image href="images/paper-doll/insulation_inactive.png" x="471" y="-1" width="52" height="70"></image>		
-				<image class="hide" href="images/paper-doll/insulation_active.png" x="471" y="-1" width="52" height="70"></image>		
+                    <image href="images/paper-doll/insulation_inactive.png" x="471" y="-1" width="52" height="70"></image>
+                    <image class="hide" href="images/paper-doll/insulation_active.png" x="471" y="-1" width="52" height="70"></image>
                 </g>
-			</g>
-<!--
+            </g>
+            <g id="forcerText" class="hide">
+                <text text-anchor="middle" x="512" y="162">FORCING</text>
+            </g>
+            <!--
 			<g id="lightRays" transform="translate(-4,214)">
 				<image href="images/animations/lightRays/lightRay1.png" x="0" y="0" width="334" height="412"></image>
 			</g>

@@ -1,29 +1,34 @@
 /* IMPORTS */
-/* Roboto font */
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,700, 900');
 
-a + * + text, a > image, a+*{
+
+/* Roboto font */
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700, 900');
+a+ *+ text,
+a> image,
+a+* {
     cursor: pointer;
 }
 
-#timeline{
+#timeline {
     z-index: 10;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 main {
-	max-width: 1600px;
-  margin: 0 auto;
+    max-width: 1600px;
+    margin: 0 auto;
 }
 
 
 /* SVG */
+
 svg {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
 
 text {
@@ -39,11 +44,7 @@ text {
     font-weight: 900;
     font-size: 14px;
     fill: #1f1f1f;
-
-
 }
-
-
 
 .notBold {
     font-weight: 400;
@@ -52,35 +53,42 @@ text {
 .smallText {
     font-size: 12px;
     font-weight: 400;
-/*    letter-spacing: 1.5px;*/
+    /*    letter-spacing: 1.5px;*/
 }
+
 .smallTextShadow {
     font-size: 12px;
     font-weight: 400;
     fill: #1f1f1f;
-/*    letter-spacing: 1.5px;*/
+    /*    letter-spacing: 1.5px;*/
 }
 
 .operator {
-	font-size: 28px
+    font-size: 28px
 }
 
 #timeline g text {
-	font-size: 12px;
+    font-size: 12px;
 }
 
-#timeline g > image {
-	display: none;
+#timeline g> image {
+    display: none;
 }
 
-#timeline g.active > image {
-	display: inline;
+#timeline g.active> image {
+    display: inline;
 }
 
 #timeline g.active text {
-	fill: #235255;
+    fill: #235255;
 }
 
 .hide {
     display: none;
+}
+
+#forcerText text {
+    font-size: 50px;
+    font-weight: 400;
+    fill: white;
 }

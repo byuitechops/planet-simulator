@@ -29,37 +29,46 @@ var getCSV = (function () {
     return function (callBack) {
         var fileName;
 
+        function zeroOrNum(textIn) {
+            var num = parseInt(textIn, 10);
+            return isNaN(num) ? 0 : num;
+        }
+
         fileName = getFileNameFromURL();
+
         if (!fileName) {
             console.log("No filename in URL.");
             return;
         }
+
         ajaxFile(fileName, function (error, fileText) {
+            var fileDataRaw;
+
             if (error) {
                 callBack(error, null);
                 return;
             }
 
-            var fileData = d3.csvParse(fileText, function (d) {
+            fileDataRaw = d3.csvParse(fileText, function (d) {
                 return {
-                    forcer: d.forcer,
-                    time: d.time,
-                    carbonateRock: parseInt(d.buriedCRelease, 10),
-                    sediment: parseInt(d.cBurial, 10),
-                    co2Meter: parseInt(d.co2, 10),
-                    seaSnow: parseInt(d.co3Desposition, 10),
-                    iceCaps: parseInt(d.ice, 10),
-                    igWeathering: parseInt(d.igWeathering, 10),
-                    lightRays: parseInt(d.insolation, 10),
-                    mountains: parseInt(d.mountain, 10),
-                    floods: parseInt(d.sea, 10),
-                    tempMeter: parseInt(d.temperature, 10),
-                    volcanoes: parseInt(d.volcano, 10),
-                    underwaterVolcanoes: parseInt(d.volcano, 10)
+                    rowHeading: d["Row Heading"],
+                    other: d.Other,
+                    sediment: zeroOrNum(d.Sediment),
+                    co2Meter: zeroOrNum(d.CO2),
+                    iceCaps: zeroOrNum(d.Ice),
+                    lightRays: zeroOrNum(d.Insolation),
+                    mountains: zeroOrNum(d.Mountains),
+                    floods: zeroOrNum(d.Sea),
+                    tempMeter: zeroOrNum(d.Temperature),
+                    volcanoes: zeroOrNum(d.Volcano),
+                    underwaterVolcanoes: zeroOrNum(d.Volcano),
+                    seaSnow: zeroOrNum(d["CO3 Desposition"]),
+                    weatheringRelease: zeroOrNum(d["Weathering C Release"]),
+                    weatheringBurial: zeroOrNum(d["Weathering C Burial"])
                 };
             });
 
-            callBack(null, fileData);
+            callBack(null, fileDataRaw);
         });
 
     };
