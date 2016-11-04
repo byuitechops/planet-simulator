@@ -2,7 +2,7 @@
 /*global $:false, Frame:false, Animator:false, moveLightBeam:false, transitionBoxen:false, createSpotlight:false, getCSV:false*/
 var containers = [
     {
-        name: "floods",
+        name: "sea",
         isFrame: true,
         items: 5,
         width: 392,
@@ -14,7 +14,7 @@ var containers = [
         scale: 1.1
     },
     {
-        name: "iceCaps",
+        name: "ice",
         isFrame: false,
         items: 5,
         width: 304,
@@ -26,7 +26,7 @@ var containers = [
         scale: 1.1
     },
     {
-        name: "lightRays",
+        name: "insolation",
         isFrame: true,
         items: 5,
         width: 334,
@@ -49,7 +49,7 @@ var containers = [
     },
     /* Commented out because they were too darn ugly with the transparency issues!*/
 //    {
-//        name: "volcanoes",
+//        name: "volcano",
 //        isFrame: false,
 //        items: 5,
 //        width: 325,
@@ -60,7 +60,7 @@ var containers = [
 //        ext: ".png"
 //    },
     {
-        name: "co2Meter",
+        name: "co2",
         isFrame: true,
         items: 9,
         width: 70,
@@ -72,7 +72,7 @@ var containers = [
         scale: 4.3
     },
     {
-        name: "tempMeter",
+        name: "temperature",
         isFrame: true,
         items: 9,
         width: 70,
@@ -84,7 +84,7 @@ var containers = [
         scale: 4.25
     },
     {
-        name: "underwaterVolcanoes",
+        name: "underwaterVolcano",
         isFrame: true,
         items: 5,
         width: 164,
@@ -95,7 +95,7 @@ var containers = [
         ext: ".gif"
     },
     {
-        name: "seaSnow",
+        name: "co3Desposition",
         isFrame: true,
         items: 5,
         width: 120,
@@ -117,7 +117,7 @@ var containers = [
         ext: ".gif"
     },
     {
-        name: "weatheringRelease",
+        name: "weatheringCRelease",
         isFrame: true,
         items: 5,
         width: 204,
@@ -145,7 +145,6 @@ function setForcers(forcerObj) {
     "use strict";
     var forcers = ["mountains", "volcanoes", "weatheringBurial", "weatheringRelease", "lightRays"],
         showIcons = false,
-        activeForcer = 4,
         processedText;
 
     forcers.forEach(function (forcer, forcerIndex) {
@@ -196,21 +195,28 @@ function init(forcerObj, timeScaleOps) {
         });
         box = new Animator(frames, container.isFrame, container.x, container.y, container.scale);
         return box.setName(container.name)
-            .setTargetStep(0)
+            .setTargetStep(timeScaleOps[0][container.name] - 1)
             .display();
     });
 
     function transitionBoxen(stepData) {
-        var currentBoxen = 0;
-
+        var currentBoxen = 0,
+			properOrder = [2, 3, 1, 0, 4, 5, 8, 7, 6, 9];
+		
+		properOrder = properOrder.filter(function (val) {
+			if (boxen[val].targetStep === stepData[boxen[val].Name] -1 ) {
+				return false;
+			}
+			console.log('Run: ' + boxen[val].Name);
+			return true;
+		});
+		
         function loopBoxen(box) {
-            var properOrder = [2,3,1,0,4,5,8,7,6,9],
-                cc = boxen[properOrder[box]];
+            var cc = boxen[properOrder[box]];
             //move spotlight
             moveLightBeam(cc.x + (cc.width * cc.scale) / 2, cc.y + (cc.height * cc.scale) / 2,
                 cc.width * cc.scale, cc.height * cc.scale, 1500,
                 function () {
-                console.log(cc.Name);
                     cc.transitionToStep(stepData[cc.Name] - 1);
                     window.setTimeout(function () {
                         currentBoxen++;

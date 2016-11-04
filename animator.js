@@ -185,9 +185,9 @@ var Animator = (function () {
 
     Animator.prototype.transitionToStep = function (targetStep, cback) {
         var framesPerStep, targetFrame;
-
         // Dont move if you are already there
         if (targetStep === this.targetStep) {
+            console.log('no transition needed');
             return this;
         }
 
