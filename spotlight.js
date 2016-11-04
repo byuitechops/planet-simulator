@@ -96,4 +96,3 @@ function pixelsToPercent(pixels, size){
 }
 
 //createSpotlight();
-
