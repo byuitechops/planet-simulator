@@ -12,7 +12,8 @@ var containers = [
         path: "./images/animations/flooding/flood",
         ext: ".png",
         scale: 1.1
-    }, {
+    },
+    {
         name: "iceCaps",
         isFrame: false,
         items: 5,
@@ -35,6 +36,29 @@ var containers = [
         path: "./images/animations/lightRays/lightRay",
         ext: ".png"
     },
+    {
+        name: "mountains",
+        isFrame: false,
+        items: 5,
+        width: 187,
+        height: 238,
+        x: 155,
+        y: 456,
+        path: "./images/animations/mountains/mountain",
+        ext: ".png"
+    },
+    /* Commented out because they were too darn ugly with the transparency issues!*/
+//    {
+//        name: "volcanoes",
+//        isFrame: false,
+//        items: 5,
+//        width: 325,
+//        height: 322,
+//        x: 274,
+//        y: 425,
+//        path: "./images/animations/volcanoes/volcano",
+//        ext: ".png"
+//    },
     {
         name: "co2Meter",
         isFrame: true,
@@ -59,29 +83,6 @@ var containers = [
         ext: ".png",
         scale: 4.25
     },
-    {
-        name: "mountains",
-        isFrame: false,
-        items: 5,
-        width: 187,
-        height: 238,
-        x: 155,
-        y: 456,
-        path: "./images/animations/mountains/mountain",
-        ext: ".png"
-    },
-/* Commented out because they were too darn ugly with the transparency issues!*/
-//    {
-//        name: "volcanoes",
-//        isFrame: false,
-//        items: 5,
-//        width: 325,
-//        height: 322,
-//        x: 274,
-//        y: 425,
-//        path: "./images/animations/volcanoes/volcano",
-//        ext: ".png"
-//    },
     {
         name: "underwaterVolcanoes",
         isFrame: true,
@@ -116,7 +117,7 @@ var containers = [
         ext: ".gif"
     },
     {
-        name: "carbonateRock",
+        name: "weatheringRelease",
         isFrame: true,
         items: 5,
         width: 204,
@@ -181,35 +182,6 @@ function init(forcerObj, timeScaleOps) {
         var i, box,
             frames = [];
 
-        function transitionBoxen(stepData) {
-            var currentBoxen = 0;
-
-            function loopBoxen(box) {
-                var properOrder = [2, 1, 0, 3, 4, 5, 6, 7, 8, 9],
-                    cc = boxen[properOrder[box]];
-                //move spotlight
-                moveLightBeam(cc.x + (cc.width * cc.scale) / 2, cc.y + (cc.height * cc.scale) / 2,
-                    cc.width * cc.scale, cc.height * cc.scale, 1500,
-                    function () {
-                        console.log('name: ' + cc.Name);
-                        cc.transitionToStep(stepData[cc.Name] - 1);
-                        window.setTimeout(function () {
-                            currentBoxen++;
-                            if (currentBoxen < properOrder.length) {
-                                loopBoxen(currentBoxen);
-                            } else {
-                                $("#spotter").animate({
-                                    opacity: 0
-                                }, 2000);
-                                animationInProgress = false;
-                            }
-                        }, 2500);
-                    });
-            }
-
-            loopBoxen(currentBoxen);
-        }
-
         //make a list of filenames
         for (i = 0; i < container.items; i++) {
             frames[i] = container.path + (i + 1) + container.ext;
@@ -228,6 +200,35 @@ function init(forcerObj, timeScaleOps) {
             .display();
     });
 
+    function transitionBoxen(stepData) {
+        var currentBoxen = 0;
+
+        function loopBoxen(box) {
+            var properOrder = [2,3,1,0,4,5,8,7,6,9],
+                cc = boxen[properOrder[box]];
+            //move spotlight
+            moveLightBeam(cc.x + (cc.width * cc.scale) / 2, cc.y + (cc.height * cc.scale) / 2,
+                cc.width * cc.scale, cc.height * cc.scale, 1500,
+                function () {
+                console.log(cc.Name);
+                    cc.transitionToStep(stepData[cc.Name] - 1);
+                    window.setTimeout(function () {
+                        currentBoxen++;
+                        if (currentBoxen < properOrder.length) {
+                            loopBoxen(currentBoxen);
+                        } else {
+                            $("#spotter").animate({
+                                opacity: 0
+                            }, 2000);
+                            animationInProgress = false;
+                        }
+                    }, 2500);
+                });
+        }
+
+        loopBoxen(currentBoxen);
+    }
+
     // modified to make text clickable too
     $("a, a + * + text").on("click", function () {
         if (animationInProgress) {
@@ -240,10 +241,6 @@ function init(forcerObj, timeScaleOps) {
         $(this.parentElement).addClass("active");
         animationInProgress = true;
         transitionBoxen(timeScaleOps[step]);
-        // Transition to next step
-        //    boxen.forEach(function (box) {
-        //        box.transitionToStep(step);
-        //    });
     });
 
     /*
