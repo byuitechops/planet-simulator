@@ -59,21 +59,17 @@ var containers = [
         path: "./images/animations/mountains/mountain",
         ext: ".png"
     },
-<<<<<<< HEAD
-    /* Commented out because they were too darn ugly with the transparency issues!*/
-//    {
-//        name: "volcano",
-//        isFrame: false,
-//        items: 5,
-//        width: 325,
-//        height: 322,
-//        x: 274,
-//        y: 425,
-//        path: "./images/animations/volcanoes/volcano",
-//        ext: ".png"
-//    },
-=======
->>>>>>> 2f66647c58e2c454b59c258242fe42a4c9f991a3
+    {
+        name: "volcano",
+        isFrame: false,
+        items: 5,
+        width: 325,
+        height: 322,
+        x: 274,
+        y: 425,
+        path: "./images/animations/volcanoes/volcano",
+        ext: ".png"
+    },
     {
         name: "co2",
         isFrame: true,
@@ -216,23 +212,19 @@ function init(forcerObj, timeScaleOps) {
 
     function transitionBoxen(stepData) {
         var currentBoxen = 0,
-			properOrder = [2, 3, 1, 0, 4, 5, 8, 7, 6, 9];
-		
-		properOrder = properOrder.filter(function (val) {
-			if (boxen[val].targetStep === stepData[boxen[val].Name] -1 ) {
-				return false;
-			}
-			console.log('Run: ' + boxen[val].Name);
-			return true;
-		});
-		
+            properOrder = [2, 3, 1, 0, 4, 5, 8, 7, 6, 9];
+
+        properOrder = properOrder.filter(function (val) {
+            if (boxen[val].targetStep === stepData[boxen[val].Name] - 1) {
+                return false;
+            }
+            console.log('Run: ' + boxen[val].Name);
+            return true;
+        });
+
         function loopBoxen(box) {
-<<<<<<< HEAD
             var cc = boxen[properOrder[box]];
-=======
-            var properOrder = [3,4,2,0,1,6,7,8,9,10],
-                cc = boxen[properOrder[box]];
->>>>>>> 2f66647c58e2c454b59c258242fe42a4c9f991a3
+
             //move spotlight
             moveLightBeam(cc.x + (cc.width * cc.scale) / 2, cc.y + (cc.height * cc.scale) / 2,
                 cc.width * cc.scale, cc.height * cc.scale, 1500,
@@ -285,12 +277,16 @@ function init(forcerObj, timeScaleOps) {
 // Get CSV with file name from url
 getCSV(function (err, csvData) {
     "use strict";
-    var forcerObj = csvData.shift();
+    var forcerObj;
 
     if (err) {
         console.log("error:", err);
+        $("#error").toggleClass("hide");
+        $("svg").toggleClass("hide");
         return;
     }
+
+    forcerObj = csvData.shift();
     console.log("scenario:", csvData);
     console.log("forcerObj:", forcerObj);
 
