@@ -19,8 +19,8 @@ var getCSV = (function () {
                 ajaxCallback(null, fileText);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                ajaxCallback("Ajax Error", textStatus, ':', errorThrown, null);
-                //console.log("Ajax Error", textStatus, ':', errorThrown);
+                var errorText = "Ajax Error " + textStatus + ':' + errorThrown;
+                ajaxCallback(errorText, null);
             }
 
         });
