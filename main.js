@@ -212,7 +212,15 @@ function setForcers(forcerObj) {
         //proccess text
         //TODO actully proccess text
         //<tspan class="smallText" dy="-5">2</tspan>
-        processedText = forcerObj.other;
+
+        //wrap in tspans the subscript was messing up the words after
+        processedText = '<tspan>' + forcerObj.other + '</tspan>';
+
+        //find the underscores followed by a number replace with tspan
+        //also it has than ends and starts of other tspan so that all text is in own tspans
+        processedText = processedText.replace(/_(\d)/g, function (match, number) {
+            return '</tspan><tspan class="forcerSubscript" dy="5" >' + number + '</tspan><tspan dy="-5">';
+        });
 
         //Update text
         $("#forcerText text").html(processedText);

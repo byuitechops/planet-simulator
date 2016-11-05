@@ -93,6 +93,10 @@ text {
     fill: white;
 }
 
+.forcerSubscript {
+    font-size: 25px;
+}
+
 #error {
     font-family: 'Roboto', sans-serif;
     text-align: center;
