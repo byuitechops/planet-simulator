@@ -46,7 +46,7 @@ var containers = [
         }
     },
     {
-        name: "mountains",
+        name: "mountain",
         isFrame: false,
         items: 5,
         width: 187,
@@ -61,7 +61,7 @@ var containers = [
     },
     {
         name: "volcano",
-        isFrame: false,
+        isFrame: true,
         items: 5,
         width: 325,
         height: 322,
@@ -193,7 +193,7 @@ var containers = [
 
 function setForcers(forcerObj) {
     "use strict";
-    var forcers = ["mountains", "volcanoes", "weatheringBurial", "weatheringRelease", "lightRays"],
+    var forcers = ["mountain", "volcano", "weatheringCBurial", "weatheringCRelease", "insolation"],
         showIcons = false,
         processedText;
 
@@ -245,7 +245,7 @@ function init(forcerObj, timeScaleOps) {
         });
         box = new Animator(frames, container.isFrame, container.x, container.y, container.scale);
         box.setName(container.name)
-            .setTargetStep(timeScaleOps[0][container.name] - 1)
+            .setTargetStep(timeScaleOps[0][container.name] - 1) //inital state
             .display();
         if (container.maceroni.needed) {
             box.createMaceroniMeter(container.maceroni.x, container.maceroni.y, container.maceroni.malicious);
@@ -284,7 +284,7 @@ function init(forcerObj, timeScaleOps) {
                             animationInProgress = false;
                             console.log("animation end");
                         }
-                    }, 2500);
+                    }, 2500); //spotlight speed
                 });
         }
 

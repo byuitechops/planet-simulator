@@ -57,7 +57,7 @@ var getCSV = (function () {
                     co2: zeroOrNum(d.CO2),
                     ice: zeroOrNum(d.Ice),
                     insolation: zeroOrNum(d.Insolation),
-                    mountains: zeroOrNum(d.Mountains),
+                    mountain: zeroOrNum(d.Mountains),
                     sea: zeroOrNum(d.Sea),
                     temperature: zeroOrNum(d.Temperature),
                     volcano: zeroOrNum(d.Volcano),
