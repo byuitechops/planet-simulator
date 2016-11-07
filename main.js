@@ -309,8 +309,10 @@ function init(forcerObj, timeScaleOps) {
             var cc = boxen[properOrder[box]];
 
             //move spotlight
-            moveLightBeam(cc.x + (cc.width * cc.scale) / 2, cc.y + (cc.height * cc.scale) / 2,
-                cc.width * cc.scale, cc.height * cc.scale, 1500,
+            var xoffset = (cc.getName() == "sediment") ? -10:0;
+            var yoffset = (cc.getName() == "sediment") ? 55:0;
+            moveLightBeam(cc.x + (cc.width * cc.scale) / 2 + xoffset, cc.y + (cc.height * cc.scale) / 2 + yoffset,
+                cc.width * (cc.scale+.2), cc.height * (cc.scale+.2), 1500,
                 function () {
                     cc.transitionToStep(stepData[cc.Name] - 1);
                     window.setTimeout(function () {
