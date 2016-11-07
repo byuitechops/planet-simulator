@@ -317,7 +317,7 @@ function init(forcerObj, timeScaleOps) {
 
     // modified to make text clickable too
     $("a, a + * + text").on("click", function () {
-        if (animationInProgress) {
+        if (animationInProgress || $(this).hasClass("active")) {
             return;
         }
 
