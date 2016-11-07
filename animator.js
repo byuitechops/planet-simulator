@@ -83,9 +83,9 @@ var Animator = (function () {
         this.height = this.states[0].height;
 
         /*
-         * The Mini Maceroni Meter!
+         * The Mini Macaroni Meter!
          */
-        this.MiniMaceroniMeter = null;
+        this.MiniMacaroniMeter = null;
     }
     //inital state could be hard coded here
     Animator.prototype.display = function () {
@@ -188,21 +188,21 @@ var Animator = (function () {
         return this.y;
     };
 
-    Animator.prototype.createMaceroniMeter = function (x, y, malicious) {
-        var path = (malicious) ? "./images/animations/MaliciousMiniMaceroniMeter/miniMacMeter" : "./images/animations/MininMaceroniMeter/miniMacMeter";
+    Animator.prototype.createMacaroniMeter = function (x, y, malicious) {
+        var path = (malicious) ? "./images/animations/MaliciousMiniMacaroniMeter/miniMacMeter" : "./images/animations/MininMacaroniMeter/miniMacMeter";
         var files = [];
         for (var i = 1; i <= 5; i++) {
             files.push(new Frame(path + i + ".png", 23, 54));
         }
-        this.MiniMaceroniMeter = new Animator(files, false, x, y, this.scale);
-        this.MiniMaceroniMeter.setTargetStep(this.currentFrame)
+        this.MiniMacaroniMeter = new Animator(files, false, x, y, this.scale);
+        this.MiniMacaroniMeter.setTargetStep(this.currentFrame)
             .display();
         return this;
     }
 
     Animator.prototype.transitionToStep = function (targetStep, cback) {
-        if (this.MiniMaceroniMeter)
-            this.MiniMaceroniMeter.transitionToStep(targetStep);
+        if (this.MiniMacaroniMeter)
+            this.MiniMacaroniMeter.transitionToStep(targetStep);
 
         var framesPerStep, targetFrame;
         // Dont move if you are already there
