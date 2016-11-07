@@ -170,6 +170,22 @@ var containers = [
             y: 463,
             malicious: false
         }
+    }, {
+        name: "weatheringCBurrial",
+        isFrame: true,
+        items: 5,
+        width: 50,
+        height: 50,
+        x: 994,
+        y: 485,
+        path: "./images/animations/empty/empty",
+        ext: ".png",
+        maceroni: {
+            needed: true,
+            x: 994,
+            y: 485,
+            malicious: false
+        }
     },
 ];
 
