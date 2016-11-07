@@ -289,6 +289,22 @@ function init(forcerObj, timeScaleOps) {
             return true;
         });
 
+        if(properOrder.length <= 0){
+            $("#spotter").animate({
+                opacity: 1
+             }, 1000, function(){
+                $("#spotter").animate({
+                    opacity: 0
+                }, 1000);
+            });
+            moveLightBeam(1730/2, 938/2,
+                130, 130, 2000,
+                function () {});
+            animationInProgress = false;
+
+            return;
+        }
+
         function loopBoxen(box) {
             var cc = boxen[properOrder[box]];
 
