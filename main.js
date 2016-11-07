@@ -12,20 +12,9 @@ var containers = [
         path: "./images/animations/flooding/flood",
         ext: ".png",
         scale: 1.1,
-        maceroni:{needed:false}
-    },
-    /* Commented out because they were too darn ugly with the transparency issues!*/
-    {
-        name: "volcanoes",
-        isFrame: false,
-        items: 5,
-        width: 325,
-        height: 322,
-        x: 274,
-        y: 425,
-        path: "./images/animations/volcanoes/volcano",
-        ext: ".png",
-        maceroni:{needed:false}
+        maceroni: {
+            needed: false
+        }
     },
     {
         name: "ice",
@@ -38,7 +27,9 @@ var containers = [
         path: "./images/animations/iceCaps/iceCap",
         ext: ".png",
         scale: 1.1,
-        maceroni:{needed:false}
+        maceroni: {
+            needed: false
+        }
     },
     {
         name: "insolation",
@@ -50,10 +41,12 @@ var containers = [
         y: 214,
         path: "./images/animations/lightRays/lightRay",
         ext: ".png",
-        maceroni:{needed:false}
+        maceroni: {
+            needed: false
+        }
     },
     {
-        name: "mountains",
+        name: "mountain",
         isFrame: false,
         items: 5,
         width: 187,
@@ -62,18 +55,23 @@ var containers = [
         y: 456,
         path: "./images/animations/mountains/mountain",
         ext: ".png",
-        maceroni:{needed:false}
+        maceroni: {
+            needed: false
+        }
     },
     {
         name: "volcano",
-        isFrame: false,
+        isFrame: true,
         items: 5,
         width: 325,
         height: 322,
         x: 274,
         y: 425,
         path: "./images/animations/volcanoes/volcano",
-        ext: ".png"
+        ext: ".png",
+        maceroni: {
+            needed: false
+        }
     },
     {
         name: "co2",
@@ -86,7 +84,9 @@ var containers = [
         path: "./images/animations/co2Meter/co2Meter",
         ext: ".png",
         scale: 4.3,
-        maceroni:{needed:false}
+        maceroni: {
+            needed: false
+        }
     },
     {
         name: "temperature",
@@ -99,7 +99,9 @@ var containers = [
         path: "./images/animations/tempMeter/tempMeter",
         ext: ".png",
         scale: 4.25,
-        maceroni:{needed:false}
+        maceroni: {
+            needed: false
+        }
     },
     {
         name: "underwaterVolcano",
@@ -111,7 +113,12 @@ var containers = [
         y: 419,
         path: "./images/animations/underwaterVolcanoes/volcano",
         ext: ".gif",
-        maceroni:{needed:true, x:1386, y:653, malicious:false}
+        maceroni: {
+            needed: true,
+            x: 1386,
+            y: 653,
+            malicious: false
+        }
     },
     {
         name: "co3Desposition",
@@ -123,7 +130,12 @@ var containers = [
         y: 564,
         path: "./images/animations/seaSnow/seaSnow",
         ext: ".gif",
-        maceroni:{needed:true, x:1215, y:624, malicious:false}
+        maceroni: {
+            needed: true,
+            x: 1215,
+            y: 624,
+            malicious: false
+        }
     },
     {
         name: "sediment",
@@ -135,7 +147,12 @@ var containers = [
         y: 527,
         path: "./images/animations/sediment/sediment",
         ext: ".gif",
-        maceroni:{needed:true, x:979, y:642, malicious:false}
+        maceroni: {
+            needed: true,
+            x: 979,
+            y: 642,
+            malicious: false
+        }
     },
     {
         name: "weatheringCRelease",
@@ -147,7 +164,12 @@ var containers = [
         y: 396,
         path: "./images/animations/carbonateRock/carbonateRock",
         ext: ".gif",
-        maceroni:{needed:true, x:1408, y:463,malicious:false}
+        maceroni: {
+            needed: true,
+            x: 1408,
+            y: 463,
+            malicious: false
+        }
     },
     {
         name: "shadow",
@@ -160,13 +182,18 @@ var containers = [
         path: "./images/paper-doll/shadow",
         ext: ".png",
         scale: 1.1,
-        maceroni:{needed:false, x:0, y:0, malicious:false}
+        maceroni: {
+            needed: false,
+            x: 0,
+            y: 0,
+            malicious: false
+        }
     }
 ];
 
 function setForcers(forcerObj) {
     "use strict";
-    var forcers = ["mountains", "volcanoes", "weatheringBurial", "weatheringRelease", "lightRays"],
+    var forcers = ["mountain", "volcano", "weatheringCBurial", "weatheringCRelease", "insolation"],
         showIcons = false,
         processedText;
 
@@ -185,7 +212,15 @@ function setForcers(forcerObj) {
         //proccess text
         //TODO actully proccess text
         //<tspan class="smallText" dy="-5">2</tspan>
-        processedText = forcerObj.other;
+
+        //wrap in tspans the subscript was messing up the words after
+        processedText = '<tspan>' + forcerObj.other + '</tspan>';
+
+        //find the underscores followed by a number replace with tspan
+        //also it has than ends and starts of other tspan so that all text is in own tspans
+        processedText = processedText.replace(/_(\d)/g, function (match, number) {
+            return '</tspan><tspan class="forcerSubscript" dy="5" >' + number + '</tspan><tspan dy="-5">';
+        });
 
         //Update text
         $("#forcerText text").html(processedText);
@@ -218,16 +253,17 @@ function init(forcerObj, timeScaleOps) {
         });
         box = new Animator(frames, container.isFrame, container.x, container.y, container.scale);
         box.setName(container.name)
-            .setTargetStep(timeScaleOps[0][container.name] - 1)
+            .setTargetStep(timeScaleOps[0][container.name] - 1) //inital state
             .display();
-        if(container.maceroni.needed)
+        if (container.maceroni.needed) {
             box.createMaceroniMeter(container.maceroni.x, container.maceroni.y, container.maceroni.malicious);
+        }
         return box;
     });
 
     function transitionBoxen(stepData) {
         var currentBoxen = 0,
-            properOrder = [2, 3, 1, 0, 4, 5, 8, 7, 6, 9];
+            properOrder = [2, 3, 1, 0, 4, 5, 6, 9, 8, 7, 10];
 
         properOrder = properOrder.filter(function (val) {
             if (boxen[val].targetStep === stepData[boxen[val].Name] - 1) {
@@ -254,8 +290,9 @@ function init(forcerObj, timeScaleOps) {
                                 opacity: 0
                             }, 2000);
                             animationInProgress = false;
+                            console.log("animation end");
                         }
-                    }, 2500);
+                    }, 2500); //spotlight speed
                 });
         }
 

@@ -19,8 +19,8 @@ var getCSV = (function () {
                 ajaxCallback(null, fileText);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                ajaxCallback("Ajax Error", textStatus, ':', errorThrown, null);
-                //console.log("Ajax Error", textStatus, ':', errorThrown);
+                var errorText = "Ajax Error " + textStatus + ':' + errorThrown;
+                ajaxCallback(errorText, null);
             }
 
         });
@@ -57,7 +57,7 @@ var getCSV = (function () {
                     co2: zeroOrNum(d.CO2),
                     ice: zeroOrNum(d.Ice),
                     insolation: zeroOrNum(d.Insolation),
-                    mountains: zeroOrNum(d.Mountains),
+                    mountain: zeroOrNum(d.Mountains),
                     sea: zeroOrNum(d.Sea),
                     temperature: zeroOrNum(d.Temperature),
                     volcano: zeroOrNum(d.Volcano),

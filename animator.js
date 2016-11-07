@@ -85,9 +85,9 @@ var Animator = (function () {
         /*
          * The Mini Maceroni Meter!
          */
-        this.MiniMaceroniMeter =  null;
+        this.MiniMaceroniMeter = null;
     }
-
+    //inital state could be hard coded here
     Animator.prototype.display = function () {
         var items,
             currentAnimator = this,
@@ -188,20 +188,20 @@ var Animator = (function () {
         return this.y;
     };
 
-    Animator.prototype.createMaceroniMeter = function(x,y, malicious){
-        var path = (malicious) ? "./images/animations/MaliciousMiniMaceroniMeter/miniMacMeter":"./images/animations/MininMaceroniMeter/miniMacMeter";
+    Animator.prototype.createMaceroniMeter = function (x, y, malicious) {
+        var path = (malicious) ? "./images/animations/MaliciousMiniMaceroniMeter/miniMacMeter" : "./images/animations/MininMaceroniMeter/miniMacMeter";
         var files = [];
-        for(var i = 1; i <= 5; i ++){
-            files.push(new Frame(path+i+".png",23,54));
+        for (var i = 1; i <= 5; i++) {
+            files.push(new Frame(path + i + ".png", 23, 54));
         }
         this.MiniMaceroniMeter = new Animator(files, false, x, y, this.scale);
         this.MiniMaceroniMeter.setTargetStep(this.currentFrame)
-                              .display();
+            .display();
         return this;
     }
 
     Animator.prototype.transitionToStep = function (targetStep, cback) {
-        if(this.MiniMaceroniMeter)
+        if (this.MiniMaceroniMeter)
             this.MiniMaceroniMeter.transitionToStep(targetStep);
 
         var framesPerStep, targetFrame;
