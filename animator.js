@@ -82,7 +82,8 @@ var Animator = (function () {
         var framesPerStep,
             currentAnimator = this,
             group = document.createElementNS("http://www.w3.org/2000/svg", "g");
-        group.setAttributeNS(null, "id", this.getName());
+        console.log(this.name);
+        group.setAttributeNS(null, "id", this.name || this.getName());
 
         if (this.scale) {
             group.setAttributeNS(null, "transform", "translate(" + this.getX() + "," + this.getY() + ") scale(" + this.scale + ")");
@@ -185,16 +186,19 @@ var Animator = (function () {
     Animator.prototype.getY = function () {
         return this.y;
     };
-
-    Animator.prototype.createMacaroniMeter = function (x, y, malicious) {
-        var i,
-            path = (malicious) ? "./images/animations/MaliciousMiniMacaroniMeter/miniMacMeter" : "./images/animations/MininMacaroniMeter/miniMacMeter",
-            files = [];
-        for (i = 1; i <= 5; i++) {
+    
+    Animator.prototype.createMacaroniMeter = function (name, x, y, malicious) {
+        var path = (malicious) ? "./images/animations/MaliciousMiniMacaroniMeter/miniMacMeter" : "./images/animations/MininMacaroniMeter/miniMacMeter";
+        var files = [];
+        for (var i = 1; i <= 5; i++) {
             files.push(new Frame(path + i + ".png", 23, 54));
         }
+
         this.MiniMacaroniMeter = new Animator(files, false, x, y, this.scale);
-        this.MiniMacaroniMeter.setTargetStep(this.currentFrame)
+        this.MiniMacaroniMeter.name = name;
+        console.log(this.MiniMacaroniMeter.name);
+        this.MiniMacaroniMeter
+            .setTargetStep(this.currentFrame)
             .display();
         return this;
     }
