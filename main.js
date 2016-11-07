@@ -170,7 +170,7 @@ var containers = [
             y: 463,
             malicious: false
         }
-    },
+    }
 ];
 
 function setForcers(forcerObj) {
