@@ -171,24 +171,6 @@ var containers = [
             malicious: false
         }
     },
-    {
-        name: "shadow",
-        isFrame: true,
-        items: 1,
-        width: 392,
-        height: 392,
-        x: 205,
-        y: 351,
-        path: "./images/paper-doll/shadow",
-        ext: ".png",
-        scale: 1.1,
-        maceroni: {
-            needed: false,
-            x: 0,
-            y: 0,
-            malicious: false
-        }
-    }
 ];
 
 function setForcers(forcerObj) {
