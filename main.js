@@ -12,7 +12,7 @@ var containers = [
         path: "./images/animations/flooding/flood",
         ext: ".png",
         scale: 1.1,
-        maceroni: {
+        macaroni : {
             needed: false
         }
     },
@@ -27,7 +27,7 @@ var containers = [
         path: "./images/animations/iceCaps/iceCap",
         ext: ".png",
         scale: 1.1,
-        maceroni: {
+        macaroni : {
             needed: false
         }
     },
@@ -41,7 +41,7 @@ var containers = [
         y: 214,
         path: "./images/animations/lightRays/lightRay",
         ext: ".png",
-        maceroni: {
+        macaroni : {
             needed: false
         }
     },
@@ -55,7 +55,7 @@ var containers = [
         y: 456,
         path: "./images/animations/mountains/mountain",
         ext: ".png",
-        maceroni: {
+        macaroni : {
             needed: false
         }
     },
@@ -69,7 +69,7 @@ var containers = [
         y: 425,
         path: "./images/animations/volcanoes/volcano",
         ext: ".png",
-        maceroni: {
+        macaroni : {
             needed: false
         }
     },
@@ -84,7 +84,7 @@ var containers = [
         path: "./images/animations/co2Meter/co2Meter",
         ext: ".png",
         scale: 4.3,
-        maceroni: {
+        macaroni: {
             needed: false
         }
     },
@@ -99,7 +99,7 @@ var containers = [
         path: "./images/animations/tempMeter/tempMeter",
         ext: ".png",
         scale: 4.25,
-        maceroni: {
+        macaroni : {
             needed: false
         }
     },
@@ -113,7 +113,7 @@ var containers = [
         y: 419,
         path: "./images/animations/underwaterVolcanoes/volcano",
         ext: ".gif",
-        maceroni: {
+        macaroni : {
             needed: true,
             x: 1386,
             y: 653,
@@ -130,7 +130,7 @@ var containers = [
         y: 564,
         path: "./images/animations/seaSnow/seaSnow",
         ext: ".gif",
-        maceroni: {
+        macaroni : {
             needed: true,
             x: 1215,
             y: 624,
@@ -147,7 +147,7 @@ var containers = [
         y: 527,
         path: "./images/animations/sediment/sediment",
         ext: ".gif",
-        maceroni: {
+        macaroni : {
             needed: true,
             x: 979,
             y: 642,
@@ -164,28 +164,26 @@ var containers = [
         y: 396,
         path: "./images/animations/carbonateRock/carbonateRock",
         ext: ".gif",
-        maceroni: {
+        macaroni : {
             needed: true,
             x: 1408,
             y: 463,
             malicious: false
         }
-    },
-    {
-        name: "shadow",
+    }, {
+        name: "weatheringCBurrial",
         isFrame: true,
-        items: 1,
-        width: 392,
-        height: 392,
-        x: 205,
-        y: 351,
-        path: "./images/paper-doll/shadow",
+        items: 5,
+        width: 50,
+        height: 50,
+        x: 994,
+        y: 485,
+        path: "./images/animations/empty/empty",
         ext: ".png",
-        scale: 1.1,
-        maceroni: {
-            needed: false,
-            x: 0,
-            y: 0,
+        macaroni : {
+            needed: true,
+            x: 994,
+            y: 485,
             malicious: false
         }
     }
@@ -267,15 +265,15 @@ function init(forcerObj, timeScaleOps) {
         box.setName(container.name)
             .setTargetStep(timeScaleOps[0][container.name] - 1) //inital state
             .display();
-        if (container.maceroni.needed) {
-            box.createMaceroniMeter(container.maceroni.x, container.maceroni.y, container.maceroni.malicious);
+        if (container.macaroni .needed) {
+            box.createMacaroniMeter(container.macaroni .x, container.macaroni .y, container.macaroni .malicious);
         }
         return box;
     });
 
     function transitionBoxen(stepData) {
         var currentBoxen = 0,
-            properOrder = [2, 3, 1, 0, 4, 5, 6, 9, 8, 7, 10];
+            properOrder = [2, 3, 1, 0, 4, 5, 11, 6, 9, 8, 7, 10];
 
         properOrder = properOrder.filter(function (val) {
             if (boxen[val].targetStep === stepData[boxen[val].Name] - 1) {
