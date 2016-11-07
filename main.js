@@ -279,7 +279,7 @@ function init(forcerObj, timeScaleOps) {
 
     function transitionBoxen(stepData) {
         var currentBoxen = 0,
-            properOrder = [2, 3, 1, 0, 4, 5, 11, 6, 9, 8, 7, 10];
+            properOrder = [2, 3, 1, 0, 4, 5, 6, 11, 9, 8, 7, 10];
 
         properOrder = properOrder.filter(function (val) {
             if (boxen[val].targetStep === stepData[boxen[val].Name] - 1) {
