@@ -189,7 +189,8 @@ var containers = [
             malicious: false
         }
     }
-];
+],
+    boxen;
 
 function setForcers(forcerObj) {
     "use strict";
@@ -227,11 +228,25 @@ function setForcers(forcerObj) {
     }
 
 }
+// JUST FOR TESTING - DELETE LATER
+function printContainerIndexes() {
+    'use strict';
+    containers.forEach(function (val, index) {
+        console.log(val.name + ": " + index);
+    });
+}
+// JUST FOR TESTING - DELETE LATER
+function printCurrentState() {
+    'use strict';
+    var order = [6, 5, 4, 3, 1, 0, 2, 8, 9, 10];
+    order.forEach(function (val) {
+        console.log(boxen[val].Name + ": " + (boxen[val].targetStep + 1));
+    });
+}
 
 function init(forcerObj, timeScaleOps) {
     "use strict";
-    var boxen,
-        animationInProgress = false;
+    var animationInProgress = false;
 
     setForcers(forcerObj);
 
@@ -246,9 +261,6 @@ function init(forcerObj, timeScaleOps) {
 
         frames = frames.map(function (url) {
             var frame = new Frame(url, container.width, container.height);
-            if (container.frames) {
-                frame.setFrameAmount(container.frames);
-            }
             return frame;
         });
         box = new Animator(frames, container.isFrame, container.x, container.y, container.scale);
@@ -323,8 +335,9 @@ function init(forcerObj, timeScaleOps) {
     $("#spotter").animate({
         opacity: 0
     }, 0);
+    
 }
-//windows stinks!
+
 /******************************* START ***************************************/
 // Get CSV with file name from url
 getCSV(function (err, csvData) {
