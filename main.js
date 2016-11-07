@@ -117,7 +117,8 @@ var containers = [
             needed: true,
             x: 1386,
             y: 653,
-            malicious: false
+            malicious: false,
+            name: "underwaterVolcano",
         }
     },
     {
@@ -134,7 +135,8 @@ var containers = [
             needed: true,
             x: 1215,
             y: 624,
-            malicious: false
+            malicious: false,
+            name: "co3Desposition"
         }
     },
     {
@@ -151,7 +153,8 @@ var containers = [
             needed: true,
             x: 979,
             y: 642,
-            malicious: false
+            malicious: false,
+            name: "sediment",
         }
     },
     {
@@ -168,7 +171,9 @@ var containers = [
             needed: true,
             x: 1408,
             y: 463,
-            malicious: false
+            malicious: false,
+            name: "weatheringCRelease",
+
         }
     }, {
         name: "weatheringCBurrial",
@@ -184,7 +189,8 @@ var containers = [
             needed: true,
             x: 994,
             y: 485,
-            malicious: false
+            malicious: false,
+            name: "weatheringCBurrial",
         }
     },
 ];
@@ -253,8 +259,8 @@ function init(forcerObj, timeScaleOps) {
         box.setName(container.name)
             .setTargetStep(timeScaleOps[0][container.name] - 1) //inital state
             .display();
-        if (container.macaroni .needed) {
-            box.createMacaroniMeter(container.macaroni .x, container.macaroni .y, container.macaroni .malicious);
+        if (container.macaroni.needed) {
+            box.createMacaroniMeter(container.macaroni.name+"MacaroniMeter", container.macaroni.x, container.macaroni.y, container.macaroni.malicious);
         }
         return box;
     });
