@@ -1,7 +1,7 @@
 /*jslint plusplus: true, browser: true, devel: true */
 /*global $:false, Frame:false, Animator:false, moveLightBeam:false, transitionBoxen:false, createSpotlight:false, getCSV:false*/
 var boxen, animations,
-    spotlightOff = true,
+    animationInProgress = false,
     containers = [
         {
             name: "sea",
@@ -233,94 +233,71 @@ function setForcers(forcerObj) {
     }
 
 }
-// JUST FOR TESTING - DELETE LATER
-function printContainerIndexes() {
-    'use strict';
-    containers.forEach(function (val, index) {
-        console.log(val.name + ": " + index);
-    });
-}
-// JUST FOR TESTING - DELETE LATER
-function printCurrentState() {
-    'use strict';
-    var order = [6, 5, 4, 3, 1, 0, 2, 8, 9, 10];
-    order.forEach(function (val) {
-        console.log(boxen[val].Name + ": " + (boxen[val].targetStep + 1));
-    });
-}
 
-function loopBoxen(box) {
-    'use strict';
-    var cc = boxen[properOrder[box]];
-
-    //move spotlight
-    var xoffset = (cc.getName() == "sediment") ? -10 : 0;
-    var yoffset = (cc.getName() == "sediment") ? 55 : 0;
-    moveLightBeam(cc.x + (cc.width * cc.scale) / 2 + xoffset, cc.y + (cc.height * cc.scale) / 2 + yoffset,
-        cc.width * (cc.scale + .2), cc.height * (cc.scale + .2), 1500,
-        function () {
-            cc.transitionToStep(stepData[cc.Name] - 1);
-            window.setTimeout(function () {
-                currentBoxen++;
-                if (currentBoxen < properOrder.length) {
-                    loopBoxen(currentBoxen);
-                } else {
-                    $("#spotter").animate({
-                        opacity: 0
-                    }, 2000);
-                    animationInProgress = false;
-                    console.log("animation end");
-                }
-            }, 2500); //spotlight speed
-        });
-}
-
-function transitionBoxen() {
-    'use strict';
-    
-    if (animations.length > 0) {
-        if (boxen[animations[0]].currentFrame != boxen[animations[0]].targetFrame) {
-            boxen[animations[0]].transitionToStep;
-        } else {
-            animations.shift();
-            transitionBoxen();
-        }
-    } else {
-        $("#spotter").animate({
+function animationsComplete() {
+    $("#spotter").animate({
         opacity: 0
     }, 1000, function() {
-            animationInProgress = false;
-        });
+        resetSpotlightPosition();
+        animationInProgress = false;
+    });
+}
+
+function checkAnimationStatus() {
+    'use strict';
+    var box = boxen[animations[0]];
+
+    if (box.targetFrame === box.currentFrame) {
+        animations.shift();
+        if (animations.length > 0) {
+            moveSpotlight();
+        } else {
+            animationsComplete();
+        }
+    } else {
+        box.transition(checkAnimationStatus);
     }
 }
 
 function updateBoxen(stepData) {
     'use strict';
-    
-    var properOrder = [2, 3, 1, 0, 4, 5, 6, 11, 9, 8, 7, 10];
 
-    // Reset animations array
-    animations = [];
+    var properOrder = [2, 3, 1, 0, 4, 5, 6, 11, 9, 8, 7, 10];
 
     // Determine which animations need to fire
     animations = properOrder.filter(function (val) {
-        var box = boxen[val];
-        if (box.targetStep === stepData[box.Name] - 1) {
+        var box = boxen[val],
+            newTarget = stepData[box.name] - 1;
+        if (box.targetStep === newTarget) {
             return false;
         }
-        box.targetStep = stepData[box.Name] - 1;
+        // Update properties
+        box.transitionDuration = 1500 / (Math.abs(box.targetStep - newTarget)) / box.framesPerStep;
+        box.targetStep = newTarget;
         box.targetFrame = box.targetStep * box.framesPerStep;
+        if (box.MiniMacaroniMeter) {
+            box.MiniMacaroniMeter.transitionDuration = 1500 / (Math.abs(box.MiniMacaroniMeter.targetStep - newTarget)) / box.MiniMacaroniMeter.framesPerStep;
+            box.MiniMacaroniMeter.targetStep = newTarget;
+            box.MiniMacaroniMeter.targetFrame = box.MiniMacaroniMeter.targetStep * box.MiniMacaroniMeter.framesPerStep;
+        }
         return true;
     });
     
+    // Turn on spotlight
     $("#spotter").animate({
         opacity: 1
-    }, 1000, transitionBoxen);
+    }, 1000);
+
+    if (animations.length > 0) {
+        moveSpotlight();
+    } else {
+        window.setTimeout(animationsComplete, 2000);
+    }
+
 }
 
 function init(forcerObj, timeScaleOps) {
     "use strict";
-    var animationInProgress = false;
 
     setForcers(forcerObj);
 
@@ -337,10 +314,8 @@ function init(forcerObj, timeScaleOps) {
             var frame = new Frame(url, container.width, container.height);
             return frame;
         });
-        box = new Animator(frames, container.isFrame, container.x, container.y, container.scale);
-        box.setName(container.name)
-            .setTargetStep(timeScaleOps[0][container.name] - 1) //inital state
-            .display();
+        box = new Animator(container.name, frames, container.isFrame, container.x, container.y, container.scale, timeScaleOps[0][container.name] - 1);
+        box.display();
         if (container.macaroni.needed) {
             box.createMacaroniMeter(container.macaroni.name + "MacaroniMeter", container.macaroni.x, container.macaroni.y, container.macaroni.malicious);
         }

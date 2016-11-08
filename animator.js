@@ -10,42 +10,6 @@ var Frame = (function () {
         this.height = height;
     }
 
-    Frame.prototype.getWidth = function () {
-        return this.width;
-    };
-
-    Frame.prototype.getHeight = function () {
-        return this.height;
-    };
-
-    Frame.prototype.setWidth = function (width) {
-        this.width = width;
-        return this;
-    };
-
-    Frame.prototype.setHeight = function (height) {
-        this.height = height;
-        return this;
-    };
-
-    Frame.prototype.getOpacity = function () {
-        return this.opacity;
-    };
-
-    Frame.prototype.setOpacity = function (opactiy) {
-        this.opacity = opactiy;
-        return this;
-    };
-
-    Frame.prototype.getFile = function () {
-        return this.file;
-    };
-
-    Frame.prototype.setFile = function (location) {
-        this.file = location;
-        return this;
-    };
-
     return Frame;
 }());
 
@@ -57,70 +21,69 @@ var Animator = (function () {
 
     "use strict";
 
-    function Animator(states, isFrame, x, y, scale, framesPerStep) {
+    function Animator(name, states, isFrame, x, y, scale, targetStep) {
         this.x = x;
         this.y = y;
         this.states = states;
         this.isFrame = isFrame;
         this.framesPerStep = Math.round((states.length) / 5);
-        this.targetStep = 0;
-        this.currentFrame = 0;
-        this.targetFrame = 0;
-        this.Name = undefined;
+        this.targetStep = targetStep;
+        this.targetFrame = targetStep * this.framesPerStep;
+        this.currentFrame = this.targetFrame;
+        this.name = name;
         this.transitionDuration = 500;
         this.frames = [];
         this.scale = scale || 1;
         this.width = this.states[0].width;
         this.height = this.states[0].height;
-
-        /*
-         * The Mini Macaroni Meter!
-         */
         this.MiniMacaroniMeter = null;
     }
-    //inital state could be hard coded here
+
     Animator.prototype.display = function () {
         var framesPerStep,
-            currentAnimator = this,
+            animator = this,
             group = document.createElementNS("http://www.w3.org/2000/svg", "g");
-//        console.log(this.name);
-        group.setAttributeNS(null, "id", this.name || this.getName());
 
-        if (this.scale) {
-            group.setAttributeNS(null, "transform", "translate(" + this.getX() + "," + this.getY() + ") scale(" + this.scale + ")");
+        group.setAttributeNS(null, "id", animator.name);
+
+        if (animator.scale) {
+            group.setAttributeNS(null, "transform", "translate(" + animator.x + "," + animator.y + ") scale(" + animator.scale + ")");
         } else {
-            group.setAttributeNS(null, "transform", "translate(" + this.getX() + "," + this.getY() + ")");
+            group.setAttributeNS(null, "transform", "translate(" + animator.x + "," + animator.y + ")");
+        }
+        
+        if (animator.isFrame) {
+            animator.transition = animator.frameTransition;
+        } else {
+            animator.transition = animator.crossfadeTransition;
         }
 
         document.querySelector("#other_crap").appendChild(group);
+        animator.currentFrame = animator.targetFrame;
 
-        // Calculate target frame
-        currentAnimator.targetFrame = currentAnimator.targetStep * currentAnimator.framesPerStep;
-        currentAnimator.currentFrame = currentAnimator.targetFrame;
-
-        this.states.forEach(function (frame, index) {
+        animator.states.forEach(function (frame, index) {
             var image,
-                svg = $(currentAnimator.getName()),
+                svg = $(animator.name),
                 fadeOut;
 
-            if (currentAnimator.frames.length < index + 1) {
+            if (animator.frames.length < index + 1) {
                 image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-                image.setAttributeNS("http://www.w3.org/1999/xlink", "href", frame.getFile());
+                image.setAttributeNS("http://www.w3.org/1999/xlink", "href", frame.file);
                 image.setAttributeNS(null, "x", 0);
                 image.setAttributeNS(null, "y", 0);
-                image.setAttributeNS(null, "height", frame.getHeight());
-                image.setAttributeNS(null, "width", frame.getWidth());
+                image.setAttributeNS(null, "height", frame.height);
+                image.setAttributeNS(null, "width", frame.width);
                 image.setAttributeNS(null, "visibility", "visibile");
 
                 group.appendChild(image);
-                currentAnimator.frames.push(image);
+                animator.frames.push(image);
             } else {
-                svg = currentAnimator.frames[index];
+                svg = animator.frames[index];
             }
-            if (index <= currentAnimator.targetFrame) {
-                frame.setOpacity(100);
+            if (index <= animator.targetFrame) {
+                frame.opacity = 100;
             } else {
-                frame.setOpacity(0);
+                frame.opacity = 0;
                 $(image).attr("opacity", "0");
             }
             fadeOut = window.setInterval(function () {
@@ -133,58 +96,6 @@ var Animator = (function () {
         return this;
     };
 
-    // Getters and Setters
-    Animator.prototype.getStates = function () {
-        return this.states.map(function (x) {
-            return x;
-        });
-    };
-    Animator.prototype.getTargetStep = function () {
-        return this.targetStep;
-    };
-    Animator.prototype.getName = function () {
-        return this.Name;
-    };
-    Animator.prototype.getTransitionDuration = function () {
-        return this.transitionDuration;
-    };
-    Animator.prototype.setStates = function () {
-        this.states = states;
-        return this;
-    };
-    Animator.prototype.setTargetStep = function (step) {
-        if (step < 0) {
-            step = 0;
-        }
-        if (step >= this.states.length) {
-            step = this.states.length - 1;
-        }
-        this.targetStep = step;
-        return this;
-    };
-    Animator.prototype.setName = function (Name) {
-        this.Name = Name;
-        return this;
-    };
-    Animator.prototype.setTransitionDuration = function (durration) {
-        this.transitionDuration = durration;
-        return this;
-    };
-    Animator.prototype.setX = function (x) {
-        this.x = x;
-        return this;
-    };
-    Animator.prototype.setY = function (y) {
-        this.y = y;
-        return this;
-    };
-    Animator.prototype.getX = function () {
-        return this.x;
-    };
-    Animator.prototype.getY = function () {
-        return this.y;
-    };
-
     Animator.prototype.createMacaroniMeter = function (name, x, y, malicious) {
         var path = (malicious) ? "./images/animations/MaliciousMiniMacaroniMeter/miniMacMeter" : "./images/animations/MininMacaroniMeter/miniMacMeter";
         var files = [];
@@ -192,50 +103,34 @@ var Animator = (function () {
             files.push(new Frame(path + i + ".png", 23, 54));
         }
 
-        this.MiniMacaroniMeter = new Animator(files, false, x, y, this.scale);
-        this.MiniMacaroniMeter.name = name;
-//        console.log(this.MiniMacaroniMeter.name);
-        this.MiniMacaroniMeter
-            .setTargetStep(this.currentFrame)
-            .display();
+        this.MiniMacaroniMeter = new Animator(name, files, true, x, y, this.scale, this.currentFrame);
+        this.MiniMacaroniMeter.display();
         return this;
     }
 
-    Animator.prototype.transitionToStep = function () {
-        if (this.MiniMacaroniMeter) {
-            this.MiniMacaroniMeter.transitionToStep(this.targetStep);
-        }
-
-        // Adjust duration
-        this.setTransitionDuration(1500 / (Math.abs(this.targetStep - targetStep)) / this.framesPerStep);
-
-        // Transistion
-        if (this.isFrame) {
-            this.frameTransition();
-        } else {
-            this.crossfadeTransition();
-        }
-    };
-
-    Animator.prototype.frameTransition = function () {
+    Animator.prototype.frameTransition = function (callback) {
         var frameIndex;
-
+        
+        if (this.MiniMacaroniMeter) {
+            this.MiniMacaroniMeter.transition();
+        }
+        
         // Determine frame to animate and set necessary values
         if (this.targetFrame < this.currentFrame) {
             frameIndex = this.currentFrame;
-            this.states[frameIndex].setOpacity(0);
+            this.states[frameIndex].opacity = 0;
             this.currentFrame = this.currentFrame - 1;
         } else {
             frameIndex = this.currentFrame + 1;
-            this.states[frameIndex].setOpacity(1);
+            this.states[frameIndex].opacity = 1;
             this.currentFrame = frameIndex;
         }
 
         // Animate
-        this.fade(frameIndex, this.transitionDuration, transitionBoxen);
+        this.fade(frameIndex, this.transitionDuration, callback);
     };
 
-    Animator.prototype.crossfadeTransition = function () {
+    Animator.prototype.crossfadeTransition = function (callback) {
 
         var startFrame = this.currentFrame,
             nextFrame = (this.targetFrame < startFrame) ? startFrame - 1 : startFrame + 1,
@@ -245,18 +140,18 @@ var Animator = (function () {
         this.currentFrame = nextFrame;
 
         // Update opacities
-        this.states[startFrame].setOpacity(0);
-        this.states[nextFrame].setOpacity(1);
+        this.states[startFrame].opacity = 0;
+        this.states[nextFrame].opacity = 1;
 
         // Animate - only one should have the callback to keep animation from moving to fast
-        this.fade(startFrame, this.transitionDuration, transitionBoxen);
+        this.fade(startFrame, this.transitionDuration, callback);
         this.fade(nextFrame, this.transitionDuration);
     };
 
     Animator.prototype.fade = function (frameIndex, durration, callback) {
         // Start Animation
         $(this.frames[frameIndex]).animate({
-            opacity: this.states[frameIndex].getOpacity()
+            opacity: this.states[frameIndex].opacity
         }, durration, callback);
     };
 
