@@ -57,11 +57,12 @@ var Animator = (function () {
 
     "use strict";
 
-    function Animator(states, isFrame, x, y, scale) {
+    function Animator(states, isFrame, x, y, scale, framesPerStep) {
         this.x = x;
         this.y = y;
         this.states = states;
         this.isFrame = isFrame;
+        this.framesPerStep = Math.round((states.length) / 5);
         this.targetStep = 0;
         this.currentFrame = 0;
         this.targetFrame = 0;
@@ -82,7 +83,7 @@ var Animator = (function () {
         var framesPerStep,
             currentAnimator = this,
             group = document.createElementNS("http://www.w3.org/2000/svg", "g");
-        console.log(this.name);
+//        console.log(this.name);
         group.setAttributeNS(null, "id", this.name || this.getName());
 
         if (this.scale) {
@@ -93,11 +94,8 @@ var Animator = (function () {
 
         document.querySelector("#other_crap").appendChild(group);
 
-        // Calculate frames per step
-        framesPerStep = Math.round((this.states.length) / 5);
-
         // Calculate target frame
-        currentAnimator.targetFrame = currentAnimator.targetStep * framesPerStep;
+        currentAnimator.targetFrame = currentAnimator.targetStep * currentAnimator.framesPerStep;
         currentAnimator.currentFrame = currentAnimator.targetFrame;
 
         this.states.forEach(function (frame, index) {
@@ -196,56 +194,31 @@ var Animator = (function () {
 
         this.MiniMacaroniMeter = new Animator(files, false, x, y, this.scale);
         this.MiniMacaroniMeter.name = name;
-        console.log(this.MiniMacaroniMeter.name);
+//        console.log(this.MiniMacaroniMeter.name);
         this.MiniMacaroniMeter
             .setTargetStep(this.currentFrame)
             .display();
         return this;
     }
 
-    Animator.prototype.transitionToStep = function (targetStep, cback) {
+    Animator.prototype.transitionToStep = function () {
         if (this.MiniMacaroniMeter) {
-            this.MiniMacaroniMeter.transitionToStep(targetStep);
+            this.MiniMacaroniMeter.transitionToStep(this.targetStep);
         }
-
-        var framesPerStep, targetFrame;
-        // Dont move if you are already there
-        if (targetStep === this.targetStep) {
-            console.log('no transition needed');
-            return this;
-        }
-
-        // Calculate frames per step
-        framesPerStep = Math.round((this.states.length) / 5);
 
         // Adjust duration
-        this.setTransitionDuration(1500 / (Math.abs(this.targetStep - targetStep)) / framesPerStep);
-
-        // Calculate target frame
-        targetFrame = targetStep * framesPerStep;
-
-        // Update step and target frame
-        this.targetStep = targetStep;
-        this.targetFrame = targetFrame;
+        this.setTransitionDuration(1500 / (Math.abs(this.targetStep - targetStep)) / this.framesPerStep);
 
         // Transistion
         if (this.isFrame) {
-            this.frameTransition(cback);
+            this.frameTransition();
         } else {
-            this.crossfadeTransition(cback);
+            this.crossfadeTransition();
         }
     };
 
-    Animator.prototype.frameTransition = function (cback) {
-        var frameIndex,
-            that = this;
-
-        if (this.currentFrame === this.targetFrame) {
-            if (cback) {
-                cback();
-            }
-            return;
-        }
+    Animator.prototype.frameTransition = function () {
+        var frameIndex;
 
         // Determine frame to animate and set necessary values
         if (this.targetFrame < this.currentFrame) {
@@ -258,22 +231,11 @@ var Animator = (function () {
             this.currentFrame = frameIndex;
         }
 
-        // Create callback
-        function complete() {
-            that.frameTransition(cback);
-        }
-
         // Animate
-        this.fade(frameIndex, this.transitionDuration, complete);
+        this.fade(frameIndex, this.transitionDuration, transitionBoxen);
     };
 
-    Animator.prototype.crossfadeTransition = function (cback) {
-        if (this.currentFrame === this.targetFrame) {
-            if (cback) {
-                cback();
-            }
-            return;
-        }
+    Animator.prototype.crossfadeTransition = function () {
 
         var startFrame = this.currentFrame,
             nextFrame = (this.targetFrame < startFrame) ? startFrame - 1 : startFrame + 1,
@@ -286,18 +248,9 @@ var Animator = (function () {
         this.states[startFrame].setOpacity(0);
         this.states[nextFrame].setOpacity(1);
 
-        // Create callback
-        function complete() {
-            that.crossfadeTransition();
-        }
-
         // Animate - only one should have the callback to keep animation from moving to fast
-        this.fade(startFrame, this.transitionDuration, complete);
+        this.fade(startFrame, this.transitionDuration, transitionBoxen);
         this.fade(nextFrame, this.transitionDuration);
-
-        if (nextFrame === this.targetFrame && cback) {
-            cback();
-        }
     };
 
     Animator.prototype.fade = function (frameIndex, durration, callback) {
