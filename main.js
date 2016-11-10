@@ -119,7 +119,7 @@ var boxen, animations,
                 needed: true,
                 x: 1386,
                 y: 653,
-                malicious: false,
+                mirrored: false,
                 name: "underwaterVolcano",
             }
     },
@@ -137,7 +137,7 @@ var boxen, animations,
                 needed: true,
                 x: 1215,
                 y: 624,
-                malicious: false,
+                mirrored: false,
                 name: "co3Desposition"
             }
     },
@@ -155,7 +155,7 @@ var boxen, animations,
                 needed: true,
                 x: 979,
                 y: 642,
-                malicious: false,
+                mirrored: false,
                 name: "sediment",
             }
     },
@@ -173,7 +173,7 @@ var boxen, animations,
                 needed: true,
                 x: 1408,
                 y: 463,
-                malicious: false,
+                mirrored: false,
                 name: "weatheringCRelease",
 
             }
@@ -191,7 +191,7 @@ var boxen, animations,
                 needed: true,
                 x: 994,
                 y: 485,
-                malicious: false,
+                mirrored: false,
                 name: "weatheringCBurrial",
             }
     }
@@ -317,7 +317,7 @@ function init(forcerObj, timeScaleOps) {
         box = new Animator(container.name, frames, container.isFrame, container.x, container.y, container.scale, timeScaleOps[0][container.name] - 1);
         box.display();
         if (container.macaroni.needed) {
-            box.createMacaroniMeter(container.macaroni.name + "MacaroniMeter", container.macaroni.x, container.macaroni.y, container.macaroni.malicious);
+            box.createMacaroniMeter(container.macaroni.name + "MacaroniMeter", container.macaroni.x, container.macaroni.y, container.macaroni.mirrored);
         }
         return box;
     });

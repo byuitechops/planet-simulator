@@ -96,8 +96,8 @@ var Animator = (function () {
         return this;
     };
 
-    Animator.prototype.createMacaroniMeter = function (name, x, y, malicious) {
-        var path = (malicious) ? "./images/animations/MaliciousMiniMacaroniMeter/miniMacMeter" : "./images/animations/MininMacaroniMeter/miniMacMeter";
+    Animator.prototype.createMacaroniMeter = function (name, x, y, mirrored) {
+        var path = (mirrored) ? "./images/animations/mirroredMiniMacaroniMeter/miniMacMeter" : "./images/animations/MininMacaroniMeter/miniMacMeter";
         var files = [];
         for (var i = 1; i <= 5; i++) {
             files.push(new Frame(path + i + ".png", 23, 54));
