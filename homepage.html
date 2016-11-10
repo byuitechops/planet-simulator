@@ -1,0 +1,121 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<title>Planet Simulator Home</title>
+    </head>
+    <body>
+<script type="text/x-handlebars-template" id="item_tmpl">
+    {{#each objects}}
+     <div class="outerwrap" >
+     <div class="innerwrap">
+     <h1>{{name}}</h1>
+     <div class="row">
+     	{{#each thingy}}
+      <div class="button">
+      <a href="https://byuicampuscd.github.io/planet-simulator/?file={{url}}">
+     	 <p>{{linkname}}</p>
+      </div>
+      </a>
+      {{/each}}
+      </div>
+     </div>
+     </div>
+    {{/each}}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script>
+var dataObject = {
+  objects:[
+    {name:"DAY 1", thingy: [
+    	{
+    		linkname : "co2Down",
+    		url : "co2Down"
+    	},    	
+      {
+    		linkname : "co2Up",
+    		url : "co2Up"
+    	},
+      {
+    		linkname : "VolcanoesDown",
+    		url : "VolcanoesDown"
+    	},
+      {
+      	linkname: "Volcanoes Up Ice house",
+      	url: "VolcanoesUpIcehouse"
+      }
+     ] },
+         {name:"DAY 2", thingy: [
+    	{
+    		linkname : "Volcanoes Up Hot House",
+    		url : "VolcanoesUpHothouse"
+    	},     	
+      {
+    		linkname : "Weathering up",
+    		url : "IgneousRocksUp"
+    	},    	
+      {
+    		linkname : "Weathering down",
+    		url : "IgneousRocksDown"
+    	},
+      {
+    		linkname : "Mountain building up",
+    		url : "MountainBuildHothouse"
+    	},
+            {
+    		linkname : "Mountain building down",
+    		url : "MountainBuildDown"
+    	}
+     ] },
+         {name:"DAY 3", thingy: [
+    	{
+    		linkname : "carbon burial up",
+    		url : "CBurialUp"
+    	},    	
+      {
+    		linkname : "carbon burial down",
+    		url : "CBurialDown"
+    	},
+      {
+    		linkname : "insolation up",
+    		url : "InsolationUp"
+    	},
+      {
+    		linkname : "insolation down",
+    		url : "InsolationDown"
+    	}      
+     ] },
+         {name:"DAY 4", thingy: [
+    	{
+    		linkname : "Mountains up volcanoes down",
+    		url : "MountainUpVolcanoesDown"
+    	}   
+     ] },     
+  ]
+}; // -> End of dataObject
+
+var tpl_source = $("#item_tmpl").html();
+var h = Handlebars.compile(tpl_source);
+var content = h(dataObject);
+
+// output
+var results = document.getElementById("results");
+results.innerHTML = content;
+</script>
+        
+<style>
+
+h1{color:white; font-family:'arial';text-shadow: rgba(0,0,0,1) 3px 3px 6px; margin-left:15px;}
+.row{width:100%; display:flex; margin:auto; margin-bottom:15px; align-items:stretch;}
+.outerwrap{width:80vw; margin-left: 10vw; padding:10px; margin-top:30px; box-sizing:border-box; border: 1px solid rgb(47,118,125);background-color:rgb(57,135,144);}
+.innerwrap{width:100%; box-sizing:border-box;  border: 1px solid rgb(47,118,125);background-color:rgb(47,118,125);}
+.button{width:15%; height:75px; margin-top:15px; padding:15px; background-color: rgb(187,229,251); margin:auto; }
+
+</style>
+
+<div id="results">
+output results here.
+</div>
+        </body>
+</html>
