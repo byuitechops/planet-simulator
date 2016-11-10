@@ -91,7 +91,7 @@ var Animator = (function () {
             group.setAttributeNS(null, "transform", "translate(" + this.getX() + "," + this.getY() + ")");
         }
 
-        document.querySelector("#other_crap").appendChild(group);
+        document.querySelector("#child_container").appendChild(group);
 
         // Calculate frames per step
         framesPerStep = Math.round((this.states.length) / 5);
