@@ -104,3 +104,8 @@ text {
     margin: 15px auto;
     color: red;
 }
+
+#noChangeMessage {
+    display: none;
+    font-size: 50px;
+}
