@@ -283,6 +283,10 @@ function updateBoxen(stepData) {
         return true;
     });
 
+    if(animations.length >0){
+        moveToStart();
+    };
+
     // Turn on spotlight
     $("#spotter").animate({
         opacity: 1
@@ -328,14 +332,12 @@ function init(forcerObj, timeScaleOps) {
         if (animationInProgress || $(this).hasClass("active")) {
             return false;
         }
-
         var step = parseInt(this.parentElement.id.slice(-1), 10) - 1;
         // Set active state
         $("#timeline g").removeClass("active");
         $(this.parentElement).addClass("active");
         animationInProgress = true;
         updateBoxen(timeScaleOps[step]);
-
         return false;
     });
 
