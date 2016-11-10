@@ -323,9 +323,10 @@ function init(forcerObj, timeScaleOps) {
     });
 
     // modified to make text clickable too
-    $("a, a + * + text").on("click", function () {
+    $("a, a + * + text").on("click", function (evt) {
+
         if (animationInProgress || $(this).hasClass("active")) {
-            return;
+            return false;
         }
 
         var step = parseInt(this.parentElement.id.slice(-1), 10) - 1;
@@ -334,6 +335,8 @@ function init(forcerObj, timeScaleOps) {
         $(this.parentElement).addClass("active");
         animationInProgress = true;
         updateBoxen(timeScaleOps[step]);
+
+        return false;
     });
 
 }
