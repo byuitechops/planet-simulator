@@ -17,7 +17,7 @@ var boxen, animations,
             macaroni: {
                 needed: false
             }
-    },
+        },
         {
             name: "ice",
             isFrame: false,
@@ -32,7 +32,7 @@ var boxen, animations,
             macaroni: {
                 needed: false
             }
-    },
+        },
         {
             name: "insolation",
             isFrame: true,
@@ -46,7 +46,7 @@ var boxen, animations,
             macaroni: {
                 needed: false
             }
-    },
+        },
         {
             name: "mountain",
             isFrame: false,
@@ -60,7 +60,7 @@ var boxen, animations,
             macaroni: {
                 needed: false
             }
-    },
+        },
         {
             name: "volcano",
             isFrame: true,
@@ -74,7 +74,7 @@ var boxen, animations,
             macaroni: {
                 needed: false
             }
-    },
+        },
         {
             name: "co2",
             isFrame: true,
@@ -89,7 +89,7 @@ var boxen, animations,
             macaroni: {
                 needed: false
             }
-    },
+        },
         {
             name: "temperature",
             isFrame: true,
@@ -104,7 +104,7 @@ var boxen, animations,
             macaroni: {
                 needed: false
             }
-    },
+        },
         {
             name: "underwaterVolcano",
             isFrame: true,
@@ -120,9 +120,9 @@ var boxen, animations,
                 x: 1386,
                 y: 653,
                 mirrored: false,
-                name: "underwaterVolcano",
+                name: "underwaterVolcano"
             }
-    },
+        },
         {
             name: "co3Desposition",
             isFrame: true,
@@ -140,7 +140,7 @@ var boxen, animations,
                 mirrored: false,
                 name: "co3Desposition"
             }
-    },
+        },
         {
             name: "sediment",
             isFrame: true,
@@ -156,9 +156,9 @@ var boxen, animations,
                 x: 979,
                 y: 642,
                 mirrored: false,
-                name: "sediment",
+                name: "sediment"
             }
-    },
+        },
         {
             name: "weatheringCRelease",
             isFrame: true,
@@ -174,10 +174,10 @@ var boxen, animations,
                 x: 1408,
                 y: 463,
                 mirrored: false,
-                name: "weatheringCRelease",
+                name: "weatheringCRelease"
 
             }
-    }, {
+        }, {
             name: "weatheringCBurial",
             isFrame: true,
             items: 5,
@@ -192,10 +192,10 @@ var boxen, animations,
                 x: 994,
                 y: 485,
                 mirrored: false,
-                name: "weatheringCBurrial",
+                name: "weatheringCBurrial"
             }
-    }
-];
+        }
+    ];
 
 function setForcers(forcerObj) {
     "use strict";
@@ -235,9 +235,10 @@ function setForcers(forcerObj) {
 }
 
 function animationsComplete() {
+    "use strict";
     $("#spotter").animate({
         opacity: 0
-    }, 1000, function() {
+    }, 1000, function () {
         resetSpotlightPosition();
         animationInProgress = false;
     });
@@ -283,9 +284,9 @@ function updateBoxen(stepData) {
         return true;
     });
 
-    if(animations.length >0){
+    if (animations.length > 0) {
         moveToStart();
-    };
+    }
 
     // Turn on spotlight
     $("#spotter").animate({
