@@ -8,6 +8,40 @@ function resetSpotlightPosition() {
     stoppers[1].setAttributeNS(null, "offset", 25+"%");
 }
 
+function moveToStart(){
+    var box = boxen[animations[0]],
+        xOffset = (box.name === "sediment") ? -10 : 0,
+        yOffset = (box.name === "sediment") ? 55 : 0,
+        x = box.x + (box.width * box.scale) / 2 + xOffset,
+        y = box.y + (box.height * box.scale) / 2 + yOffset,
+        width = box.width * (box.scale + .2),
+        height = box.height * (box.scale + .2),
+        spotlight = document.getElementById("spotter"),
+        light_radius = document.getElementById("light_beamz"),
+        stoppers = (light_radius.getElementsByTagName("stop")),
+        greatest = [width, height].sort().reverse()[0];
+
+    greatest = pixelsToPercent(greatest, 2588) / 2;
+    greatest = Math.round(greatest * 1000) / 1000;
+
+    //    $("#spotter").animate({opacity:0},durration/2, function(){
+    //        spotlight.setAttributeNS(null, "cx", x);
+    //        spotlight.setAttributeNS(null, "cy", y);
+    //        $("#spotter").animate({opacity:1},durration/2, callback);
+    //    });
+
+    x = Math.round(x);
+    y = Math.round(y);
+    var spotlight = document.getElementById("spotter"),
+        light_radius = document.getElementById("light_beamz"),
+        stoppers = light_radius.getElementsByTagName("stop");
+    spotlight.setAttributeNS(null, "cx", x);
+    spotlight.setAttributeNS(null, "cy", y);
+    stoppers[0].setAttributeNS(null, "offset", greatest+"%");
+    stoppers[1].setAttributeNS(null, "offset", (greatest+2)+"%");
+}
+
+
 /*
  * Centers Spotlight at Specific x & y coords and ajusts the width and height accordingly
  */
@@ -23,7 +57,7 @@ function moveSpotlight() {
         light_radius = document.getElementById("light_beamz"),
         stoppers = (light_radius.getElementsByTagName("stop")),
         greatest = [width, height].sort().reverse()[0];
-    
+
     greatest = pixelsToPercent(greatest, 2588) / 2;
     greatest = Math.round(greatest * 1000) / 1000;
 
@@ -32,7 +66,7 @@ function moveSpotlight() {
     //        spotlight.setAttributeNS(null, "cy", y);
     //        $("#spotter").animate({opacity:1},durration/2, callback);
     //    });
-    
+
     x = Math.round(x);
     y = Math.round(y);
     var interval,
@@ -49,7 +83,7 @@ function moveSpotlight() {
         var currentPercent = getStopperPercent(stoppers[0]),
             currentX = parseInt(spotlight.getAttributeNS(null, "cx")),
             currentY = parseInt(spotlight.getAttributeNS(null, "cy"));
-        
+
         if (currentX === x && currentY === y && currentPercent === greatest) {
             //Stop interval
             clearInterval(interval);

@@ -51,14 +51,14 @@ var Animator = (function () {
         } else {
             group.setAttributeNS(null, "transform", "translate(" + animator.x + "," + animator.y + ")");
         }
-        
+
         if (animator.isFrame) {
             animator.transition = animator.frameTransition;
         } else {
             animator.transition = animator.crossfadeTransition;
         }
 
-        document.querySelector("#other_crap").appendChild(group);
+        document.querySelector("#child_container").appendChild(group);
         animator.currentFrame = animator.targetFrame;
 
         animator.states.forEach(function (frame, index) {
@@ -96,8 +96,8 @@ var Animator = (function () {
         return this;
     };
 
-    Animator.prototype.createMacaroniMeter = function (name, x, y, malicious) {
-        var path = (malicious) ? "./images/animations/MaliciousMiniMacaroniMeter/miniMacMeter" : "./images/animations/MininMacaroniMeter/miniMacMeter";
+    Animator.prototype.createMacaroniMeter = function (name, x, y, mirrored) {
+        var path = (mirrored) ? "./images/animations/mirroredMiniMacaroniMeter/miniMacMeter" : "./images/animations/MininMacaroniMeter/miniMacMeter";
         var files = [];
         for (var i = 1; i <= 5; i++) {
             files.push(new Frame(path + i + ".png", 23, 54));
@@ -110,11 +110,11 @@ var Animator = (function () {
 
     Animator.prototype.frameTransition = function (callback) {
         var frameIndex;
-        
+
         if (this.MiniMacaroniMeter) {
             this.MiniMacaroniMeter.transition();
         }
-        
+
         // Determine frame to animate and set necessary values
         if (this.targetFrame < this.currentFrame) {
             frameIndex = this.currentFrame;

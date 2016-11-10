@@ -41,9 +41,10 @@ function setForcers(forcerObj) {
 }
 
 function animationsComplete() {
+    "use strict";
     $("#spotter").animate({
         opacity: 0
-    }, 1000, function() {
+    }, 1000, function () {
         resetSpotlightPosition();
         animationInProgress = false;
     });
@@ -88,7 +89,11 @@ function updateBoxen(stepData) {
         }
         return true;
     });
-    
+
+    if (animations.length > 0) {
+        moveToStart();
+    }
+
     // Turn on spotlight
     $("#spotter").animate({
         opacity: 1
@@ -125,7 +130,7 @@ function init(forcerObj, timeScaleOps) {
         box = new Animator(container.name, frames, container.isFrame, container.x, container.y, container.scale, timeScaleOps[0][container.name] - 1);
         box.display();
         if (container.macaroni.needed) {
-            box.createMacaroniMeter(container.macaroni.name + "MacaroniMeter", container.macaroni.x, container.macaroni.y, container.macaroni.malicious);
+            box.createMacaroniMeter(container.macaroni.name + "MacaroniMeter", container.macaroni.x, container.macaroni.y, container.macaroni.mirrored);
         }
         return box;
     });
@@ -135,13 +140,13 @@ function init(forcerObj, timeScaleOps) {
         if (animationInProgress || $(this.parentElement).hasClass("active")) {
             return;
         }
-
         var step = parseInt(this.parentElement.id.slice(-1), 10) - 1;
         // Set active state
         $("#timeline g").removeClass("active");
         $(this.parentElement).addClass("active");
         animationInProgress = true;
         updateBoxen(timeScaleOps[step]);
+        return false;
     });
 
 }
