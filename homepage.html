@@ -24,7 +24,25 @@
      </div>
     {{/each}}
 </script>
+
+        
+<style>
+
+h1{color:white; font-family:'arial';text-shadow: rgba(0,0,0,1) 3px 3px 6px; margin-left:15px;}
+.row{width:100%; display:flex; margin:auto; margin-bottom:15px; align-items:stretch;}
+.outerwrap{width:80vw; margin-left: 10vw; padding:10px; margin-top:30px; box-sizing:border-box; border: 1px solid rgb(47,118,125);background-color:rgb(57,135,144);}
+.innerwrap{width:100%; box-sizing:border-box;  border: 1px solid rgb(47,118,125);background-color:rgb(47,118,125);}
+.button{width:15%; height:75px; margin-top:15px; padding:15px; background-color: rgb(187,229,251); margin:auto; }
+
+</style>
+
+<div id="results">
+output results here.
+</div>
+      
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+      
 <script>
 var dataObject = {
   objects:[
@@ -103,19 +121,5 @@ var content = h(dataObject);
 var results = document.getElementById("results");
 results.innerHTML = content;
 </script>
-        
-<style>
-
-h1{color:white; font-family:'arial';text-shadow: rgba(0,0,0,1) 3px 3px 6px; margin-left:15px;}
-.row{width:100%; display:flex; margin:auto; margin-bottom:15px; align-items:stretch;}
-.outerwrap{width:80vw; margin-left: 10vw; padding:10px; margin-top:30px; box-sizing:border-box; border: 1px solid rgb(47,118,125);background-color:rgb(57,135,144);}
-.innerwrap{width:100%; box-sizing:border-box;  border: 1px solid rgb(47,118,125);background-color:rgb(47,118,125);}
-.button{width:15%; height:75px; margin-top:15px; padding:15px; background-color: rgb(187,229,251); margin:auto; }
-
-</style>
-
-<div id="results">
-output results here.
-</div>
         </body>
 </html>
