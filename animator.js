@@ -1,5 +1,20 @@
 /*jslint plusplus: true, browser: true, devel: true */
 /*global $, states*/
+
+
+function appendImageToSVG(element, url, x, y, width, height) {
+    var image = document.createElementNS("http://www.w3.org/2000/svg", "image");
+    image.setAttributeNS("http://www.w3.org/1999/xlink", "href", url);
+    image.setAttributeNS(null, "x", x);
+    image.setAttributeNS(null, "y", y);
+    image.setAttributeNS(null, "width", width);
+    image.setAttributeNS(null, "height", height);
+    image.setAttributeNS(null, "visibility", "visibile");
+
+    document.querySelector(element).appendChild(image);
+}
+
+
 var Frame = (function () {
     "use strict";
 
@@ -166,6 +181,7 @@ var Animator = (function () {
             opacity: this.states[frameIndex].opacity
         }, durration, callback);
     };
+
 
     return Animator;
 }());
