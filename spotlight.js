@@ -1,3 +1,5 @@
+/*jslint plusplus: true, browser: true, devel: true */
+/*global boxen, animations, checkAnimationStatus*/
 function getStopperPercent(el) {
     "use strict";
     var percent;
@@ -59,7 +61,6 @@ function moveToStart() {
     stoppers[1].setAttributeNS(null, "offset", (greatest + 2) + "%");
 }
 
-
 /*
  * Centers Spotlight at Specific x & y coords and ajusts the width and height accordingly
  */
@@ -102,7 +103,7 @@ function moveSpotlight() {
     percentIncrementor = (startPercent < greatest) ? 0.2 : -0.2;
     xIncrementor = (startX < x) ? 10 : -10;
     yIncrementor = (startY < y) ? 10 : -10;
-    
+
     //    $("#spotter").animate({cx: x, cy:y},durration/2, callback);
 
     function animateBeam() {
@@ -137,4 +138,3 @@ function moveSpotlight() {
     interval = setInterval(animateBeam, 10);
 
 }
-
