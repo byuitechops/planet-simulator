@@ -134,6 +134,10 @@ var containers = [
         y: 564,
         path: "./images/animations/seaSnow/seaSnow",
         ext: ".gif",
+        scale: {
+            x: 1,
+            y: 0.72
+        },
         macaroni: {
             needed: true,
             x: 1215,
