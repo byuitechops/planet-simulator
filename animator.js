@@ -97,16 +97,17 @@ var Animator = (function () {
     };
 
     Animator.prototype.createMacaroniMeter = function (name, x, y, mirrored) {
-        var path = (mirrored) ? "./images/animations/mirroredMiniMacaroniMeter/miniMacMeter" : "./images/animations/MininMacaroniMeter/miniMacMeter";
-        var files = [];
-        for (var i = 1; i <= 5; i++) {
+        var i,
+            files = [],
+            path = (mirrored) ? "./images/animations/mirroredMiniMacaroniMeter/miniMacMeter" : "./images/animations/MininMacaroniMeter/miniMacMeter";
+        for (i = 1; i <= 5; i++) {
             files.push(new Frame(path + i + ".png", 23, 54));
         }
 
         this.MiniMacaroniMeter = new Animator(name, files, true, x, y, this.scale, this.currentFrame);
         this.MiniMacaroniMeter.display();
         return this;
-    }
+    };
 
     Animator.prototype.frameTransition = function (callback) {
         var frameIndex;
