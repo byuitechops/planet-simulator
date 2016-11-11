@@ -1,3 +1,5 @@
+/*jslint plusplus: true, browser: true, devel: true */
+/*global boxen, animations, checkAnimationStatus*/
 function getStopperPercent(el) {
     "use strict";
     var percent;
@@ -32,10 +34,10 @@ function moveToStart() {
     var box = boxen[animations[0]],
         xOffset = (box.name === "sediment") ? -10 : 0,
         yOffset = (box.name === "sediment") ? 55 : 0,
-        x = box.x + (box.width * box.scale) / 2 + xOffset,
-        y = box.y + (box.height * box.scale) / 2 + yOffset,
-        width = box.width * (box.scale + 0.2),
-        height = box.height * (box.scale + 0.2),
+        x = box.x + (box.width * box.scale.x) / 2 + xOffset,
+        y = box.y + (box.height * box.scale.y) / 2 + yOffset,
+        width = box.width * (box.scale.x + 0.2),
+        height = box.height * (box.scale.y + 0.2),
         spotlight = document.getElementById("spotter"),
         light_radius = document.getElementById("light_beamz"),
         stoppers = (light_radius.getElementsByTagName("stop")),
@@ -59,7 +61,6 @@ function moveToStart() {
     stoppers[1].setAttributeNS(null, "offset", (greatest + 2) + "%");
 }
 
-
 /*
  * Centers Spotlight at Specific x & y coords and ajusts the width and height accordingly
  */
@@ -68,10 +69,10 @@ function moveSpotlight() {
     var box = boxen[animations[0]],
         xOffset = (box.name === "sediment") ? -10 : 0,
         yOffset = (box.name === "sediment") ? 55 : 0,
-        x = box.x + (box.width * box.scale) / 2 + xOffset,
-        y = box.y + (box.height * box.scale) / 2 + yOffset,
-        width = box.width * (box.scale + 0.2),
-        height = box.height * (box.scale + 0.2),
+        x = box.x + (box.width * box.scale.x) / 2 + xOffset,
+        y = box.y + (box.height * box.scale.y) / 2 + yOffset,
+        width = box.width * (box.scale.x + 0.2),
+        height = box.height * (box.scale.y + 0.2),
         spotlight = document.getElementById("spotter"),
         light_radius = document.getElementById("light_beamz"),
         stoppers = (light_radius.getElementsByTagName("stop")),
@@ -102,7 +103,7 @@ function moveSpotlight() {
     percentIncrementor = (startPercent < greatest) ? 0.2 : -0.2;
     xIncrementor = (startX < x) ? 10 : -10;
     yIncrementor = (startY < y) ? 10 : -10;
-    
+
     //    $("#spotter").animate({cx: x, cy:y},durration/2, callback);
 
     function animateBeam() {
@@ -137,4 +138,3 @@ function moveSpotlight() {
     interval = setInterval(animateBeam, 10);
 
 }
-

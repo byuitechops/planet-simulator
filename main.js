@@ -1,5 +1,5 @@
 /*jslint plusplus: true, browser: true, devel: true */
-/*global $, Frame, Animator, moveLightBeam, transitionBoxen, createSpotlight, getCSV*/
+/*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart*/
 var boxen, animations,
     animationInProgress = false;
 
@@ -102,7 +102,7 @@ function updateBoxen(stepData) {
     if (animations.length > 0) {
         moveSpotlight();
     } else {
-        $('#noChangeMessage').delay(500).fadeIn(800, function() {
+        $('#noChangeMessage').delay(500).fadeIn(800, function () {
             $('#noChangeMessage').delay(1000).fadeOut(800, animationsComplete);
         });
     }
@@ -171,8 +171,51 @@ getCSV(function (err, csvData) {
     init(forcerObj, csvData);
 });
 
-//$("svg").on("mousemove",function(options){
-//    console.clear();
-//    console.log({x:options.clientX, y:options.clientY});
-//    document.getElementById("cursor").setAttributeNS(null, "transform", `translate(${options.clientX*2},${options.clientY*2}) scale(1)`);
-//});
+//for placing pictures
+function placeSomething(selectorIn) {
+
+    "use strict";
+    var clickCounter = 0,
+        clickCounterMax = 1,
+        fixX = 161,
+        fixY = 9,
+        selector = selectorIn,
+
+        obj = {
+            x: 0,
+            y: 0,
+            scale: 1
+        };
+
+    function runTransform() {
+        var ele = document.querySelector(selector);
+        if (ele) {
+            ele.setAttributeNS(null, "transform", 'translate(' + obj.x + ',' + obj.y + ') scale(' + obj.scale + ')');
+        }
+    }
+
+    $("svg").on("mousemove", function (options) {
+        if (clickCounter < clickCounterMax) {
+            console.clear();
+            obj.x = options.clientX - fixX;
+            obj.y = options.clientY - fixY;
+            console.log(obj);
+            runTransform();
+        }
+    });
+
+    $("svg").on("click", function (options) {
+        clickCounter += 1;
+    });
+
+    document.querySelector("svg").addEventListener("wheel", function (event) {
+        if (clickCounter < clickCounterMax) {
+            obj.scale = +((obj.scale - event.deltaY / 100 * 0.05).toFixed(2));
+            console.log(obj);
+            runTransform();
+        }
+    });
+
+}
+
+//placeSomething("#insolation");
