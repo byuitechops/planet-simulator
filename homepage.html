@@ -7,23 +7,27 @@
 </head>
 <body>
     <script type="text/x-handlebars-template" id="item_tmpl">
+        <div class="container">
         <h1>Planet Simulator Home</h1>
-        {{#each objects}}
-            <div class="outerwrap">
-                <div class="innerwrap">
-                    <h2>{{name}}</h2>
-                    <div class="row">
-                        {{#each thingy}}
-                            <div class="button">
-                                <a href="index.html?file={{url}}" target="_blank">
-                                    <p>{{linkname}}</p>
-                            </div>
-                            </a>
-                        {{/each}}
+            {{#each objects}}
+                <div class="row  space-4">
+                    <div class="innerwrap col-xs-12">
+                        <h2>{{name}}</h2>
+                        <div class="row space-2">
+                            {{#each thingy}}
+                                <div class="col-xs-3">
+                                    <div class="button">
+                                        <a class="full-btn-link" href="index.html?file={{url}}" target="_blank">
+                                            <p>{{linkname}}</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            {{/each}}
+                        </div>
                     </div>
                 </div>
-            </div>
-        {{/each}}
+            {{/each}}
+        </div>
     </script>
 
     <style>
@@ -42,53 +46,45 @@
             text-shadow: rgba(0, 0, 0, 1) 3px 3px 6px;
             margin-left: 15px;
         }
-        
-        .row {
-            width: 100%;
-            display: flex;
-            margin: auto;
-            margin-bottom: 15px;
-            align-items: stretch;
-        }
-        
-        .outerwrap {
-            width: 100%;
-            padding: 10px;
-            margin-top: 30px;
-            box-sizing: border-box;
-            border: 1px solid rgb(47, 118, 125);
-            background-color: rgb(57, 135, 144);
-        }
-        
+
         .innerwrap {
-            width: 100%;
             box-sizing: border-box;
-            border: 1px solid rgb(47, 118, 125);
+            border: 10px solid rgb(47, 118, 125);
             background-color: rgb(47, 118, 125);
         }
         
         .button {
-            width: 15%;
             height: 75px;
-            margin-top: 15px;
+            margin-bottom: 30px;
             padding: 15px;
             background-color: rgb(187, 229, 251);
-            margin: auto;
         }
         
+        .full-btn-link {
+            display:block;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* May not be needed, delete if unnecessary
         #results {
             max-width: 81vw;
             margin: 0 auto;
         }
-
+        */
     </style>
 
     <div id="results">
         output results here.
     </div>
 
+    <!-- HANDLEBARS and JQUERY-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+    <!-- BOOTSTRAP imports -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <script>
         var dataObject = {
