@@ -50,8 +50,8 @@ var containers = [
         items: 5,
         width: 334,
         height: 412,
-        x: -5,
-        y: 180,
+        x: -75,
+        y: 150,
         path: "./images/animations/lightRays/lightRay",
         ext: ".png",
         macaroni: {
