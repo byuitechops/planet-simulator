@@ -1,5 +1,5 @@
 /*jslint plusplus: true, browser: true, devel: true */
-/*global $:false, Frame:false, Animator:false, moveLightBeam:false, transitionBoxen:false, createSpotlight:false, getCSV:false*/
+/*global $, Frame, Animator, moveLightBeam, transitionBoxen, createSpotlight, getCSV*/
 var boxen, animations,
     animationInProgress = false;
 
@@ -171,8 +171,8 @@ getCSV(function (err, csvData) {
     init(forcerObj, csvData);
 });
 
-/*$("svg").on("mousemove",function(options){
-    console.clear();
-    console.log({x:options.clientX, y:options.clientY});
-    document.getElementById("cursor").setAttributeNS(null, "transform", `translate(${options.clientX},${options.clientY}) scale(1)`);
-});*/
+//$("svg").on("mousemove",function(options){
+//    console.clear();
+//    console.log({x:options.clientX, y:options.clientY});
+//    document.getElementById("cursor").setAttributeNS(null, "transform", `translate(${options.clientX*2},${options.clientY*2}) scale(1)`);
+//});

@@ -115,7 +115,7 @@ var containers = [
             needed: true,
             x: 1386,
             y: 653,
-            malicious: false,
+            mirrored: false,
             name: "underwaterVolcano",
         }
     },
@@ -133,7 +133,7 @@ var containers = [
             needed: true,
             x: 1215,
             y: 624,
-            malicious: false,
+            mirrored: false,
             name: "co3Desposition"
         }
     },
@@ -151,7 +151,7 @@ var containers = [
             needed: true,
             x: 979,
             y: 642,
-            malicious: false,
+            mirrored: false,
             name: "sediment",
         }
     },
@@ -167,9 +167,9 @@ var containers = [
         ext: ".gif",
         macaroni: {
             needed: true,
-            x: 1408,
-            y: 463,
-            malicious: false,
+            x: 770 * 2,
+            y: 232 * 2,
+            mirrored: true,
             name: "weatheringCRelease",
 
         }
@@ -187,7 +187,7 @@ var containers = [
             needed: true,
             x: 994,
             y: 485,
-            malicious: false,
+            mirrored: false,
             name: "weatheringCBurrial",
         }
     }
