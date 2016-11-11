@@ -18,10 +18,11 @@ var containers = [
         name: "volcano",
         isFrame: true,
         items: 5,
-        width: 325,
-        height: 322,
-        x: 268,
-        y: 400,
+        width: 401,
+        height: 417,
+        x: 207,
+        y: 359,
+        scale: 1.1,
         path: "./images/animations/volcanoes/volcano",
         ext: ".png",
         macaroni: {
@@ -49,7 +50,7 @@ var containers = [
         items: 5,
         width: 334,
         height: 412,
-        x: -4,
+        x: -5,
         y: 180,
         path: "./images/animations/lightRays/lightRay",
         ext: ".png",
@@ -63,8 +64,9 @@ var containers = [
         items: 5,
         width: 187,
         height: 238,
-        x: 155,
-        y: 456,
+        x: 125,
+        y: 441,
+        scale: 1.1,
         path: "./images/animations/mountains/mountain",
         ext: ".png",
         macaroni: {
@@ -75,13 +77,12 @@ var containers = [
         name: "co2",
         isFrame: true,
         items: 9,
-        width: 70,
-        height: 135,
-        x: 482,
-        y: 281,
+        width: 128,
+        height: 444,
+        x: 562,
+        y: 344,
         path: "./images/animations/co2Meter/co2Meter",
         ext: ".png",
-        scale: 4.3,
         macaroni: {
             needed: false
         }
@@ -90,13 +91,12 @@ var containers = [
         name: "temperature",
         isFrame: true,
         items: 9,
-        width: 70,
-        height: 135,
-        x: 482,
-        y: 281,
+        width: 151,
+        height: 525,
+        x: 587,
+        y: 306,
         path: "./images/animations/tempMeter/tempMeter",
         ext: ".png",
-        scale: 4.25,
         macaroni: {
             needed: false
         }
@@ -116,7 +116,7 @@ var containers = [
             x: 1386,
             y: 653,
             mirrored: false,
-            name: "underwaterVolcano",
+            name: "underwaterVolcano"
         }
     },
     {
@@ -152,7 +152,7 @@ var containers = [
             x: 979,
             y: 642,
             mirrored: false,
-            name: "sediment",
+            name: "sediment"
         }
     },
     {
@@ -167,13 +167,14 @@ var containers = [
         ext: ".gif",
         macaroni: {
             needed: true,
-            x: 770 * 2,
-            y: 232 * 2,
+            x: 1540,
+            y: 464,
             mirrored: true,
-            name: "weatheringCRelease",
+            name: "weatheringCRelease"
 
         }
-    }, {
+    },
+    {
         name: "weatheringCBurial",
         isFrame: true,
         items: 5,
@@ -188,7 +189,7 @@ var containers = [
             x: 994,
             y: 485,
             mirrored: false,
-            name: "weatheringCBurrial",
+            name: "weatheringCBurrial"
         }
     }
 ];
