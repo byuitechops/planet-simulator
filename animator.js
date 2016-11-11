@@ -21,6 +21,21 @@ var Animator = (function () {
 
     "use strict";
 
+    function getScale(scale) {
+        if (typeof scale === "object") {
+            return scale;
+        } else if (typeof scale === "number") {
+            return {
+                x: scale,
+                y: scale
+            };
+        }
+        return {
+            x: 1,
+            y: 1
+        };
+    }
+
     function Animator(name, states, isFrame, x, y, scale, targetStep) {
         this.x = x;
         this.y = y;
@@ -33,7 +48,7 @@ var Animator = (function () {
         this.name = name;
         this.transitionDuration = 500;
         this.frames = [];
-        this.scale = scale || 1;
+        this.scale = getScale(scale);
         this.width = this.states[0].width;
         this.height = this.states[0].height;
         this.MiniMacaroniMeter = null;
@@ -46,11 +61,7 @@ var Animator = (function () {
 
         group.setAttributeNS(null, "id", animator.name);
 
-        if (animator.scale) {
-            group.setAttributeNS(null, "transform", "translate(" + animator.x + "," + animator.y + ") scale(" + animator.scale + ")");
-        } else {
-            group.setAttributeNS(null, "transform", "translate(" + animator.x + "," + animator.y + ")");
-        }
+        group.setAttributeNS(null, "transform", "translate(" + animator.x + "," + animator.y + ") scale(" + animator.scale.x + " " + animator.scale.y + ")");
 
         if (animator.isFrame) {
             animator.transition = animator.frameTransition;
@@ -104,7 +115,7 @@ var Animator = (function () {
             files.push(new Frame(path + i + ".png", 23, 54));
         }
 
-        this.MiniMacaroniMeter = new Animator(name, files, true, x, y, this.scale, this.currentFrame);
+        this.MiniMacaroniMeter = new Animator(name, files, true, x, y, 1, this.currentFrame);
         this.MiniMacaroniMeter.display();
         return this;
     };
