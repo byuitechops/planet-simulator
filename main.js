@@ -1,5 +1,5 @@
 /*jslint plusplus: true, browser: true, devel: true */
-/*global $, Frame, Animator, moveLightBeam, transitionBoxen, createSpotlight, getCSV*/
+/*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart*/
 var boxen, animations,
     animationInProgress = false;
 
@@ -102,7 +102,7 @@ function updateBoxen(stepData) {
     if (animations.length > 0) {
         moveSpotlight();
     } else {
-        $('#noChangeMessage').delay(500).fadeIn(800, function() {
+        $('#noChangeMessage').delay(500).fadeIn(800, function () {
             $('#noChangeMessage').delay(1000).fadeOut(800, animationsComplete);
         });
     }

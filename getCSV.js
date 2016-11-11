@@ -13,7 +13,8 @@ var getCSV = (function () {
     }
 
     function ajaxFile(fileName, ajaxCallback) {
-        $.ajax(fileName + ".csv", {
+
+        $.ajax('./csvs/' + fileName + ".csv", {
             dataType: 'text',
             success: function (fileText) {
                 ajaxCallback(null, fileText);
