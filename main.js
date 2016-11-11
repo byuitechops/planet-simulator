@@ -176,74 +176,46 @@ function placeSomething(selectorIn) {
 
     "use strict";
     var clickCounter = 0,
-        clickCountMax = 1,
+        clickCounterMax = 1,
+        fixX = 161,
+        fixY = 9,
+        selector = selectorIn,
+
         obj = {
             x: 0,
             y: 0,
             scale: 1
         };
 
-    function getElement() {
-        var ele = document.querySelector(selectorIn),
-            eleWidth,
-            eleHeight,
-            box;
-
-        if (ele) {
-            box = ele.getBoundingClientRect();
-
-            eleWidth = box.width;
-            eleHeight = box.height;
-        }
-
-        return {
-            element: ele,
-            width: eleHeight,
-            height: eleHeight
-        };
-    }
-
-    function updateObj(event) {
-        var elementObj = getElement();
-
-        if (elementObj.element) {
-            obj.x = event.clientX - (elementObj.width / 2);
-            obj.y = event.clientY - (elementObj.height / 2);
-            if (event.deltaY) {
-                obj.scale = +((obj.scale - (event.deltaY / 100 * 0.05)).toFixed(2));
-            }
-        }
-    }
-
     function runTransform() {
-        var ele = document.querySelector(selectorIn);
+        var ele = document.querySelector(selector);
         if (ele) {
             ele.setAttributeNS(null, "transform", 'translate(' + obj.x + ',' + obj.y + ') scale(' + obj.scale + ')');
         }
     }
 
-    $("svg").on("click", function (options) {
-        clickCounter += 1;
-
-        if (clickCounter === clickCountMax) {
+    $("svg").on("mousemove", function (options) {
+        if (clickCounter < clickCounterMax) {
+            console.clear();
+            obj.x = options.clientX - fixX;
+            obj.y = options.clientY - fixY;
             console.log(obj);
-        }
-    });
-
-    $("svg").on("mousemove", function (event) {
-        if (clickCounter < clickCountMax) {
-            updateObj(event);
             runTransform();
         }
     });
 
+    $("svg").on("click", function (options) {
+        clickCounter += 1;
+    });
+
     document.querySelector("svg").addEventListener("wheel", function (event) {
-        if (clickCounter < clickCountMax) {
-            updateObj(event);
+        if (clickCounter < clickCounterMax) {
+            obj.scale = +((obj.scale - event.deltaY / 100 * 0.05).toFixed(2));
+            console.log(obj);
             runTransform();
         }
     });
 
 }
 
-placeSomething("#");
+//placeSomething("#insolation");
