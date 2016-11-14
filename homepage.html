@@ -17,7 +17,7 @@
                         <div class="row">
                             {{#each thingy}}
                                 <div class="col-xs-3">
-                                    <div class="button">
+                                    <div class="button" style="background-image:url(images/paper-doll/{{icon}})">
                                         <a class="full-btn-link" href="index.html?file={{url}}" target="_blank">
                                             <p>{{linkname}}</p>
                                         </a>
@@ -49,13 +49,12 @@
         h1 {
             color: white;
             font-size:50px;
-            padding-top:35px;
+            padding-top:50px;
             padding-bottom:10px;
             text-align:center;
-            text-shadow: rgba(0, 0, 0, 1) 5px 5px 6px;
+            text-shadow: rgba(0, 0, 0, 1) 3px 3px 5px;
             border: 0px solid rgb(57, 135, 144);
-            border-image: linear-gradient(, rgba(57, 135, 144, 1)) 10;
-            background:linear-gradient( 0deg, rgba(47, 118, 125, 1), rgba(47, 118, 125, 0) );
+            /*background:linear-gradient( 0deg, rgba(47, 118, 125, 1), rgba(47, 118, 125, 0) );*/
         }
 
         h2 {
@@ -71,18 +70,31 @@
         }
 
         .button {
-            height: 75px;
             margin-bottom: 30px;
-            padding: 15px;
-            background-color: rgb(187, 229, 251);
+
+            background-color: rgb(35,82,85);
+            border-radius:3px;
+            background-repeat:no-repeat;
+            background-position:center center;
+            position:relative;
         }
 
-        .full-btn-link {
-            display:block;
+        .button p{
+            font-family:'arial';
+            font-size:20px;
+            text-align:center;
+            color: white;
+            text-shadow: rgb(0, 0, 0) 1px 1px 5px;
+
+        }
+
+        .button a{
+            display:inline-block;
             height: 100%;
             width: 100%;
+            text-decoration:none;
+            padding: 15px;
         }
-
 
 
         .space-4{
@@ -93,6 +105,8 @@
             height:100%;
             width:100%;
             background:url(images/paper-doll/simblur.png);
+            background-size:cover;
+            background-position:center center;
             /*-webkit-animation: thefinalfrontier 30s linear infinite;   NO SCROLLING ANIMATION*/
             /*animation: thefinalfrontier 30s linear infinite;*/
             background-color:black;
@@ -132,11 +146,13 @@
                 },
                 {
                     linkname: "Volcanoes Down",
-                    url: "VolcanoesDown"
+                    url: "VolcanoesDown",
+                    icon: "volcanoes_active.png"
                 },
                 {
                     linkname: "Volcanoes Up Ice house",
-                    url: "VolcanoesUpIcehouse"
+                    url: "VolcanoesUpIcehouse",
+                    icon: "volcanoes_active.png"
                 }]
             },
             {
@@ -144,23 +160,28 @@
                 thingy: [
                 {
                     linkname: "Volcanoes Up Hot House",
-                    url: "VolcanoesUpHothouse"
+                    url: "VolcanoesUpHothouse",
+                    icon: "volcanoes_active.png"
                 },
                 {
                     linkname: "Weathering Up",
-                    url: "IgneousRocksUp"
+                    url: "IgneousRocksUp",
+                    icon: "carbonBurial_active.png"
                 },
                 {
                     linkname: "Weathering Down",
-                    url: "IgneousRocksDown"
+                    url: "IgneousRocksDown",
+                    icon: "carbonBurial_active.png"
                 },
                 {
                     linkname: "Mountain Building Up",
-                    url: "MountainBuildHothouse"
+                    url: "MountainBuildHothouse",
+                    icon: "mountains_active.png"
                 },
                 {
                     linkname: "Mountain Building Down",
-                    url: "MountainBuildDown"
+                    url: "MountainBuildDown",
+                    icon: "mountains_active.png"
                 }]
             },
             {
@@ -176,11 +197,13 @@
                 },
                 {
                     linkname: "Insolation Up",
-                    url: "InsolationUp"
+                    url: "IsolationUp",
+                    icon: "insulation_active.png"
                 },
                 {
                     linkname: "Insolation Down",
-                    url: "InsolationDown"
+                    url: "IsolationDown",
+                    icon: "insulation_active.png"
                 }]
             },
             {
@@ -188,7 +211,8 @@
                 thingy: [
                 {
                     linkname: "Mountains Up and Volcanoes Down",
-                    url: "MountainUpVolcanoesDown"
+                    url: "MountainUpVolcanoesDown",
+                    icon: "mountains_active.png"
                 }]
             }, ]
         }; // -> End of dataObject
