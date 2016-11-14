@@ -176,8 +176,8 @@ var containers = [
         ext: ".gif",
         macaroni: {
             needed: true,
-            x: 1540,
-            y: 464,
+            x: 1560,
+            y: 458,
             mirrored: true,
             name: "weatheringCRelease"
 
