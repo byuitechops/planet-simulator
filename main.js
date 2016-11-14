@@ -140,7 +140,7 @@ function init(forcerObj, timeScaleOps) {
         if (animationInProgress || $(this.parentElement).hasClass("active")) {
             return;
         }
-
+        // IE 11 Support
         var parent = this.parentElement || this.parentNode;
         var step = parseInt(parent.id.slice(-1), 10) - 1;
         // Set active state

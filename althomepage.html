@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Planet Simulator Home</title>
+    <title>Climate Simulator Home</title>
 </head>
 <body>
     <script type="text/x-handlebars-template" id="item_tmpl">
         <div class="background">
             <div class="container">
-                <h1 class="row">Planet Simulator Home</h1>
+                <h1 class="row">Climate Simulator Home</h1>
                 <div class="row space-4">
                     <div class="innerwrap col-xs-12">
                         <div class="row" style="margin-top:15px;">
@@ -40,6 +40,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <style>
+        body{
+            background:linear-gradient(black, rgba(47, 118, 125, 1));
+            background-attachment:fixed;
+        }
         h1,
         h2 {
             font-family: 'arial';
@@ -102,14 +106,16 @@
         }
 
         .background {
-            height:100vh;
+            height:100%;
             width:100%;
-            background:url(images/paper-doll/simblur.png);
-            background-size:cover;
+            min-height:838px;
+            background-image:url(images/paper-doll/simblur.png);
+            background-size:auto;
+            background-repeat:no-repeat;
+            background-attachment:fixed;
             background-position:center center;
             /*-webkit-animation: thefinalfrontier 30s linear infinite;   NO SCROLLING ANIMATION*/
             /*animation: thefinalfrontier 30s linear infinite;*/
-            background-color:black;
         }
 
         @-webkit-keyframes thefinalfrontier {
