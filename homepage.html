@@ -41,7 +41,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <style>
-
+        body{
+            background:linear-gradient(black, rgba(47, 118, 125, 1));
+            background-attachment:fixed;
+        }
         h1,
         h2 {
             font-family: 'arial';
@@ -55,7 +58,7 @@
             text-align:center;
             text-shadow: rgba(0, 0, 0, 1) 3px 3px 5px;
             border: 0px solid rgb(57, 135, 144);
-            /*background:linear-gradient( 0deg, rgba(47, 118, 125, 1), rgba(47, 118, 125, 0) );*/
+            background:linear-gradient( 0deg, rgba(47, 118, 125, 1), rgba(255, 255, 255, 0) );
         }
 
         h2 {
@@ -67,7 +70,7 @@
         .innerwrap {
             box-sizing: border-box;
             border: 10px solid rgb(57, 135, 144);
-            background-color: rgba(47, 118, 125,0.8);
+            background-color: rgba(47, 118, 125,1);
         }
 
         .button {
@@ -108,8 +111,9 @@
             height:100%;
             width:100%;
             background-image:url(images/paper-doll/simblur.png);
-            background-size:cover;
+            background-size:auto;
             background-repeat:no-repeat;
+            background-attachment:fixed;
             background-position:center center;
             /*-webkit-animation: thefinalfrontier 30s linear infinite;   NO SCROLLING ANIMATION*/
             /*animation: thefinalfrontier 30s linear infinite;*/
