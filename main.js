@@ -140,7 +140,9 @@ function init(forcerObj, timeScaleOps) {
         if (animationInProgress || $(this.parentElement).hasClass("active")) {
             return;
         }
-        var step = parseInt(this.parentElement.id.slice(-1), 10) - 1;
+
+        var parent = this.parentElement || this.parentNode;
+        var step = parseInt(parent.id.slice(-1), 10) - 1;
         // Set active state
         $("#timeline g").removeClass("active");
         $(this.parentElement).addClass("active");
