@@ -1,7 +1,8 @@
 /*jslint plusplus: true, browser: true, devel: true */
 /*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart*/
 var boxen, animations,
-    animationInProgress = false;
+    animationInProgress = false,
+    spotlight = new Spotlight();
 
 function setForcers(forcerObj) {
     "use strict";
@@ -45,7 +46,7 @@ function animationsComplete() {
     $("#spotter").animate({
         opacity: 0
     }, 1000, function () {
-        resetSpotlightPosition();
+        spotlight.resetSpotlightPosition();
         animationInProgress = false;
     });
 }
@@ -57,7 +58,7 @@ function checkAnimationStatus() {
     if (box.targetFrame === box.currentFrame) {
         animations.shift();
         if (animations.length > 0) {
-            moveSpotlight();
+            spotlight.moveSpotlight();
         } else {
             animationsComplete();
         }
@@ -91,7 +92,7 @@ function updateBoxen(stepData) {
     });
 
     if (animations.length > 0) {
-        moveToStart();
+        spotlight.moveToStart();
     }
 
     // Turn on spotlight
@@ -100,7 +101,7 @@ function updateBoxen(stepData) {
     }, 1000);
 
     if (animations.length > 0) {
-        moveSpotlight();
+        spotlight.moveSpotlight();
     } else {
         $('#noChangeMessage').delay(500).fadeIn(800, function () {
             $('#noChangeMessage').delay(1000).fadeOut(800, animationsComplete);
@@ -108,7 +109,6 @@ function updateBoxen(stepData) {
     }
 
 }
-
 function init(forcerObj, timeScaleOps) {
     "use strict";
 
