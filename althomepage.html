@@ -1,0 +1,228 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Planet Simulator Home</title>
+</head>
+<body>
+    <script type="text/x-handlebars-template" id="item_tmpl">
+        <div class="background">
+            <div class="container">
+                <h1 class="row">Planet Simulator Home</h1>
+                <div class="row space-4">
+                    <div class="innerwrap col-xs-12">
+                        <div class="row" style="margin-top:15px;">
+                            {{#each objects}}
+                                {{#each thingy}}
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="button" style="background-image:url(images/paper-doll/{{icon}})">
+                                            <a href="index.html?file={{url}}" target="_blank">
+                                                <p>{{linkname}}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {{/each}}
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- HANDLEBARS and JQUERY-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+    <!-- BOOTSTRAP imports -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <style>
+        h1,
+        h2 {
+            font-family: 'arial';
+        }
+
+        h1 {
+            color: white;
+            font-size:50px;
+            padding-top:50px;
+            padding-bottom:10px;
+            text-align:center;
+            text-shadow: rgba(0, 0, 0, 1) 3px 3px 5px;
+            border: 0px solid rgb(57, 135, 144);
+            /*background:linear-gradient( 0deg, rgba(47, 118, 125, 1), rgba(47, 118, 125, 0) );*/
+        }
+
+        h2 {
+            color: white;
+            margin-bottom:20px;
+            text-shadow: rgba(0, 0, 0, 1) 3px 3px 6px;
+        }
+
+        .innerwrap {
+            box-sizing: border-box;
+            border: 10px solid  rgba(47, 118, 125,1);
+            background-color: rgba(57, 135, 144, 0.8);
+        }
+
+        .button {
+            margin-bottom: 30px;
+            background-color: rgb(35,82,85);
+            border-radius:3px;
+            background-repeat:no-repeat;
+            background-position:center center;
+            position:relative;
+        }
+
+        .button p{
+            font-family:'arial';
+            font-size:20px;
+            text-align:center;
+            color: white;
+            text-shadow: rgb(0, 0, 0) 1px 1px 5px;
+        }
+
+        .button a{
+            display:inline-block;
+            height: 100%;
+            width: 100%;
+            text-decoration:none;
+            padding: 15px;
+        }
+
+        .button a:hover p{
+            text-shadow: rgb(0, 0, 0) 5px 5px 5px;
+        }
+
+        .space-4{
+            margin-bottom:30px;
+        }
+
+        .background {
+            height:100vh;
+            width:100%;
+            background:url(images/paper-doll/simblur.png);
+            background-size:cover;
+            background-position:center center;
+            /*-webkit-animation: thefinalfrontier 30s linear infinite;   NO SCROLLING ANIMATION*/
+            /*animation: thefinalfrontier 30s linear infinite;*/
+            background-color:black;
+        }
+
+        @-webkit-keyframes thefinalfrontier {
+            from {background-position: 0 0;}
+            to {background-position: -1680px 0;}
+        }
+
+        @keyframes thefinalfrontier {
+            from {background-position: 0 0;}
+            to {background-position: -1680px 0;}
+        }
+
+    </style>
+
+    <div id="results">
+        output results here.
+    </div>
+
+
+
+    <script>
+        var dataObject = {
+            objects: [
+            {
+                name: "DAY 1",
+                thingy: [
+                {
+                    linkname: "Carbon Dioxide Down",
+                    url: "co2Down"
+                },
+                {
+                    linkname: "Carbon Dioxide Up",
+                    url: "co2Up"
+                },
+                {
+                    linkname: "Volcanoes Down",
+                    url: "VolcanoesDown",
+                    icon: "volcanoes_active.png"
+                },
+                {
+                    linkname: "Volcanoes Up Ice house",
+                    url: "VolcanoesUpIcehouse",
+                    icon: "volcanoes_active.png"
+                }]
+            },
+            {
+                name: "DAY 2",
+                thingy: [
+                {
+                    linkname: "Volcanoes Up Hot House",
+                    url: "VolcanoesUpHothouse",
+                    icon: "volcanoes_active.png"
+                },
+                {
+                    linkname: "Weathering Up",
+                    url: "IgneousRocksUp",
+                    icon: "carbonBurial_active.png"
+                },
+                {
+                    linkname: "Weathering Down",
+                    url: "IgneousRocksDown",
+                    icon: "carbonBurial_active.png"
+                },
+                {
+                    linkname: "Mountain Building Up",
+                    url: "MountainBuildHothouse",
+                    icon: "mountains_active.png"
+                },
+                {
+                    linkname: "Mountain Building Down",
+                    url: "MountainBuildDown",
+                    icon: "mountains_active.png"
+                }]
+            },
+            {
+                name: "DAY 3",
+                thingy: [
+                {
+                    linkname: "Carbon Burial Up",
+                    url: "CBurialUp"
+                },
+                {
+                    linkname: "Carbon Burial Down",
+                    url: "CBurialDown"
+                },
+                {
+                    linkname: "Insolation Up",
+                    url: "IsolationUp",
+                    icon: "insulation_active.png"
+                },
+                {
+                    linkname: "Insolation Down",
+                    url: "IsolationDown",
+                    icon: "insulation_active.png"
+                }]
+            },
+            {
+                name: "DAY 4",
+                thingy: [
+                {
+                    linkname: "Mountains Up and Volcanoes Down",
+                    url: "MountainUpVolcanoesDown",
+                    icon: "mountains_active.png"
+                }]
+            }, ]
+        }; // -> End of dataObject
+        var tpl_source = $("#item_tmpl").html();
+        var h = Handlebars.compile(tpl_source);
+        var content = h(dataObject);
+        // output
+        var results = document.getElementById("results");
+        results.innerHTML = content;
+
+    </script>
+</body>
+</html>
