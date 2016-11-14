@@ -187,18 +187,14 @@ var containers = [
         name: "weatheringCBurial",
         isFrame: true,
         items: 5,
-        width: 50,
-        height: 50,
+        width: 23,
+        height: 54,
         x: 994,
         y: 485,
-        path: "./images/animations/empty/empty",
+        path: "./images/animations/MininMacaroniMeter/miniMacMeter",
         ext: ".png",
         macaroni: {
-            needed: true,
-            x: 994,
-            y: 485,
-            mirrored: false,
-            name: "weatheringCBurrial"
+            needed: false
         }
     }
 ];
