@@ -22,12 +22,20 @@
             <p> Check the file name and make sure that end of the URL looks like this: </p>
             <p> ?file=nameOfFile </p>
         </div>
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1730 938" preserveAspectRatio="xMidYMid meet">
+        <svg id = "simPanel" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1730 938" preserveAspectRatio="xMidYMid meet">
             <defs>
                 <filter id="worldsbestestmaskfilterthinggy" dx="0" dy="0" width="200%" height="200%">
                     <feOffset result="offOut" in="SourceAlpha" dx="5" dy="5" />
                     <feGaussianBlur result="blurOut" in="offOut" stdDeviation="5" />
-                    <feBlend in="SourceGraphic" in2="blurOut" mode="normal" /> </filter>
+                    <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+                </filter>
+<!--
+    IE 11 Support
+    Clips overflowing light rays
+-->
+                <clipPath id="overflowClip">
+                    <rect x="95" y="0" width="334" height = "412"></rect>
+                </clipPath>
             </defs>
             <g id="background">
                 <image xlink:href="./images/paper-doll/background.png" x="0" y="0" width="1730" height="938"></image>
@@ -150,7 +158,7 @@
             <g id="forcerText" class="hide">
                 <text text-anchor="middle" x="512" y="162">FORCING</text>
             </g>
-            <g transform="translate(205, 351) scale(1.1)">
+            <g transform="translate(227, 369) scale(1)">
                 <image xlink:href="images/paper-doll/shadow1.png" width="392" height="392"></image>
             </g>
             <text id="noChangeMessage" transform="translate(750, 500)">No Change</text>

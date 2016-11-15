@@ -1,3 +1,9 @@
+/*
+    205,351
+    227,369
+    22,18
+ */
+
 var containers = [
     {
         name: "sea",
@@ -5,11 +11,11 @@ var containers = [
         items: 5,
         width: 392,
         height: 392,
-        x: 205,
-        y: 351,
+        x: 227,
+        y: 369,
         path: "./images/animations/flooding/flood",
         ext: ".png",
-        scale: 1.1,
+        scale: 1,
         macaroni: {
             needed: false
         }
@@ -20,9 +26,9 @@ var containers = [
         items: 5,
         width: 401,
         height: 417,
-        x: 207,
-        y: 359,
-        scale: 1.1,
+        x: 229,
+        y: 377,
+        scale: 1,
         path: "./images/animations/volcanoes/volcano",
         ext: ".png",
         macaroni: {
@@ -35,11 +41,11 @@ var containers = [
         items: 5,
         width: 304,
         height: 392,
-        x: 253,
-        y: 350,
+        x: 271,
+        y: 368,
         path: "./images/animations/iceCaps/iceCap",
         ext: ".png",
-        scale: 1.1,
+        scale: 1,
         macaroni: {
             needed: false
         }
@@ -64,9 +70,9 @@ var containers = [
         items: 5,
         width: 187,
         height: 238,
-        x: 125,
-        y: 441,
-        scale: 1.1,
+        x: 154,
+        y: 459,
+        scale: 1,
         path: "./images/animations/mountains/mountain",
         ext: ".png",
         macaroni: {
@@ -87,6 +93,7 @@ var containers = [
             needed: false
         }
     },
+
     {
         name: "temperature",
         isFrame: true,
@@ -197,4 +204,5 @@ var containers = [
             needed: false
         }
     }
+    //*/
 ];
