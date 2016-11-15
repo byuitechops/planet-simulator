@@ -35,11 +35,6 @@ var getCSV = (function () {
     return function (parsingFunc, callBack) {
         var fileName;
 
-        function zeroOrNum(textIn) {
-            var num = parseInt(textIn, 10);
-            return isNaN(num) ? 0 : num;
-        }
-
         fileName = getFileNameFromURL();
 
         if (!fileName) {

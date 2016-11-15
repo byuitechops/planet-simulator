@@ -1,5 +1,5 @@
 /*jslint plusplus: true, browser: true, devel: true */
-/*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart*/
+/*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart, Spotlight*/
 var boxen, animations,
     animationInProgress = false,
     spotlight = new Spotlight();
@@ -134,12 +134,11 @@ function init(forcerObj, timeScaleOps) {
             box.createMacaroniMeter(container.macaroni.name + "MacaroniMeter", container.macaroni.x, container.macaroni.y, container.macaroni.mirrored);
         }
 
-
         return box;
     });
 
     var insolation = document.getElementById("insolation");
-    insolation.setAttributeNS(null,"clip-path","url(#overflowClip)");
+    insolation.setAttributeNS(null, "clip-path", "url(#overflowClip)");
 
     // modified to make text clickable too
     $("a, a + * + text").on("click", function () {
@@ -147,8 +146,8 @@ function init(forcerObj, timeScaleOps) {
             return;
         }
         // IE 11 Support
-        var parent = this.parentElement || this.parentNode;
-        var step = parseInt(parent.id.slice(-1), 10) - 1;
+        var parent = this.parentElement || this.parentNode,
+            step = parseInt(parent.id.slice(-1), 10) - 1;
         // Set active state
         $("#timeline g").removeClass("active");
         $(this.parentElement).addClass("active");
@@ -159,8 +158,14 @@ function init(forcerObj, timeScaleOps) {
 
 }
 
-
 function parsingFunc(d) {
+    "use strict";
+
+    function zeroOrNum(textIn) {
+        var num = parseInt(textIn, 10);
+        return isNaN(num) ? 0 : num;
+    }
+
     return {
         linkName: d.linkName,
         url: d.url,
@@ -182,7 +187,7 @@ function parsingFunc(d) {
     };
 }
 
-function callbackForGetCSV (err, csvData) {
+function callbackForGetCSV(err, csvData) {
     "use strict";
     var forcerObj;
 
@@ -250,6 +255,5 @@ function placeSomething(selectorIn) {
     });
 
 }
-
 
 //placeSomething("#insolation");
