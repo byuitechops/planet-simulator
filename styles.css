@@ -10,6 +10,8 @@ a+* {
     cursor: pointer;
 }
 
+
+
 #timeline {
     z-index: 10;
 }
@@ -24,11 +26,26 @@ main {
 }
 
 
+
+
 /* SVG */
 
 svg {
     width: 100%;
     height: auto;
+}
+
+/*
+    IE 11 Support
+    DONT ASK...IT JUST WORKS...
+*/
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    svg{
+        margin-top: 0;
+        height: 750px;
+        overflow: hidden;
+    }
+
 }
 
 text {

@@ -132,8 +132,13 @@ function init(forcerObj, timeScaleOps) {
         if (container.macaroni.needed) {
             box.createMacaroniMeter(container.macaroni.name + "MacaroniMeter", container.macaroni.x, container.macaroni.y, container.macaroni.mirrored);
         }
+
+
         return box;
     });
+
+    var insolation = document.getElementById("insolation");
+    insolation.setAttributeNS(null,"clip-path","url(#overflowClip)");
 
     // modified to make text clickable too
     $("a, a + * + text").on("click", function () {
@@ -219,5 +224,6 @@ function placeSomething(selectorIn) {
     });
 
 }
+
 
 //placeSomething("#insolation");
