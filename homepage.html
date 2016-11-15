@@ -143,6 +143,7 @@
     <div id="results">
         output results here.
     </div>
+    <script src="getCSV.js"></script>
 
 
 
@@ -203,7 +204,7 @@
 
         var tpl_source = $("#item_tmpl").html();
         var h = Handlebars.compile(tpl_source);
-        var content = h(scenarios);
+        var content = h(scenarios); /*data from csv*/
         console.log(content);
         // output
         var results = document.getElementById("results");
