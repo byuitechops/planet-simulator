@@ -41,7 +41,8 @@
 
     <style>
         body {
-            background: linear-gradient(black, rgba(47, 118, 125, 1));
+            /*black to black and teal to teal lets the gradient blend fully with the top and bottom of the background image*/
+            background: linear-gradient(black, black, rgb(50,121,128), rgb(50,121,128));
             background-attachment: fixed;
         }
 
@@ -53,7 +54,7 @@
         h1 {
             color: white;
             font-size: 50px;
-            padding-top: 50px;
+            padding-top: 150px;
             padding-bottom: 10px;
             text-align: center;
             text-shadow: rgba(0, 0, 0, 1) 3px 3px 5px;
@@ -68,9 +69,10 @@
         }
 
         .innerwrap {
+
             box-sizing: border-box;
             border: 10px solid rgba(47, 118, 125, 1);
-            background-color: rgba(57, 135, 144, 0.8);
+            background-color: rgba(57, 135, 144, 0.9);
         }
 
         .button {
