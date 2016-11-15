@@ -1,5 +1,5 @@
 /*jslint plusplus: true, browser: true, devel: true */
-/*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart*/
+/*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart, Spotlight*/
 var boxen, animations,
     animationInProgress = false,
     spotlight = new Spotlight();
@@ -9,10 +9,13 @@ function setForcers(forcerObj) {
     var forcers = ["mountain", "volcano", "weatheringCBurial", "weatheringCRelease", "insolation"],
         showIcons = false,
         processedText;
-
+    //show the ones we want
     forcers.forEach(function (forcer, forcerIndex) {
         if (forcerObj[forcer] === 1) {
+            //hide the image
             $("#forcers g:nth-child(" + (forcerIndex + 1) + ") image:nth-of-type(2)").toggleClass("hide");
+            //fix the text
+            $("#forcers g:nth-child(" + (forcerIndex + 1) + ") text").toggleClass("disabled");
             showIcons = true;
         }
     });
@@ -23,9 +26,6 @@ function setForcers(forcerObj) {
         $("#forcerText").toggleClass("hide");
 
         //proccess text
-        //TODO actully proccess text
-        //<tspan class="smallText" dy="-5">2</tspan>
-
         //wrap in tspans the subscript was messing up the words after
         processedText = '<tspan>' + forcerObj.other + '</tspan>';
 
@@ -109,6 +109,7 @@ function updateBoxen(stepData) {
     }
 
 }
+
 function init(forcerObj, timeScaleOps) {
     "use strict";
 
@@ -133,13 +134,12 @@ function init(forcerObj, timeScaleOps) {
             box.createMacaroniMeter(container.macaroni.name + "MacaroniMeter", container.macaroni.x, container.macaroni.y, container.macaroni.mirrored);
         }
 
-
         return box;
     });
 
     // trims overflow arrows in IE 11
     var insolation = document.getElementById("insolation");
-    insolation.setAttributeNS(null,"clip-path","url(#overflowClip)");
+    insolation.setAttributeNS(null, "clip-path", "url(#overflowClip)");
 
     // makes volcano plume tranparent towards the top by applying a mask
     var volcano = document.getElementById("underwaterVolcano");
@@ -151,8 +151,8 @@ function init(forcerObj, timeScaleOps) {
             return;
         }
         // IE 11 Support
-        var parent = this.parentElement || this.parentNode;
-        var step = parseInt(parent.id.slice(-1), 10) - 1;
+        var parent = this.parentElement || this.parentNode,
+            step = parseInt(parent.id.slice(-1), 10) - 1;
         // Set active state
         $("#timeline g").removeClass("active");
         $(this.parentElement).addClass("active");
@@ -163,9 +163,36 @@ function init(forcerObj, timeScaleOps) {
 
 }
 
-/******************************* START ***************************************/
-// Get CSV with file name from url
-getCSV(function (err, csvData) {
+function parsingFunc(d) {
+    "use strict";
+
+    function zeroOrNum(textIn) {
+        var num = parseInt(textIn, 10);
+        return isNaN(num) ? 0 : num;
+    }
+
+    return {
+        linkName: d.linkName,
+        url: d.url,
+        icon: d.icon,
+        rowHeading: d["Row Heading"],
+        other: d.Other,
+        sediment: zeroOrNum(d.Sediment),
+        co2: zeroOrNum(d.CO2),
+        ice: zeroOrNum(d.Ice),
+        insolation: zeroOrNum(d.Insolation),
+        mountain: zeroOrNum(d.Mountains),
+        sea: zeroOrNum(d.Sea),
+        temperature: zeroOrNum(d.Temperature),
+        volcano: zeroOrNum(d.Volcano),
+        underwaterVolcano: zeroOrNum(d.Volcano),
+        co3Desposition: zeroOrNum(d["CO3 Desposition"]),
+        weatheringCRelease: zeroOrNum(d["Weathering C Release"]),
+        weatheringCBurial: zeroOrNum(d["Weathering C Burial"])
+    };
+}
+
+function callbackForGetCSV(err, csvData) {
     "use strict";
     var forcerObj;
 
@@ -181,9 +208,13 @@ getCSV(function (err, csvData) {
     console.log("forcerObj:", forcerObj);
 
     init(forcerObj, csvData);
-});
+}
 
-//for placing pictures
+/******************************* START ***************************************/
+// Get CSV with file name from url
+getCSV(parsingFunc, callbackForGetCSV);
+
+//help for development - placing pictures
 function placeSomething(selectorIn) {
 
     "use strict";
@@ -229,6 +260,5 @@ function placeSomething(selectorIn) {
     });
 
 }
-
 
 //placeSomething("#insolation");

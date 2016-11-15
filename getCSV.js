@@ -32,13 +32,8 @@ var getCSV = (function () {
         });
     }
 
-    return function (callBack) {
+    return function (parsingFunc, callBack) {
         var fileName;
-
-        function zeroOrNum(textIn) {
-            var num = parseInt(textIn, 10);
-            return isNaN(num) ? 0 : num;
-        }
 
         fileName = getFileNameFromURL();
 
@@ -55,24 +50,7 @@ var getCSV = (function () {
                 return;
             }
 
-            fileDataRaw = d3.csvParse(fileText, function (d) {
-                return {
-                    rowHeading: d["Row Heading"],
-                    other: d.Other,
-                    sediment: zeroOrNum(d.Sediment),
-                    co2: zeroOrNum(d.CO2),
-                    ice: zeroOrNum(d.Ice),
-                    insolation: zeroOrNum(d.Insolation),
-                    mountain: zeroOrNum(d.Mountains),
-                    sea: zeroOrNum(d.Sea),
-                    temperature: zeroOrNum(d.Temperature),
-                    volcano: zeroOrNum(d.Volcano),
-                    underwaterVolcano: zeroOrNum(d.Volcano),
-                    co3Desposition: zeroOrNum(d["CO3 Desposition"]),
-                    weatheringCRelease: zeroOrNum(d["Weathering C Release"]),
-                    weatheringCBurial: zeroOrNum(d["Weathering C Burial"])
-                };
-            });
+            fileDataRaw = d3.csvParse(fileText, parsingFunc);
 
             callBack(null, fileDataRaw);
         });
