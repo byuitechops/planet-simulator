@@ -115,13 +115,12 @@ var containers = [
         width: 164,
         height: 305,
         x: 1287,
-        y: 360,
-        //        y: 419,
+        y: 330,
         path: "./images/animations/underwaterVolcanoes/volcano",
         ext: ".gif",
         scale: {
             x: 1,
-            y: 1.2
+            y: 1.3
         },
         macaroni: {
             needed: true,

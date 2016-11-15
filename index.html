@@ -29,6 +29,15 @@
                     <feGaussianBlur result="blurOut" in="offOut" stdDeviation="5" />
                     <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
                 </filter>
+                    <linearGradient id="Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="transparent" stop-opacity="0" />
+                        <stop offset="5%" stop-color="transparent" stop-opacity="0" />
+                        <stop offset="8%" stop-color="white" stop-opacity="1" />
+                    </linearGradient>
+                    <mask id="Mask">
+                        <rect x="0" y="0" width="100%" height="100%" fill="url(#Gradient)"  />
+                    </mask>
+
 <!--
     IE 11 Support
     Clips overflowing light rays
@@ -46,12 +55,7 @@
             </g>
             <!--All dynamically appended elements will be put into this group-->
             <g id="child_container"> </g>
-            <!--Some Debugging Stuff-->
-<!--
-            <g id="cursor" transform="translate(1386,653) scale(1)" style="display:none;">
-                <image xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="./images/animations/mirroredMiniMacaroniMeter/miniMacMeter1.png" x="0" y="0" height="54" width="23" visibility="visibile"></image>
-            </g>
--->
+
             <g id="spotlight">
                 <!--                    <text x="783" y="30" filter="url(#f1)">This is some awesome stuff!</text>-->
                 <defs>
