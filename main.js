@@ -109,6 +109,7 @@ function updateBoxen(stepData) {
     }
 
 }
+
 function init(forcerObj, timeScaleOps) {
     "use strict";
 
@@ -153,9 +154,28 @@ function init(forcerObj, timeScaleOps) {
 
 }
 
-/******************************* START ***************************************/
-// Get CSV with file name from url
-getCSV(function (err, csvData) {
+
+function parsingFunc(d) {
+    return {
+
+        rowHeading: d["Row Heading"],
+        other: d.Other,
+        sediment: zeroOrNum(d.Sediment),
+        co2: zeroOrNum(d.CO2),
+        ice: zeroOrNum(d.Ice),
+        insolation: zeroOrNum(d.Insolation),
+        mountain: zeroOrNum(d.Mountains),
+        sea: zeroOrNum(d.Sea),
+        temperature: zeroOrNum(d.Temperature),
+        volcano: zeroOrNum(d.Volcano),
+        underwaterVolcano: zeroOrNum(d.Volcano),
+        co3Desposition: zeroOrNum(d["CO3 Desposition"]),
+        weatheringCRelease: zeroOrNum(d["Weathering C Release"]),
+        weatheringCBurial: zeroOrNum(d["Weathering C Burial"])
+    };
+}
+
+function callbackForGetCSV (err, csvData) {
     "use strict";
     var forcerObj;
 
@@ -171,9 +191,13 @@ getCSV(function (err, csvData) {
     console.log("forcerObj:", forcerObj);
 
     init(forcerObj, csvData);
-});
+}
 
-//for placing pictures
+/******************************* START ***************************************/
+// Get CSV with file name from url
+getCSV(parsingFunc, callbackForGetCSV);
+
+//help for development - placing pictures
 function placeSomething(selectorIn) {
 
     "use strict";
