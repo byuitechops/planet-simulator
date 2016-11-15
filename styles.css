@@ -3,14 +3,12 @@
 
 /* Roboto font */
 
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,700, 900');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400, 900');
 a+ *+ text,
 a> image,
 a+* {
     cursor: pointer;
 }
-
-
 
 #timeline {
     z-index: 10;
@@ -26,8 +24,6 @@ main {
 }
 
 
-
-
 /* SVG */
 
 svg {
@@ -35,17 +31,19 @@ svg {
     height: auto;
 }
 
+
 /*
     IE 11 Support
     DONT ASK...IT JUST WORKS...
 */
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-    svg{
+
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
+    svg {
         margin-top: 0;
         height: 750px;
         overflow: hidden;
     }
-
 }
 
 text {
@@ -56,12 +54,20 @@ text {
     filter: url(#worldsbestestmaskfilterthinggy);
 }
 
-
 .textShadow {
     font-family: 'Roboto', sans-serif;
     font-weight: 900;
     font-size: 14px;
     fill: #1f1f1f;
+}
+
+
+/*for the disabled forcer labels*/
+
+text.disabled {
+    fill: #297082;
+    filter: none;
+    font-weight: 300;
 }
 
 .notBold {

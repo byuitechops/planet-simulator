@@ -9,10 +9,13 @@ function setForcers(forcerObj) {
     var forcers = ["mountain", "volcano", "weatheringCBurial", "weatheringCRelease", "insolation"],
         showIcons = false,
         processedText;
-
+    //show the ones we want
     forcers.forEach(function (forcer, forcerIndex) {
         if (forcerObj[forcer] === 1) {
+            //hide the image
             $("#forcers g:nth-child(" + (forcerIndex + 1) + ") image:nth-of-type(2)").toggleClass("hide");
+            //fix the text
+            $("#forcers g:nth-child(" + (forcerIndex + 1) + ") text").toggleClass("disabled");
             showIcons = true;
         }
     });
@@ -23,9 +26,6 @@ function setForcers(forcerObj) {
         $("#forcerText").toggleClass("hide");
 
         //proccess text
-        //TODO actully proccess text
-        //<tspan class="smallText" dy="-5">2</tspan>
-
         //wrap in tspans the subscript was messing up the words after
         processedText = '<tspan>' + forcerObj.other + '</tspan>';
 
