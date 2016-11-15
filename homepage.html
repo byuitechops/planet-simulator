@@ -8,27 +8,26 @@
 <body>
     <script type="text/x-handlebars-template" id="item_tmpl">
         <div class="background">
-        <div class="container">
-        <h1 class="row">Climate Simulator Home</h1>
-            {{#each objects}}
+            <div class="container">
+                <h1 class="row">Climate Simulator Home</h1>
                 <div class="row space-4">
                     <div class="innerwrap col-xs-12">
-                        <h2>{{name}}</h2>
-                        <div class="row">
-                            {{#each thingy}}
-                                <div class="col-lg-3 col-md-6">
-                                    <div class="button" style="background-image:url(images/paper-doll/{{icon}})">
-                                        <a class="full-btn-link" href="index.html?file={{url}}" target="_blank">
-                                            <p>{{linkname}}</p>
-                                        </a>
+                        <div class="row" style="margin-top:15px;">
+                            {{#each objects}}
+                                {{#each thingy}}
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="button" style="background-image:url(images/paper-doll/{{icon}})">
+                                            <a href="index.html?file={{url}}" target="_blank">
+                                                <p>{{linkname}}</p>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
+                                {{/each}}
                             {{/each}}
                         </div>
                     </div>
                 </div>
-            {{/each}}
-        </div>
+            </div>
         </div>
     </script>
 
@@ -58,7 +57,7 @@
             text-align:center;
             text-shadow: rgba(0, 0, 0, 1) 3px 3px 5px;
             border: 0px solid rgb(57, 135, 144);
-            background:linear-gradient( 0deg, rgba(47, 118, 125, 1), rgba(255, 255, 255, 0) );
+            /*background:linear-gradient( 0deg, rgba(47, 118, 125, 1), rgba(47, 118, 125, 0) );*/
         }
 
         h2 {
@@ -69,8 +68,8 @@
 
         .innerwrap {
             box-sizing: border-box;
-            border: 10px solid rgb(57, 135, 144);
-            background-color: rgba(47, 118, 125,1);
+            border: 10px solid  rgba(47, 118, 125,1);
+            background-color: rgba(57, 135, 144, 0.8);
         }
 
         .button {
@@ -88,7 +87,6 @@
             text-align:center;
             color: white;
             text-shadow: rgb(0, 0, 0) 1px 1px 5px;
-
         }
 
         .button a{
@@ -110,6 +108,7 @@
         .background {
             height:100%;
             width:100%;
+            min-height:838px;
             background-image:url(images/paper-doll/simblur.png);
             background-size:auto;
             background-repeat:no-repeat;
