@@ -176,8 +176,8 @@ var containers = [
         ext: ".gif",
         macaroni: {
             needed: true,
-            x: 1540,
-            y: 464,
+            x: 1560,
+            y: 458,
             mirrored: true,
             name: "weatheringCRelease"
 
@@ -187,18 +187,14 @@ var containers = [
         name: "weatheringCBurial",
         isFrame: true,
         items: 5,
-        width: 50,
-        height: 50,
+        width: 23,
+        height: 54,
         x: 994,
         y: 485,
-        path: "./images/animations/empty/empty",
+        path: "./images/animations/MininMacaroniMeter/miniMacMeter",
         ext: ".png",
         macaroni: {
-            needed: true,
-            x: 994,
-            y: 485,
-            mirrored: false,
-            name: "weatheringCBurrial"
+            needed: false
         }
     }
 ];

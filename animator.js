@@ -119,21 +119,29 @@ var Animator = (function () {
 
         });
 
+        this.group = group;
         return this;
     };
 
     Animator.prototype.createMacaroniMeter = function (name, x, y, mirrored) {
         var i,
             files = [],
-            path = (mirrored) ? "./images/animations/mirroredMiniMacaroniMeter/miniMacMeter" : "./images/animations/MininMacaroniMeter/miniMacMeter";
+            path = "./images/animations/MininMacaroniMeter/miniMacMeter";
+
         for (i = 1; i <= 5; i++) {
             files.push(new Frame(path + i + ".png", 23, 54));
         }
 
         this.MiniMacaroniMeter = new Animator(name, files, true, x, y, 1, this.currentFrame);
         this.MiniMacaroniMeter.display();
+        if(mirrored)
+            this.MiniMacaroniMeter.mirror();
         return this;
     };
+
+    Animator.prototype.mirror = function(){
+        this.group.setAttributeNS(null, "transform", "translate(" + (this.x) + "," + this.y + ") scale(" + this.scale.x*-1 + " " + this.scale.y + ")");
+    }
 
     Animator.prototype.frameTransition = function (callback) {
         var frameIndex;
