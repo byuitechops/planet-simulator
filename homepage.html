@@ -19,7 +19,7 @@
                             <div class="col-lg-3 col-md-6">
                                 <div class="button" style="background-image:url(images/paper-doll/{{icon}})">
                                     <a href="index.html?file={{url}}" target="_blank">
-                                        <p>{{linkname}}</p>
+                                        <p>{{linkName}}</p>
                                     </a>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
     <style>
         body {
             /*black to black and teal to teal lets the gradient blend fully with the top and bottom of the background image*/
-            background: linear-gradient(black, black, rgb(50,121,128), rgb(50,121,128));
+            background: linear-gradient(black, black, rgb(50, 121, 128), rgb(50, 121, 128));
             background-attachment: fixed;
         }
 
@@ -69,7 +69,6 @@
         }
 
         .innerwrap {
-
             box-sizing: border-box;
             border: 10px solid rgba(47, 118, 125, 1);
             background-color: rgba(57, 135, 144, 0.9);
@@ -138,77 +137,56 @@
                 background-position: -1680px 0;
             }
         }
+
     </style>
 
     <div id="results">
         output results here.
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-dsv/1.0.3/d3-dsv.js"></script>
     <script src="getCSV.js"></script>
 
 
-
     <script>
-        var scenarios = [{
-            linkname: "Carbon Dioxide Down",
-            url: "co2Down"
-        }, {
-            linkname: "Carbon Dioxide Up",
-            url: "co2Up"
-        }, {
-            linkname: "Volcanoes Down",
-            url: "VolcanoesDown",
-            icon: "volcanoes_active.png"
-        }, {
-            linkname: "Volcanoes Up Ice house",
-            url: "VolcanoesUpIcehouse",
-            icon: "volcanoes_active.png"
-        }, {
-            linkname: "Volcanoes Up Hot House",
-            url: "VolcanoesUpHothouse",
-            icon: "volcanoes_active.png"
-        }, {
-            linkname: "Weathering Up",
-            url: "IgneousRocksUp",
-            icon: "carbonBurial_active.png"
-        }, {
-            linkname: "Weathering Down",
-            url: "IgneousRocksDown",
-            icon: "carbonBurial_active.png"
-        }, {
-            linkname: "Mountain Building Up",
-            url: "MountainBuildHothouse",
-            icon: "mountains_active.png"
-        }, {
-            linkname: "Mountain Building Down",
-            url: "MountainBuildDown",
-            icon: "mountains_active.png"
-        }, {
-            linkname: "Carbon Burial Up",
-            url: "CBurialUp"
-        }, {
-            linkname: "Carbon Burial Down",
-            url: "CBurialDown"
-        }, {
-            linkname: "Insolation Up",
-            url: "IsolationUp",
-            icon: "insulation_active.png"
-        }, {
-            linkname: "Insolation Down",
-            url: "IsolationDown",
-            icon: "insulation_active.png"
-        }, {
-            linkname: "Mountains Up and Volcanoes Down",
-            url: "MountainUpVolcanoesDown",
-            icon: "mountains_active.png"
-        }];
+        function parsingFunc(d) {
+            "use strict";
+            function zeroOrNum(textIn) {
+                var num = parseInt(textIn, 10);
+                return isNaN(num) ? 0 : num;
+            }
+            return {
+                linkName: d.linkName,
+                url: d.url,
+                icon: d.icon,
+            };
+        }
 
-        var tpl_source = $("#item_tmpl").html();
-        var h = Handlebars.compile(tpl_source);
-        var content = h(scenarios); /*data from csv*/
-        console.log(content);
-        // output
-        var results = document.getElementById("results");
-        results.innerHTML = content;
+        function callbackForGetCSV(err, csvData) {
+            "use strict";
+            var forcerObj;
+            if (err) {
+                console.log("error:", err);
+                $("#error").toggleClass("hide");
+                $("svg").toggleClass("hide");
+                return;
+            }
+            console.log("scenario:", csvData);
+            init(csvData);
+        }
+
+        function init(csvData) {
+            var tpl_source = $("#item_tmpl").html();
+            var h = Handlebars.compile(tpl_source);
+            var content = h(csvData);
+            //console.log(content);
+            // output
+            var results = document.getElementById("results");
+            results.innerHTML = content;
+        }
+        //MAKE IT HAPPEN CAP'N
+        getCSV(parsingFunc, callbackForGetCSV);
+
     </script>
 </body>
 
