@@ -3,6 +3,7 @@
 
 
 function appendImageToSVG(element, url, x, y, width, height) {
+    "use strict";
     var image = document.createElementNS("http://www.w3.org/2000/svg", "image");
     image.setAttributeNS("http://www.w3.org/1999/xlink", "href", url);
     image.setAttributeNS(null, "x", x);
@@ -134,14 +135,15 @@ var Animator = (function () {
 
         this.MiniMacaroniMeter = new Animator(name, files, true, x, y, 1, this.currentFrame);
         this.MiniMacaroniMeter.display();
-        if(mirrored)
+        if (mirrored) {
             this.MiniMacaroniMeter.mirror();
+        }
         return this;
     };
 
-    Animator.prototype.mirror = function(){
-        this.group.setAttributeNS(null, "transform", "translate(" + (this.x) + "," + this.y + ") scale(" + this.scale.x*-1 + " " + this.scale.y + ")");
-    }
+    Animator.prototype.mirror = function () {
+        this.group.setAttributeNS(null, "transform", "translate(" + (this.x) + "," + this.y + ") scale(" + this.scale.x * -1 + " " + this.scale.y + ")");
+    };
 
     Animator.prototype.frameTransition = function (callback) {
         var frameIndex;
