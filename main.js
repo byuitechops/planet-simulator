@@ -138,12 +138,12 @@ function init(forcerObj, timeScaleOps) {
     });
 
     // trims overflow arrows in IE 11
-    var insolation = document.getElementById("insolation");
+    var insolation = document.getElementById("insolation"),
+        volcano = document.getElementById("underwaterVolcano");
     insolation.setAttributeNS(null, "clip-path", "url(#overflowClip)");
 
     // makes volcano plume tranparent towards the top by applying a mask
-    var volcano = document.getElementById("underwaterVolcano");
-    volcano.setAttribute("mask", "url(#Mask)")
+    volcano.setAttribute("mask", "url(#Mask)");
 
     // modified to make text clickable too
     $("a, a + * + text").on("click", function () {
