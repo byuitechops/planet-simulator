@@ -172,9 +172,6 @@ function parsingFunc(d) {
     }
 
     return {
-        linkName: d.linkName,
-        url: d.url,
-        icon: d.icon,
         rowHeading: d["Row Heading"],
         other: d.Other,
         sediment: zeroOrNum(d.Sediment),
