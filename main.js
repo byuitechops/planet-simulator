@@ -4,6 +4,64 @@ var boxen, animations,
     animationInProgress = false,
     spotlight = new Spotlight();
 
+var spls = 0;
+var mov = (function () {
+    var mover = function () {
+
+        this.spot = new Spotlight(`spl${spls}`, `bmz${spls++}`, `stop`, spls === 1);
+    };
+    console.log("SPLS", spls)
+    var protoBaggins = mover.prototype;
+    var bx = function (x, y, w, h, xs, ys) {
+        this.x = x;
+        this.y = y;
+        this.width = w;
+        this.height = h;
+        this.scale = {};
+        this.scale.x = xs || 1;
+        this.scale.y = ys || 1;
+    }
+
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+    var dests = [new bx(0, 0, 10, 10, 1, 1)];
+    for (var i = 0; i < 1000; i++) {
+        var dim = getRandomInt(2, 10) * 10;
+        dests.push(new bx(getRandomInt(0, 171) * 10, getRandomInt(0, 94) * 10, dim, dim));
+    }
+    protoBaggins.moveToDest = function () {
+        if (dests.length > 0) {
+            var that = this;
+            this.spot.moveSpotlight(dests[0], function () {
+                that.moveToDest();
+            });
+            dests.shift();
+            return;
+        }
+        var that = this;
+        this.spot.turnOff(function () {
+            that.spot.resetSpotlightPosition();
+            console.log("done!");
+        })
+    }
+    protoBaggins.start = function () {
+        this.spot.moveToStart(dests[0]);
+        var that = this;
+        this.spot.turnOn(function () {
+            //            spot.resetSpotlightPosition();
+            that.moveToDest();
+        });
+
+    }
+
+    return mover;
+}());
+
+
+
 function setForcers(forcerObj) {
     "use strict";
     var forcers = ["mountain", "volcano", "weatheringCBurial", "weatheringCRelease", "insolation"],
@@ -43,9 +101,7 @@ function setForcers(forcerObj) {
 
 function animationsComplete() {
     "use strict";
-    $("#spotter").animate({
-        opacity: 0
-    }, 1000, function () {
+    spotlight.turnOff(function () {
         spotlight.resetSpotlightPosition();
         animationInProgress = false;
     });
@@ -58,7 +114,9 @@ function checkAnimationStatus() {
     if (box.targetFrame === box.currentFrame) {
         animations.shift();
         if (animations.length > 0) {
-            spotlight.moveSpotlight();
+            spotlight.moveSpotlight(boxen[animations[0]], function () {
+                boxen[animations[0]].transition(checkAnimationStatus);
+            });
         } else {
             animationsComplete();
         }
@@ -92,16 +150,16 @@ function updateBoxen(stepData) {
     });
 
     if (animations.length > 0) {
-        spotlight.moveToStart();
+        spotlight.moveToStart(boxen[animations[0]]);
     }
 
     // Turn on spotlight
-    $("#spotter").animate({
-        opacity: 1
-    }, 1000);
+    spotlight.turnOn();
 
     if (animations.length > 0) {
-        spotlight.moveSpotlight();
+        spotlight.moveSpotlight(boxen[animations[0]], function () {
+            boxen[animations[0]].transition(checkAnimationStatus);
+        });
     } else {
         $('#noChangeMessage').delay(500).fadeIn(800, function () {
             $('#noChangeMessage').delay(1000).fadeOut(800, animationsComplete);
@@ -160,6 +218,17 @@ function init(forcerObj, timeScaleOps) {
         updateBoxen(timeScaleOps[step]);
         return false;
     });
+
+    //tests
+    var lights = [];
+    for (var i = 0; i < 10; i++) {
+        var v = new mov();
+        v.start();
+        lights.push(v);
+        for(var j of lights)
+            j.spot.adjustForLights(lights.length);
+    }
+
 
 }
 

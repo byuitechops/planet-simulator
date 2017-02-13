@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="styles.css" /> </head>
 
 <body>
-    <!--    Firefox 49 Support
+    <!--    
+        Firefox 49 Support
         DONT ASK...IT JUST WORKS...
 -->
     <style>
         text {
             filter: url(#worldsbestestmaskfilterthinggy);
         }
-
     </style>
     <main>
         <div id="error" class="hide">
@@ -31,17 +31,17 @@
                     <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
                 </filter>
 
-                    <linearGradient id="Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="transparent" stop-opacity="0" />
-                        <stop offset="5%" stop-color="transparent" stop-opacity="0" />
-                        <stop offset="8%" stop-color="white" stop-opacity="1" />
-                    </linearGradient>
-                    <mask id="Mask">
-                        <rect x="0" y="0" width="100%" height="100%" fill="url(#Gradient)"  />
-                    </mask>
+                <linearGradient id="Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="transparent" stop-opacity="0" />
+                    <stop offset="5%" stop-color="transparent" stop-opacity="0" />
+                    <stop offset="8%" stop-color="white" stop-opacity="1" />
+                </linearGradient>
+                <mask id="Mask">
+                    <rect x="0" y="0" width="100%" height="100%" fill="url(#Gradient)" />
+                </mask>
 
 
-<!-- IE 11 Support - Clips overflowing light rays-->
+                <!-- IE 11 Support - Clips overflowing light rays-->
                 <clipPath id="overflowClip">
                     <rect x="95" y="0" width="334" height="412"></rect>
                 </clipPath>
@@ -55,15 +55,7 @@
             </g>
             <!--All dynamically appended elements will be put into this group-->
             <g id="child_container"> </g>
-            <g id="spotlight">
-
-                <defs>
-                    <radialGradient id="light_beamz" cx="50%" cy="50%">
-                        <stop offset="22%" stop-color="transparent"></stop>
-                        <stop offset="25%" stop-color="rgba(0, 0, 0, 0.50)"></stop>
-                    </radialGradient>
-                </defs>
-                <circle id="spotter" fill="url('#light_beamz')" cx="865" cy="469" r="2588" style="opacity: 0"></circle>
+            <g id="spots">
             </g>
             <!--All buttons and menus will be added last-->
             <g>
