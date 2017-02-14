@@ -3,65 +3,6 @@
 var boxen, animations,
     animationInProgress = false,
     spotlight = new Spotlight();
-
-var spls = 0;
-var mov = (function () {
-    var mover = function () {
-
-        this.spot = new Spotlight(`spl${spls}`, `bmz${spls++}`, `stop`, spls === 1);
-    };
-    console.log("SPLS", spls)
-    var protoBaggins = mover.prototype;
-    var bx = function (x, y, w, h, xs, ys) {
-        this.x = x;
-        this.y = y;
-        this.width = w;
-        this.height = h;
-        this.scale = {};
-        this.scale.x = xs || 1;
-        this.scale.y = ys || 1;
-    }
-
-    function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min)) + min;
-    }
-    var dests = [new bx(0, 0, 10, 10, 1, 1)];
-    for (var i = 0; i < 1000; i++) {
-        var dim = getRandomInt(2, 10) * 10;
-        dests.push(new bx(getRandomInt(0, 171) * 10, getRandomInt(0, 94) * 10, dim, dim));
-    }
-    protoBaggins.moveToDest = function () {
-        if (dests.length > 0) {
-            var that = this;
-            this.spot.moveSpotlight(dests[0], function () {
-                that.moveToDest();
-            });
-            dests.shift();
-            return;
-        }
-        var that = this;
-        this.spot.turnOff(function () {
-            that.spot.resetSpotlightPosition();
-            console.log("done!");
-        })
-    }
-    protoBaggins.start = function () {
-        this.spot.moveToStart(dests[0]);
-        var that = this;
-        this.spot.turnOn(function () {
-            //            spot.resetSpotlightPosition();
-            that.moveToDest();
-        });
-
-    }
-
-    return mover;
-}());
-
-
-
 function setForcers(forcerObj) {
     "use strict";
     var forcers = ["mountain", "volcano", "weatheringCBurial", "weatheringCRelease", "insolation"],
