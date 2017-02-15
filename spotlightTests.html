@@ -7,11 +7,134 @@
 </head>
 
 <body>
+    <svg id="simPanel" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+        <defs>
+            <linearGradient id="curtain">
+           
+                <stop offset="0%" stop-color="black" />
+                <stop offset="2%" stop-color="red" />
+                <stop offset="5%" stop-color="black" />
+                <stop offset="7%" stop-color="red" />
+                <stop offset="15%" stop-color="black" />
+                <stop offset="17%" stop-color="red" />
+                <stop offset="25%" stop-color="black" />
+                <stop offset="27%" stop-color="red" />
+                <stop offset="35%" stop-color="black" />
+                <stop offset="37%" stop-color="red" />
+                <stop offset="40%" stop-color="black" />
+                <stop offset="47%" stop-color="red" />
+                <stop offset="49%" stop-color="black" />
+                <stop offset="52%" stop-color="red" />
+                <stop offset="53%" stop-color="black" />
+                <stop offset="55%" stop-color="red" />
+                <stop offset="57%" stop-color="black" />
+                <stop offset="60%" stop-color="red" />
+                <stop offset="67%" stop-color="black" />
+                <stop offset="75%" stop-color="red" />
+                <stop offset="77%" stop-color="black" />
+                <stop offset="85%" stop-color="red" />
+                <stop offset="87%" stop-color="black" />
+                <stop offset="95%" stop-color="red" />
+                <stop offset="98%" stop-color="black" />
+                <stop offset="100%" stop-color="red" />
+            </linearGradient>
+        </defs>
+        <rect id="groove" width="100" height="100" fill="url(#curtain)"></rect>
+        <g id="spots">
+        </g>
+    </svg>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
     <script src="spotlights.js"></script>
     <script>
         var stage = new Spotlights();
-        stage.generateScene(100,100);
+        stage.generateScene(100, 100, "spots");
+        var lights = 4;
+        for (var i = 0; i < lights; i++)
+            stage.addLight(0, 0, 1, 1);
+
+
+        var PathFinder = (function () {
+
+            function getRandomInt(min, max) {
+                min = Math.ceil(min);
+                max = Math.floor(max);
+                return Math.floor(Math.random() * (max - min)) + min;
+            }
+
+            function createLightPosition(fragSize = 5) {
+                var rad = getRandomInt((this.stage.width - 2) / fragSize, (this.stage.width + 1) / fragSize);
+                var position = {
+                    x: getRandomInt(0, (this.stage.width + 1) / fragSize) * fragSize,
+                    y: getRandomInt(0, (this.stage.height + 1) / fragSize) * fragSize,
+                    width: rad,
+                    height: rad
+                }
+                return position;
+            }
+            var rdm = function (positions, stage) {
+                this.stage = stage;
+                this.positions = []
+                    /*[
+                                        {
+                                            x: 0,
+                                            y: 50,
+                                            width: 10,
+                                            height: 10
+                                    },
+                                        {
+                                            x: 100,
+                                            y: 50,
+                                            width: 70,
+                                            height: 70
+                                    }
+                                    ];*/
+                for (var i = 0; i < positions; i++)
+                    this.positions.push(createLightPosition());
+            }
+            var proto = rdm.prototype;
+            proto.moveLightAlongPath = function (light, durration) {
+                var segmentDurration = durration / this.positions.length;
+                var currentSegment = 0;
+                var that = this;
+
+                function move() {
+                    if (currentSegment + 1 <= that.positions.length) {
+                        that.stage.moveLightToLocation(light, that.positions[currentSegment++], segmentDurration, move);
+                    } else
+                        console.log("done!");
+
+                }
+                move();
+
+            }
+            return rdm;
+        }());
+        for (var i in stage.lights) {
+            var paths = 20000;
+            var path = new PathFinder(paths, stage);
+            path.moveLightAlongPath(i, paths * 1000);
+        }
+        /*var colors = ["red", "blue", "green", "orange", "purple", "pink"];
+        function  copy(item){
+            return item;
+        }
+        var que = colors.map(copy);
+        function grooveOut(){
+            console.log(que[0]);
+            if(que.length <= 0)
+                que = colors.map(copy);
+            window.setTimeout(function(){
+                Snap(document.getElementById("groove")).animate({
+                    fill:que.shift()
+                },5000, grooveOut);
+            },5000);
+        }
+        grooveOut();*/
+
+        //        stage.moveLightToLocation(0, position, 20000, function () {
+        //            console.log("done!");
+        //        });
     </script>
 </body>
 
