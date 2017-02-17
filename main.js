@@ -73,8 +73,10 @@ function updateBoxen(stepData) {
 
     // Determine which animations need to fire
     animations = properOrder.filter(function (val) {
-        var box = boxen[val],
-            newTarget = stepData[box.name] - 1;
+        var box = boxen[val];
+		// for the new csvs this need to be changed to:
+		//		var newTarget = stepData[box.name].value - 1;
+        var newTarget = stepData[box.name] - 1;
         if (box.targetStep === newTarget) {
             return false;
         }
