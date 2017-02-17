@@ -50,6 +50,8 @@ var getCSV = (function () {
                 return;
             }
 
+			// for the new CSVs replace this line with
+			// fileDataRaw = parseNewCSV(fileText)
             fileDataRaw = d3.csvParse(fileText, parsingFunc);
 
             callBack(null, fileDataRaw);
