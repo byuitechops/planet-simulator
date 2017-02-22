@@ -16,6 +16,20 @@
         text {
             filter: url(#worldsbestestmaskfilterthinggy);
         }
+        
+        .boxText {
+            font-family: monospace;
+            font-size: 18px;
+            fill: #69a6d5;
+        }
+        
+        #ruler {
+            position: absolute;
+            visibility: hidden;
+            height: auto;
+            width: auto;
+            white-space: nowrap;
+        }
     </style>
     <main>
         <div id="error" class="hide">
@@ -164,7 +178,22 @@
             <g id="spots">
             </g>
             <text id="noChangeMessage" transform="translate(750, 500)">No Change</text>
+            <g id="textBox">
+                <defs>
+                    <radialGradient id="textBg">
+                        <stop offset="10%" stop-color="rgba(18, 18, 18, 0.97)" />
+                        <stop offset="95%" stop-color="rgba(15, 14, 14, 0.98)" />
+                    </radialGradient>
+                </defs>
+                <rect width="1730" height="100" x="0" y="838" fill="url(#textBg)"></rect>
+                <rect id="next" width="150" height = "50" x="1530" y="873" fill = "pink"></rect>
+                <rect id="prev" width="150" height = "50" x="50" y="873" fill = "purple"></rect>
+                <text id ="msgBox" class="boxText" x="250" y="863"></text>
+            </g>
         </svg>
+        <div id="ruler">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean auctor sagittis leo, ut tincidunt erat porttitor finibus. Morbi quis ipsum vel augue sagittis pretium. Nunc ex diam, ornare vel pharetra volutpat, consectetur ac ante. Sed blandit sodales varius. Quisque elit tortor, pulvinar ut nisi vitae, blandit facilisis nibh. Fusce sed efficitur tellus. Aliquam tempor rutrum lobortis. Nulla finibus aliquam purus ac elementum. In at mi quam. Sed sapien enim, commodo vitae leo vitae, maximus sagittis velit.
+        </div>
     </main>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-dsv/1.0.3/d3-dsv.js"></script>

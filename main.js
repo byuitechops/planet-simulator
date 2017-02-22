@@ -59,13 +59,65 @@ function checkAnimationStatus() {
     if (box.targetFrame === box.currentFrame) {
         animations.shift();
         if (animations.length > 0) {
-            moveToNext();
+            goThroughText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et lacus venenatis, sodales mi ac, pharetra nibh. Phasellus congue nisi at mi lacinia finibus. Curabitur lectus elit, tincidunt quis gravida in, porta nec nulla. Nam pretium vulputate tincidunt. In sit amet sapien et metus congue mollis in quis quam. Vestibulum egestas non metus vitae venenatis. Curabitur iaculis nunc nulla, vitae interdum ante pellentesque in. In hac habitasse platea dictumst. Sed id volutpat lorem, nec venenatis nisi. Nulla ac aliquet nulla. Suspendisse id imperdiet enim, sit amet posuere felis. Maecenas volutpat augue quis felis imperdiet, vel porttitor ex laoreet. Nunc egestas mollis libero quis pulvinar. Etiam quis ex lacus.", function(){  
+                moveToNext();
+            });
         } else {
             animationsComplete();
         }
     } else {
         box.transition(checkAnimationStatus);
     }
+}
+
+function grabSegment(word, maxLength){
+	function getLength(item){
+		var test = document.getElementById("ruler");
+		test.innerText = item;
+		test.style.fontSize = 18;
+// 		var height = (test.clientHeight + 1) + "px";
+		var width = (test.clientWidth + 1);
+		return width;
+	}
+	var totalLength = 0;
+	var averageLen = getLength(word) / word.length;
+	console.log(averageLen);
+	var maxReached = false;
+	var newWord = word.split(" ").filter(function(value, index){
+		if(!maxReached && totalLength + (value.length*averageLen) < maxLength){
+			totalLength += ((value.length+1)*averageLen)
+			console.log("item ", value );	
+			return true;
+		}
+		maxReached = true;
+		return false;	
+	}).join(" ");
+
+	return newWord;
+
+}
+
+function goThroughText(text, complete, steps = []){
+    var previousStep = function(){
+        goThroughText(text, complete, steps);
+    }
+    var segment = grabSegment(text, 800);
+   $("#msgBox").text(segment);
+    console.log(segment);
+    if(segment.trim() === "")
+        complete();
+    $("#next").click(function(){
+        console.log("click next");
+        steps.push(previousStep);
+        goThroughText(text.replace(new RegExp(segment, "g"), ""), complete, steps);
+    });
+    $("#prev").click(function(){
+//        console.log("Wasup!");
+//        if(steps.length >= 1)
+//            steps[steps.length - 1]();
+//        else
+//            console.log("first!");
+    });
 }
 
 function getCurrentAnimationBounds() {
