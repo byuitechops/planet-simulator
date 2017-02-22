@@ -1,8 +1,13 @@
 /*jslint plusplus: true, browser: true, devel: true */
 /*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart, Spotlight*/
 var boxen, animations,
-    animationInProgress = false,
-    spotlight = new Spotlight();
+    animationInProgress = false;
+//    spotlight = new Spotlight();
+var lightCrew = new Spotlights();
+lightCrew.generateScene(1730, 938, "#spots")
+lightCrew.addLight(50, 50, 200, 200);
+lightCrew.turnOffLights(1000, function () {})
+
 function setForcers(forcerObj) {
     "use strict";
     var forcers = ["mountain", "volcano", "weatheringCBurial", "weatheringCRelease", "insolation"],
@@ -42,10 +47,9 @@ function setForcers(forcerObj) {
 
 function animationsComplete() {
     "use strict";
-    spotlight.turnOff(function () {
-        spotlight.resetSpotlightPosition();
-        animationInProgress = false;
-    });
+    lightCrew.turnOffLights(1000, function(){
+         animationInProgress = false;
+    })
 }
 
 function checkAnimationStatus() {
@@ -55,15 +59,55 @@ function checkAnimationStatus() {
     if (box.targetFrame === box.currentFrame) {
         animations.shift();
         if (animations.length > 0) {
-            spotlight.moveSpotlight(boxen[animations[0]], function () {
-                boxen[animations[0]].transition(checkAnimationStatus);
-            });
+            moveToNext();
         } else {
             animationsComplete();
         }
     } else {
         box.transition(checkAnimationStatus);
     }
+}
+
+function getCurrentAnimationBounds() {
+    //    console.log(boxen[animations[0]]);
+    console.log(boxen[animations[0]].name);
+    if (!boxen[animations[0]].offset)
+        boxen[animations[0]].offset = {
+            x: 0,
+            y: 0
+        }
+    if (!boxen[animations[0]].scale)
+        boxen[animations[0]].scale = {
+            x: 1,
+            y: 1
+        }
+    var larger = (boxen[animations[0]].states[0].width > boxen[animations[0]].states[0].height) ? boxen[animations[0]].states[0].width : boxen[animations[0]].states[0].height;
+    var bounds = {
+        width: larger,
+        height: larger,
+        x: boxen[animations[0]].x,
+        y: boxen[animations[0]].y,
+        scale: {
+            x: boxen[animations[0]].scale.x*1.5,
+            y: boxen[animations[0]].scale.y*1.5
+        },
+        offset: {
+            x: (boxen[animations[0]].offset.x || 0) + boxen[animations[0]].states[0].width / 2,
+            y: (boxen[animations[0]].offset.y || 0) + boxen[animations[0]].states[0].height / 2
+        }
+    }
+    if(boxen[animations[0]].name === "sediment" || boxen[animations[0]].name === "weatheringCBurial"){
+        bounds.scale.x = 2;
+        bounds.scale.y = 2;
+    }
+//    console.log(bounds);
+    return bounds;
+}
+
+function moveToNext() {
+    lightCrew.moveLightToLocation(0, getCurrentAnimationBounds(), 1000, function () {
+        boxen[animations[0]].transition(checkAnimationStatus);
+    });
 }
 
 function updateBoxen(stepData) {
@@ -74,8 +118,8 @@ function updateBoxen(stepData) {
     // Determine which animations need to fire
     animations = properOrder.filter(function (val) {
         var box = boxen[val];
-		// for the new csvs this need to be changed to:
-		//		var newTarget = stepData[box.name].value - 1;
+        // for the new csvs this need to be changed to:
+        //		var newTarget = stepData[box.name].value - 1;
         var newTarget = stepData[box.name] - 1;
         if (box.targetStep === newTarget) {
             return false;
@@ -93,20 +137,26 @@ function updateBoxen(stepData) {
     });
 
     if (animations.length > 0) {
-        spotlight.moveToStart(boxen[animations[0]]);
-    }
-
-    // Turn on spotlight
-    spotlight.turnOn();
-
-    if (animations.length > 0) {
-        spotlight.moveSpotlight(boxen[animations[0]], function () {
-            boxen[animations[0]].transition(checkAnimationStatus);
+        //        spotlight.moveToStart(boxen[animations[0]]);
+        lightCrew.moveLightToLocation(0, getCurrentAnimationBounds(), 0, function () {
+            lightCrew.turnOnLights(1000, function () {
+                console.log("Spotlight is on!");
+                moveToNext();
+            });
         });
     } else {
         $('#noChangeMessage').delay(500).fadeIn(800, function () {
             $('#noChangeMessage').delay(1000).fadeOut(800, animationsComplete);
         });
+    }
+
+    //    // Turn on spotlight
+    //    spotlight.turnOn();
+
+    if (animations.length > 0) {
+        //        spotlight.moveSpotlight(boxen[animations[0]], function () {
+        //            
+        //        });
     }
 
 }
@@ -161,17 +211,6 @@ function init(forcerObj, timeScaleOps) {
         updateBoxen(timeScaleOps[step]);
         return false;
     });
-
-    //tests
-    var lights = [];
-    for (var i = 0; i < 10; i++) {
-        var v = new mov();
-        v.start();
-        lights.push(v);
-        for(var j of lights)
-            j.spot.adjustForLights(lights.length);
-    }
-
 
 }
 
