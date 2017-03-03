@@ -170,9 +170,7 @@ function updateBoxen(stepData) {
     // Determine which animations need to fire
     animations = properOrder.filter(function (val) {
         var box = boxen[val];
-        // for the new csvs this need to be changed to:
-        //		var newTarget = stepData[box.name].value - 1;
-        var newTarget = stepData[box.name] - 1;
+        var newTarget = stepData[box.name].value - 1;
         if (box.targetStep === newTarget) {
             return false;
         }
@@ -206,7 +204,7 @@ function updateBoxen(stepData) {
     //    spotlight.turnOn();
 
     if (animations.length > 0) {
-        //        spotlight.moveSpotlight(boxen[animations[0]], function () {
+        //        spotlight.moveSpotlight(boxen[animations[0]], funtion () {
         //            
         //        });
     }
@@ -215,7 +213,7 @@ function updateBoxen(stepData) {
 
 function init(forcerObj, timeScaleOps) {
     "use strict";
-
+    console.log(forcerObj,timeScaleOps)
     setForcers(forcerObj);
 
     boxen = containers.map(function (container, index) {
@@ -266,32 +264,6 @@ function init(forcerObj, timeScaleOps) {
 
 }
 
-function parsingFunc(d) {
-    "use strict";
-
-    function zeroOrNum(textIn) {
-        var num = parseInt(textIn, 10);
-        return isNaN(num) ? 0 : num;
-    }
-
-    return {
-        rowHeading: d["Row Heading"],
-        other: d.Other,
-        sediment: zeroOrNum(d.Sediment),
-        co2: zeroOrNum(d.CO2),
-        ice: zeroOrNum(d.Ice),
-        insolation: zeroOrNum(d.Insolation),
-        mountain: zeroOrNum(d.Mountains),
-        sea: zeroOrNum(d.Sea),
-        temperature: zeroOrNum(d.Temperature),
-        volcano: zeroOrNum(d.Volcano),
-        underwaterVolcano: zeroOrNum(d.Volcano),
-        co3Desposition: zeroOrNum(d["CO3 Desposition"]),
-        weatheringCRelease: zeroOrNum(d["Weathering C Release"]),
-        weatheringCBurial: zeroOrNum(d["Weathering C Burial"])
-    };
-}
-
 function callbackForGetCSV(err, csvData) {
     "use strict";
     var forcerObj;
@@ -312,7 +284,7 @@ function callbackForGetCSV(err, csvData) {
 
 /******************************* START ***************************************/
 // Get CSV with file name from url
-getCSV(parsingFunc, callbackForGetCSV);
+getCSV(callbackForGetCSV);
 
 //help for development - placing pictures
 function placeSomething(selectorIn) {
