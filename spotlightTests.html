@@ -48,7 +48,7 @@
     <script src="spotlights.js"></script>
     <script>
         var stage = new Spotlights();
-        stage.generateScene(100, 100, "spots");
+        stage.generateScene(100, 100, "#spots");
         var lights = 4;
         for (var i = 0; i < lights; i++)
             stage.addLight(0, 0, 1, 1);
@@ -75,20 +75,6 @@
             var rdm = function (positions, stage) {
                 this.stage = stage;
                 this.positions = []
-                    /*[
-                                        {
-                                            x: 0,
-                                            y: 50,
-                                            width: 10,
-                                            height: 10
-                                    },
-                                        {
-                                            x: 100,
-                                            y: 50,
-                                            width: 70,
-                                            height: 70
-                                    }
-                                    ];*/
                 for (var i = 0; i < positions; i++)
                     this.positions.push(createLightPosition());
             }
