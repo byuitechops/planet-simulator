@@ -59,9 +59,11 @@ function checkAnimationStatus() {
     if (box.targetFrame === box.currentFrame) {
         animations.shift();
         if (animations.length > 0) {
-            goThroughText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et lacus venenatis, sodales mi ac, pharetra nibh. Phasellus congue nisi at mi lacinia finibus. Curabitur lectus elit, tincidunt quis gravida in, porta nec nulla. Nam pretium vulputate tincidunt. In sit amet sapien et metus congue mollis in quis quam. Vestibulum egestas non metus vitae venenatis. Curabitur iaculis nunc nulla, vitae interdum ante pellentesque in. In hac habitasse platea dictumst. Sed id volutpat lorem, nec venenatis nisi. Nulla ac aliquet nulla. Suspendisse id imperdiet enim, sit amet posuere felis. Maecenas volutpat augue quis felis imperdiet, vel porttitor ex laoreet. Nunc egestas mollis libero quis pulvinar. Etiam quis ex lacus.", function(){  
-                moveToNext();
-            });
+//            goThroughText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et lacus venenatis, sodales mi ac, pharetra nibh. Phasellus congue nisi at mi lacinia finibus. Curabitur lectus elit, tincidunt quis gravida in, porta nec nulla. Nam pretium vulputate tincidunt. In sit amet sapien et metus congue mollis in quis quam. Vestibulum egestas non metus vitae venenatis. Curabitur iaculis nunc nulla, vitae interdum ante pellentesque in. In hac habitasse platea dictumst. Sed id volutpat lorem, nec venenatis nisi. Nulla ac aliquet nulla. Suspendisse id imperdiet enim, sit amet posuere felis. Maecenas volutpat augue quis felis imperdiet, vel porttitor ex laoreet. Nunc egestas mollis libero quis pulvinar. Etiam quis ex lacus.", function(){
+//                moveToNext();
+//            });
+            console.log(boxen[animations[0]])
+            goThroughText(boxen[animations[0]].text,moveToNext)
         } else {
             animationsComplete();
         }
@@ -178,6 +180,8 @@ function updateBoxen(stepData) {
         box.transitionDuration = 1500 / (Math.abs(box.targetStep - newTarget)) / box.framesPerStep;
         box.targetStep = newTarget;
         box.targetFrame = box.targetStep * box.framesPerStep;
+        box.text = stepData[box.name].text;
+        box.timing = stepData[box.name].timing;
         if (box.MiniMacaroniMeter) {
             box.MiniMacaroniMeter.transitionDuration = 1500 / (Math.abs(box.MiniMacaroniMeter.targetStep - newTarget)) / box.MiniMacaroniMeter.framesPerStep;
             box.MiniMacaroniMeter.targetStep = newTarget;
@@ -208,7 +212,6 @@ function updateBoxen(stepData) {
         //            
         //        });
     }
-
 }
 
 function init(forcerObj, timeScaleOps) {
