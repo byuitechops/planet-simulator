@@ -47,25 +47,33 @@ function setForcers(forcerObj) {
 
 function animationsComplete() {
     "use strict";
-    lightCrew.turnOffLights(1000, function(){
-         animationInProgress = false;
+    lightCrew.turnOffLights(1000, function () {
+        animationInProgress = false;
     })
+    $("#messageBox").animate({
+        opacity: 0
+    }, 1000);
 }
 
 function checkAnimationStatus() {
     'use strict';
+    updateMessageBoxInfo();
     var box = boxen[animations[0]];
-
+    console.log(box);
     if (box.targetFrame === box.currentFrame) {
         animations.shift();
+        boxen[animations[0]].startingFrame = boxen[animations[0]].currentFrame;
         if (animations.length > 0) {
-//            goThroughText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et lacus venenatis, sodales mi ac, pharetra nibh. Phasellus congue nisi at mi lacinia finibus. Curabitur lectus elit, tincidunt quis gravida in, porta nec nulla. Nam pretium vulputate tincidunt. In sit amet sapien et metus congue mollis in quis quam. Vestibulum egestas non metus vitae venenatis. Curabitur iaculis nunc nulla, vitae interdum ante pellentesque in. In hac habitasse platea dictumst. Sed id volutpat lorem, nec venenatis nisi. Nulla ac aliquet nulla. Suspendisse id imperdiet enim, sit amet posuere felis. Maecenas volutpat augue quis felis imperdiet, vel porttitor ex laoreet. Nunc egestas mollis libero quis pulvinar. Etiam quis ex lacus.", function(){
-//                moveToNext();
-//            });
-//            console.log(boxen[animations[0]])
-            goThroughText(boxen[animations[0]].text,function(){
+            //            goThroughText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et lacus venenatis, sodales mi ac, pharetra nibh. Phasellus congue nisi at mi lacinia finibus. Curabitur lectus elit, tincidunt quis gravida in, porta nec nulla. Nam pretium vulputate tincidunt. In sit amet sapien et metus congue mollis in quis quam. Vestibulum egestas non metus vitae venenatis. Curabitur iaculis nunc nulla, vitae interdum ante pellentesque in. In hac habitasse platea dictumst. Sed id volutpat lorem, nec venenatis nisi. Nulla ac aliquet nulla. Suspendisse id imperdiet enim, sit amet posuere felis. Maecenas volutpat augue quis felis imperdiet, vel porttitor ex laoreet. Nunc egestas mollis libero quis pulvinar. Etiam quis ex lacus.", function(){
+            //                moveToNext();
+            //            });
+            //            console.log(boxen[animations[0]])
+            goThroughText(boxen[animations[0]].text, function () {
                 console.log("You called?");
-                moveToNext();
+                if (animations.length > 1) {
+                    moveToNext();
+                } else
+                    animationsComplete();
             })
         } else {
             animationsComplete();
@@ -75,43 +83,43 @@ function checkAnimationStatus() {
     }
 }
 
-function grabSegment(word, maxLength){
-	function getLength(item){
-		var test = document.getElementById("ruler");
-		test.innerText = item;
-		test.style.fontSize = 18;
-// 		var height = (test.clientHeight + 1) + "px";
-		var width = (test.clientWidth + 1);
-		return width;
-	}
-	var totalLength = 0;
-	var averageLen = getLength(word) / word.length;
-	console.log(averageLen);
-	var maxReached = false;
-	var newWord = word.split(" ").filter(function(value, index){
-		if(!maxReached && totalLength + (value.length*averageLen) < maxLength){
-			totalLength += ((value.length+1)*averageLen)
-			console.log("item ", value );	
-			return true;
-		}
-		maxReached = true;
-		return false;	
-	}).join(" ");
+function grabSegment(word, maxLength) {
+    function getLength(item) {
+        var test = document.getElementById("ruler");
+        test.innerText = item;
+        test.style.fontSize = 18;
+        // 		var height = (test.clientHeight + 1) + "px";
+        var width = (test.clientWidth + 1);
+        return width;
+    }
+    var totalLength = 0;
+    var averageLen = getLength(word) / word.length;
+    console.log(averageLen);
+    var maxReached = false;
+    var newWord = word.split(" ").filter(function (value, index) {
+        if (!maxReached && totalLength + (value.length * averageLen) < maxLength) {
+            totalLength += ((value.length + 1) * averageLen)
+            console.log("item ", value);
+            return true;
+        }
+        maxReached = true;
+        return false;
+    }).join(" ");
 
-	return newWord;
+    return newWord;
 
 }
 
-function goThroughText(text, complete){
- 
-//    var segment = grabSegment(text, 800);
-   $("#msgTxt").text(text);
+function goThroughText(text, complete) {
+
+    //    var segment = grabSegment(text, 800);
+    $("#msgTxt").text(text);
     console.log(text);
-//    if(text.trim() === "")
-//        complete();
+    //    if(text.trim() === "")
+    //        complete();
     var completed = false;
-    $("#next").click(function(){
-        if(!completed){
+    $("#next").click(function () {
+        if (!completed) {
             complete();
             completed = true;
         }
@@ -138,27 +146,30 @@ function getCurrentAnimationBounds() {
         x: boxen[animations[0]].x,
         y: boxen[animations[0]].y,
         scale: {
-            x: boxen[animations[0]].scale.x*1.5,
-            y: boxen[animations[0]].scale.y*1.5
+            x: boxen[animations[0]].scale.x * 1.5,
+            y: boxen[animations[0]].scale.y * 1.5
         },
         offset: {
             x: (boxen[animations[0]].offset.x || 0) + boxen[animations[0]].states[0].width / 2,
             y: (boxen[animations[0]].offset.y || 0) + boxen[animations[0]].states[0].height / 2
         }
     }
-    if(boxen[animations[0]].name === "sediment" || boxen[animations[0]].name === "weatheringCBurial"){
+    if (boxen[animations[0]].name === "sediment" || boxen[animations[0]].name === "weatheringCBurial") {
         bounds.scale.x = 2;
         bounds.scale.y = 2;
     }
-//    console.log(bounds);
+    //    console.log(bounds);
     return bounds;
 }
 
 function moveToNext() {
+
+
     lightCrew.moveLightToLocation(0, getCurrentAnimationBounds(), 1000, function () {
         boxen[animations[0]].transition(checkAnimationStatus);
     });
 }
+console.log("Hello World!")
 
 function updateBoxen(stepData) {
     'use strict';
@@ -187,10 +198,13 @@ function updateBoxen(stepData) {
     });
 
     if (animations.length > 0) {
-        //        spotlight.moveToStart(boxen[animations[0]]);
+        boxen[animations[0]].startingFrame = boxen[animations[0]].currentFrame;
+        updateMessageBoxInfo();
         lightCrew.moveLightToLocation(0, getCurrentAnimationBounds(), 0, function () {
             lightCrew.turnOnLights(1000, function () {
                 console.log("Spotlight is on!");
+                console.log("Moving To Next...");
+                console.log("TPz: ", TP)
                 moveToNext();
             });
         });
@@ -210,9 +224,20 @@ function updateBoxen(stepData) {
     }
 }
 
+function updateMessageBoxInfo() {
+    //        spotlight.moveToStart(boxen[animations[0]]);
+    $("#timePeriod").text("Time Period: " + TP);
+    var box = boxen[animations[0]];
+    $("#washappenin").html(box.name + " " + box.startingFrame + " " + "&#11157; " + box.targetFrame);
+    $("#msgTxt").text("");
+    $("#messageBox").animate({
+        opacity: 1
+    }, 1000);
+}
+
 function init(forcerObj, timeScaleOps) {
     "use strict";
-    console.log(forcerObj,timeScaleOps)
+    console.log(forcerObj, timeScaleOps)
     setForcers(forcerObj);
 
     boxen = containers.map(function (container, index) {
