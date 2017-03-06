@@ -158,6 +158,7 @@ text.disabled {
     padding:0;
 }
 #messageBox {
+    opacity: 0;
     font-family: 'Roboto', sans-serif;
     margin
     text-align: center;
