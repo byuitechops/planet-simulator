@@ -107,6 +107,8 @@ var Animator = (function () {
             } else {
                 svg = animator.frames[index];
             }
+            // INSTANT CHANGE OF ANIMATIONS
+            // TURN TO OWN FUNCTION
             if (index <= animator.targetFrame) {
                 frame.opacity = 100;
             } else {
