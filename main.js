@@ -1,7 +1,8 @@
 /*jslint plusplus: true, browser: true, devel: true */
 /*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart, Spotlight*/
-var boxen, animations,
+var boxen, animations,currentTP=-1,
     animationInProgress = false;
+
 //    spotlight = new Spotlight();
 var lightCrew = new Spotlights();
 lightCrew.generateScene(1730, 938, "#spots")
@@ -169,7 +170,14 @@ function moveToNext() {
         boxen[animations[0]].transition(checkAnimationStatus);
     });
 }
-console.log("Hello World!")
+
+function quickStepBackward(stepData){
+    // for each animated object
+    boxen.forEach( function(box) {
+        // set the animated object to the CSV's coresponding value
+        box.setFrame(stepData[box.name].value - 1)
+    })
+}
 
 function updateBoxen(stepData) {
     'use strict';
@@ -280,12 +288,21 @@ function init(forcerObj, timeScaleOps) {
         // IE 11 Support
         var parent = this.parentElement || this.parentNode,
             step = parseInt(parent.id.slice(-1), 10) - 1;
-        // Set active state
-        $("#timeline g").removeClass("active");
-        $(this.parentElement).addClass("active");
-        animationInProgress = true;
-        updateBoxen(timeScaleOps[step]);
-        return false;
+
+        console.log(step,currentTP)
+        if(step < currentTP){
+            console.log("going backwards")
+            quickStepBackward(timeScaleOps[step])
+        } else {
+            // Set active state
+            $("#timeline g").removeClass("active");
+            $(this.parentElement).addClass("active");
+            animationInProgress = true;
+            updateBoxen(timeScaleOps[step]);
+            return false;
+        }
+        currentTP = step;
+
     });
 
 }
