@@ -133,3 +133,44 @@ text.disabled {
     display: none;
     font-size: 50px;
 }
+#navigation{
+    display: flex;
+    justify-content: space-between;
+}
+.yoda{
+    font-weight: normal;
+}
+#timePeriod{
+    border-bottom: 2px solid white;
+    margin:0
+}
+#next{
+    padding:1.5%;
+    height: 5%;
+    border: 2px white solid;
+}
+#next:hover{
+    background-color: #1b1b1b;
+    cursor: pointer;
+}
+#washappenin{
+    margin-top: 0;
+    padding:0;
+}
+#messageBox {
+    font-family: 'Roboto', sans-serif;
+    margin
+    text-align: center;
+    color: white;
+    padding: 1.5%;
+    border: 3px solid #43B0C0;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#121212+0,0f0e0e+100&0.87+0,0.98+100 */
+    background: -moz-linear-gradient(top, rgba(18, 18, 18, 0.87) 0%, rgba(15, 14, 14, 0.98) 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(18, 18, 18, 0.87) 0%, rgba(15, 14, 14, 0.98) 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(18, 18, 18, 0.87) 0%, rgba(15, 14, 14, 0.98) 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#de121212', endColorstr='#fa0f0e0e', GradientType=0);
+    /* IE6-9 */
+}
