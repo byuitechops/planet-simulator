@@ -200,10 +200,10 @@ function updateBoxen(stepData, skipAnimations) {
         // SKIPS ANIMATIONS
         if (skipAnimations) {
             animations.forEach(function (item) {
-                boxen[item].setState(parseInt(stepData[boxen[item].name]) - 1);
+                boxen[item].setState(parseInt(stepData[boxen[item].name].value) - 1);
                 if (boxen[item].MiniMacaroniMeter)
-                    boxen[item].MiniMacaroniMeter.setState(pareseInt(stepData[boxen[item].name]) - 1);
-            console.log("Stages Set To State! ", parseInt(stepData[boxen[item].name]) - 1);
+                    boxen[item].MiniMacaroniMeter.setState(parseInt(stepData[boxen[item].name].value) - 1);
+            console.log("Stages Set To State! ", parseInt(stepData[boxen[item].name].value) - 1);
             });
             return;
         }
