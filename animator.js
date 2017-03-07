@@ -125,7 +125,19 @@ var Animator = (function () {
         this.group = group;
         return this;
     };
-
+    // SKIPS ANIMATIONS AND INSTANTLY SETS STATES
+    Animator.prototype.setState = function (state) {
+        var that  = this;
+        this.states.forEach(function (frame, index) {
+            if (index <= state) {
+                frame.opacity = 100;
+                console.log(index, state);
+            } else {
+                frame.opacity = 0;
+            }
+            $(that.frames[index]).attr("opacity", frame.opacity/100);
+        });
+    }
     Animator.prototype.createMacaroniMeter = function (name, x, y, mirrored) {
         var i,
             files = [],

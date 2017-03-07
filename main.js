@@ -64,17 +64,17 @@ function checkAnimationStatus() {
         animations.shift();
         boxen[animations[0]].startingFrame = boxen[animations[0]].currentFrame;
         if (animations.length > 0) {
-            //            goThroughText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et lacus venenatis, sodales mi ac, pharetra nibh. Phasellus congue nisi at mi lacinia finibus. Curabitur lectus elit, tincidunt quis gravida in, porta nec nulla. Nam pretium vulputate tincidunt. In sit amet sapien et metus congue mollis in quis quam. Vestibulum egestas non metus vitae venenatis. Curabitur iaculis nunc nulla, vitae interdum ante pellentesque in. In hac habitasse platea dictumst. Sed id volutpat lorem, nec venenatis nisi. Nulla ac aliquet nulla. Suspendisse id imperdiet enim, sit amet posuere felis. Maecenas volutpat augue quis felis imperdiet, vel porttitor ex laoreet. Nunc egestas mollis libero quis pulvinar. Etiam quis ex lacus.", function(){
-            //                moveToNext();
-            //            });
-            //            console.log(boxen[animations[0]])
-            goThroughText(boxen[animations[0]].text, function () {
+           /* goThroughText(boxen[animations[0]].text, function () {
                 console.log("You called?");
                 if (animations.length > 1) {
                     moveToNext();
                 } else
                     animationsComplete();
-            })
+            })*/
+            if (animations.length > 1) {
+                    moveToNext();
+                } else
+                    animationsComplete();
         } else {
             animationsComplete();
         }
@@ -171,9 +171,8 @@ function moveToNext() {
 }
 console.log("Hello World!")
 
-function updateBoxen(stepData) {
+function updateBoxen(stepData, skipAnimations) {
     'use strict';
-
     var properOrder = [3, 4, 2, 0, 1, 5, 6, 11, 9, 8, 7, 10];
 
     // Determine which animations need to fire
@@ -198,6 +197,16 @@ function updateBoxen(stepData) {
     });
 
     if (animations.length > 0) {
+        // SKIPS ANIMATIONS
+        if (skipAnimations) {
+            animations.forEach(function (item) {
+                boxen[item].setState(parseInt(stepData[boxen[item].name]) - 1);
+                if (boxen[item].MiniMacaroniMeter)
+                    boxen[item].MiniMacaroniMeter.setState(pareseInt(stepData[boxen[item].name]) - 1);
+            console.log("Stages Set To State! ", parseInt(stepData[boxen[item].name]) - 1);
+            });
+            return;
+        }
         boxen[animations[0]].startingFrame = boxen[animations[0]].currentFrame;
         updateMessageBoxInfo();
         lightCrew.moveLightToLocation(0, getCurrentAnimationBounds(), 0, function () {
@@ -209,18 +218,10 @@ function updateBoxen(stepData) {
             });
         });
     } else {
+        // NO CHANGES MADE
         $('#noChangeMessage').delay(500).fadeIn(800, function () {
             $('#noChangeMessage').delay(1000).fadeOut(800, animationsComplete);
         });
-    }
-
-    //    // Turn on spotlight
-    //    spotlight.turnOn();
-
-    if (animations.length > 0) {
-        //        spotlight.moveSpotlight(boxen[animations[0]], funtion () {
-        //            
-        //        });
     }
 }
 
@@ -233,6 +234,17 @@ function updateMessageBoxInfo() {
     $("#messageBox").animate({
         opacity: 1
     }, 1000);
+}
+
+/*
+ * SETS ALL OF THE ANIMATION STATES
+ */
+function setAnimationStates(state) {
+    boxen.forEach(function (item) {
+        item.setState(state);
+        if (item.MiniMacaroniMeter)
+            item.MiniMacaroniMeter.setState(state);
+    });
 }
 
 function init(forcerObj, timeScaleOps) {
@@ -275,7 +287,9 @@ function init(forcerObj, timeScaleOps) {
         if (animationInProgress || $(this.parentElement).hasClass("active")) {
             return;
         }
-        TP = $(this).parent().find("text").text().replace(/Y/g, "Years").replace(/K/g, "Thousand ").replace(/M/g, "Million ");
+        var phase = $(this).parent().find("text").text();
+        var currentIndex = timeKeys.indexOf(phase);
+        TP = phase.replace(/Y/g, "Years").replace(/K/g, "Thousand ").replace(/M/g, "Million ");
         console.log('TP: ', TP);
         // IE 11 Support
         var parent = this.parentElement || this.parentNode,
@@ -284,13 +298,18 @@ function init(forcerObj, timeScaleOps) {
         $("#timeline g").removeClass("active");
         $(this.parentElement).addClass("active");
         animationInProgress = true;
-        updateBoxen(timeScaleOps[step]);
+        console.log(currentIndex < previousIndex, currentIndex, previousIndex);
+        updateBoxen(timeScaleOps[step], (currentIndex < previousIndex));
+        previousIndex = currentIndex;
         return false;
     });
 
 }
 
+const timeKeys = ["INITIAL", "100-1000 Y", "100 KY", "1 MY", "10 MY"];
+
 var TP = "";
+var previousIndex = 0
 
 function callbackForGetCSV(err, csvData) {
     "use strict";
