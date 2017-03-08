@@ -77,6 +77,8 @@ window.getCSV = (function () {
             // setup the skeleton if this is a new section
             if (section) {
                 var timeZone = data.columns.reduce(function (timeZone, column, i) {
+                    var timingDefault = 0;
+
                     if (column === "other") {
                         return timeZone;
                     }
@@ -84,9 +86,14 @@ window.getCSV = (function () {
                     if (i === 0) {
                         timeZone[column] = section.input;
                     } else {
+                        //the ones are so that the initial values don't get weeded out later
+                        if (row.rowHeading === "initial") {
+                            timingDefault = 1;
+                        }
+                        //set it
                         timeZone[column] = {
                             value: +row[column] || 0,
-                            timing: 0,
+                            timing: timingDefault,
                             text: ""
                         };
                     }

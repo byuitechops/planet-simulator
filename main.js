@@ -189,6 +189,7 @@ function getProperOrder(stepData) {
         return endArray;
     }, []);
 
+
     //sort on timing
     steps.sort(function (a, b) {
         return a.timing - b.timing;
@@ -214,7 +215,8 @@ function updateBoxen(stepData, skipAnimations) {
     animations = properOrder.filter(function (val) {
         var box = boxen[val];
         var newTarget = stepData[box.name].value - 1;
-        if (box.targetStep === newTarget) {
+        console.log("box.text:", stepData[box.name].text);
+        if (box.targetStep === newTarget && stepData[box.name].text === '') {
             return false;
         }
         // Update properties

@@ -137,7 +137,7 @@ var Animator = (function () {
         }
 
         //update current frame so animations work later
-        this.currentFrame = state * that.framesPerStep;
+        this.targetFrame = this.currentFrame = state * that.framesPerStep;
 
         //set the frames and states themselfs
         this.states.forEach(function (frame, index) {
@@ -156,7 +156,8 @@ var Animator = (function () {
         if (this.MiniMacaroniMeter) {
             this.MiniMacaroniMeter.setState(state);
         }
-    }
+    };
+
     Animator.prototype.createMacaroniMeter = function (name, x, y, mirrored) {
         var i,
             files = [],
