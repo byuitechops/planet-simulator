@@ -1,13 +1,13 @@
 /*jslint plusplus: true, browser: true, devel: true */
-/*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart, Spotlight, settings*/
+/*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart, Spotlights, settings*/
 
 var boxen, animations,
     animationInProgress = false;
 //    spotlight = new Spotlight();
 var lightCrew = new Spotlights();
-lightCrew.generateScene(1730, 938, "#spots")
+lightCrew.generateScene(1730, 938, "#spots");
 lightCrew.addLight(50, 50, 200, 200);
-lightCrew.turnOffLights(0, function () {})
+lightCrew.turnOffLights(0, function () {});
 
 function setForcers(forcerObj) {
     "use strict";
@@ -50,7 +50,7 @@ function animationsComplete() {
     "use strict";
     lightCrew.turnOffLights(settings.TURNOFFLIGHTS_LENGTH, function () {
         animationInProgress = false;
-    })
+    });
     hideMessageBox();
 }
 
@@ -96,7 +96,7 @@ function grabSegment(word, maxLength) {
     var maxReached = false;
     var newWord = word.split(" ").filter(function (value, index) {
         if (!maxReached && totalLength + (value.length * averageLen) < maxLength) {
-            totalLength += ((value.length + 1) * averageLen)
+            totalLength += ((value.length + 1) * averageLen);
             console.log("item ", value);
             return true;
         }
@@ -134,12 +134,12 @@ function getCurrentAnimationBounds() {
         boxen[animations[0]].offset = {
             x: 0,
             y: 0
-        }
+        };
     if (!boxen[animations[0]].scale)
         boxen[animations[0]].scale = {
             x: 1,
             y: 1
-        }
+        };
     var larger = (boxen[animations[0]].states[0].width > boxen[animations[0]].states[0].height) ? boxen[animations[0]].states[0].width : boxen[animations[0]].states[0].height;
     var bounds = {
         width: larger,
@@ -154,7 +154,7 @@ function getCurrentAnimationBounds() {
             x: (boxen[animations[0]].offset.x || 0) + boxen[animations[0]].states[0].width / 2,
             y: (boxen[animations[0]].offset.y || 0) + boxen[animations[0]].states[0].height / 2
         }
-    }
+    };
     if (boxen[animations[0]].name === "sediment" || boxen[animations[0]].name === "weatheringCBurial") {
         bounds.scale.x = 2;
         bounds.scale.y = 2;
@@ -214,7 +214,7 @@ function updateBoxen(stepData, skipAnimations) {
             lightCrew.turnOnLights(settings.TURN_ON_LIGHTS_LENGTH, function () {
                 console.log("Spotlight is on!");
                 console.log("Moving To Next...");
-                console.log("TPz: ", TP)
+                console.log("TPz: ", TP);
                 moveToNext();
             });
         });
@@ -270,7 +270,7 @@ function setAnimationStates(state) {
 
 function init(forcerObj, timeScaleOps) {
     "use strict";
-    console.log(forcerObj, timeScaleOps)
+    console.log(forcerObj, timeScaleOps);
     setForcers(forcerObj);
 
     boxen = containers.map(function (container, index) {
@@ -327,10 +327,10 @@ function init(forcerObj, timeScaleOps) {
 
 }
 
-const timeKeys = ["INITIAL", "100-1000 Y", "100 KY", "1 MY", "10 MY"];
+var timeKeys = ["INITIAL", "100-1000 Y", "100 KY", "1 MY", "10 MY"];
 
 var TP = "";
-var previousIndex = 0
+var previousIndex = 0;
 
 function callbackForGetCSV(err, csvData) {
     "use strict";

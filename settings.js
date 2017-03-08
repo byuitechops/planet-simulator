@@ -1,4 +1,4 @@
-var bugging = true;
+var bugging = false;
 
 var settings = {
     SKIP_NEXT_BUTTON: bugging,
