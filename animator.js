@@ -100,7 +100,6 @@ var Animator = (function () {
                 image.setAttributeNS(null, "y", 0);
                 image.setAttributeNS(null, "height", frame.height);
                 image.setAttributeNS(null, "width", frame.width);
-                image.setAttributeNS(null, "visibility", "visibile");
 
                 group.appendChild(image);
                 animator.frames.push(image);
@@ -110,10 +109,10 @@ var Animator = (function () {
             // INSTANT CHANGE OF ANIMATIONS
             // TURN TO OWN FUNCTION
             if (index <= animator.targetFrame) {
-                frame.opacity = 100;
+                frame.opacity = 1;
             } else {
                 frame.opacity = 0;
-                $(image).attr("opacity", "0");
+                $(image).css("opacity", "0");
             }
             fadeOut = window.setInterval(function () {
                 window.clearInterval(fadeOut);
@@ -126,17 +125,37 @@ var Animator = (function () {
         return this;
     };
     // SKIPS ANIMATIONS AND INSTANTLY SETS STATES
+    //state in is a number between 0-4
     Animator.prototype.setState = function (state) {
-        var that  = this;
+        var that = this;
+
+        //make sure state is with in bounds
+        if (state > 4) {
+            state = 4;
+        } else if (state < 0) {
+            state = 0;
+        }
+
+        //update current frame so animations work later
+        this.currentFrame = state * that.framesPerStep;
+
+        //set the frames and states themselfs
         this.states.forEach(function (frame, index) {
-            if (index <= state) {
-                frame.opacity = 100;
-                console.log(index, state);
+            // console.log(frame);
+            if (index <= state * that.framesPerStep) {
+                frame.opacity = 1;
+                //  console.log(index, state);
             } else {
                 frame.opacity = 0;
             }
-            $(that.frames[index]).attr("opacity", frame.opacity/100);
+
+            $(that.frames[index]).css("opacity", frame.opacity);
         });
+
+        //fix the macaroniMeter too if it has one
+        if (this.MiniMacaroniMeter) {
+            this.MiniMacaroniMeter.setState(state);
+        }
     }
     Animator.prototype.createMacaroniMeter = function (name, x, y, mirrored) {
         var i,

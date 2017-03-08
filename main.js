@@ -1,12 +1,13 @@
 /*jslint plusplus: true, browser: true, devel: true */
-/*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart, Spotlight*/
+/*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart, Spotlight, settings*/
+
 var boxen, animations,
     animationInProgress = false;
 //    spotlight = new Spotlight();
 var lightCrew = new Spotlights();
 lightCrew.generateScene(1730, 938, "#spots")
 lightCrew.addLight(50, 50, 200, 200);
-lightCrew.turnOffLights(1000, function () {})
+lightCrew.turnOffLights(0, function () {})
 
 function setForcers(forcerObj) {
     "use strict";
@@ -47,34 +48,31 @@ function setForcers(forcerObj) {
 
 function animationsComplete() {
     "use strict";
-    lightCrew.turnOffLights(1000, function () {
+    lightCrew.turnOffLights(settings.TURNOFFLIGHTS_LENGTH, function () {
         animationInProgress = false;
     })
-    $("#messageBox").animate({
-        opacity: 0
-    }, 1000);
+    hideMessageBox();
 }
+
+
 
 function checkAnimationStatus() {
     'use strict';
-    updateMessageBoxInfo();
     var box = boxen[animations[0]];
-    console.log(box);
+    //console.log(box);
     if (box.targetFrame === box.currentFrame) {
         animations.shift();
-        boxen[animations[0]].startingFrame = boxen[animations[0]].currentFrame;
         if (animations.length > 0) {
-           /* goThroughText(boxen[animations[0]].text, function () {
-                console.log("You called?");
-                if (animations.length > 1) {
+            boxen[animations[0]].startingFrame = boxen[animations[0]].currentFrame;
+            goThroughText(boxen[animations[0]].text, function () {
+                updateMessageBoxInfo();
+                if (animations.length > 0) {
                     moveToNext();
-                } else
+                } else {
                     animationsComplete();
-            })*/
-            if (animations.length > 1) {
-                    moveToNext();
-                } else
-                    animationsComplete();
+                }
+
+            });
         } else {
             animationsComplete();
         }
@@ -112,11 +110,14 @@ function grabSegment(word, maxLength) {
 
 function goThroughText(text, complete) {
 
-    //    var segment = grabSegment(text, 800);
+    //add the text to the div
     $("#msgTxt").text(text);
-    console.log(text);
-    //    if(text.trim() === "")
-    //        complete();
+
+    //just for testing
+    if (settings.SKIP_NEXT_BUTTON) {
+        complete();
+    }
+
     var completed = false;
     $("#next").click(function () {
         if (!completed) {
@@ -165,11 +166,10 @@ function getCurrentAnimationBounds() {
 function moveToNext() {
 
 
-    lightCrew.moveLightToLocation(0, getCurrentAnimationBounds(), 1000, function () {
+    lightCrew.moveLightToLocation(0, getCurrentAnimationBounds(), settings.SPOTLIGHT_MOVE_DURATION, function () {
         boxen[animations[0]].transition(checkAnimationStatus);
     });
 }
-console.log("Hello World!")
 
 function updateBoxen(stepData, skipAnimations) {
     'use strict';
@@ -183,13 +183,13 @@ function updateBoxen(stepData, skipAnimations) {
             return false;
         }
         // Update properties
-        box.transitionDuration = 1500 / (Math.abs(box.targetStep - newTarget)) / box.framesPerStep;
+        box.transitionDuration = settings.ANIMATION_LENGTH / (Math.abs(box.targetStep - newTarget)) / box.framesPerStep;
         box.targetStep = newTarget;
         box.targetFrame = box.targetStep * box.framesPerStep;
         box.text = stepData[box.name].text;
         box.timing = stepData[box.name].timing;
         if (box.MiniMacaroniMeter) {
-            box.MiniMacaroniMeter.transitionDuration = 1500 / (Math.abs(box.MiniMacaroniMeter.targetStep - newTarget)) / box.MiniMacaroniMeter.framesPerStep;
+            box.MiniMacaroniMeter.transitionDuration = settings.ANIMATION_LENGTH / (Math.abs(box.MiniMacaroniMeter.targetStep - newTarget)) / box.MiniMacaroniMeter.framesPerStep;
             box.MiniMacaroniMeter.targetStep = newTarget;
             box.MiniMacaroniMeter.targetFrame = box.MiniMacaroniMeter.targetStep * box.MiniMacaroniMeter.framesPerStep;
         }
@@ -200,17 +200,18 @@ function updateBoxen(stepData, skipAnimations) {
         // SKIPS ANIMATIONS
         if (skipAnimations) {
             animations.forEach(function (item) {
-                boxen[item].setState(parseInt(stepData[boxen[item].name].value) - 1);
-                if (boxen[item].MiniMacaroniMeter)
-                    boxen[item].MiniMacaroniMeter.setState(parseInt(stepData[boxen[item].name].value) - 1);
-            console.log("Stages Set To State! ", parseInt(stepData[boxen[item].name].value) - 1);
+                var stateNumber = stepData[boxen[item].name].value - 1;
+                //console.log(boxen[item].name, "Set To State:", stateNumber);
+                boxen[item].setState(stateNumber);
             });
+            animationInProgress = false;
             return;
         }
         boxen[animations[0]].startingFrame = boxen[animations[0]].currentFrame;
         updateMessageBoxInfo();
+        showMessageBox();
         lightCrew.moveLightToLocation(0, getCurrentAnimationBounds(), 0, function () {
-            lightCrew.turnOnLights(1000, function () {
+            lightCrew.turnOnLights(settings.TURN_ON_LIGHTS_LENGTH, function () {
                 console.log("Spotlight is on!");
                 console.log("Moving To Next...");
                 console.log("TPz: ", TP)
@@ -225,15 +226,36 @@ function updateBoxen(stepData, skipAnimations) {
     }
 }
 
-function updateMessageBoxInfo() {
-    //        spotlight.moveToStart(boxen[animations[0]]);
-    $("#timePeriod").text("Time Period: " + TP);
-    var box = boxen[animations[0]];
-    $("#washappenin").html(box.name + " " + box.startingFrame + " " + "&#11157; " + box.targetFrame);
-    $("#msgTxt").text("");
+function showMessageBox() {
     $("#messageBox").animate({
         opacity: 1
-    }, 1000);
+    }, settings.MESSAGEBOX_ANIMATION_LENGTH);
+}
+
+function hideMessageBox() {
+    $("#messageBox").animate({
+        opacity: 0
+    }, settings.MESSAGEBOX_ANIMATION_LENGTH);
+}
+
+function updateMessageBoxInfo() {
+    //        spotlight.moveToStart(boxen[animations[0]]);
+    function frameToValue(num, box) {
+        return Math.floor(num / box.framesPerStep) + 1;
+    }
+
+    $("#timePeriod").text("Time Period: " + TP);
+    var wasHappenin = "",
+        box = boxen[animations[0]];
+    //setup the string
+    wasHappenin += box.name + " ";
+    wasHappenin += frameToValue(box.startingFrame, box);
+    wasHappenin += " " + "&#11157; ";
+    wasHappenin += frameToValue(box.targetFrame, box);
+
+
+    $("#washappenin").html(wasHappenin);
+    $("#msgTxt").text("");
 }
 
 /*
@@ -241,9 +263,8 @@ function updateMessageBoxInfo() {
  */
 function setAnimationStates(state) {
     boxen.forEach(function (item) {
+        console.log("IN BLAST:", item.name);
         item.setState(state);
-        if (item.MiniMacaroniMeter)
-            item.MiniMacaroniMeter.setState(state);
     });
 }
 
@@ -265,7 +286,7 @@ function init(forcerObj, timeScaleOps) {
             var frame = new Frame(url, container.width, container.height);
             return frame;
         });
-        box = new Animator(container.name, frames, container.isFrame, container.x, container.y, container.scale, timeScaleOps[0][container.name] - 1);
+        box = new Animator(container.name, frames, container.isFrame, container.x, container.y, container.scale, timeScaleOps[0][container.name].value - 1);
         box.display();
         if (container.macaroni.needed) {
             box.createMacaroniMeter(container.macaroni.name + "MacaroniMeter", container.macaroni.x, container.macaroni.y, container.macaroni.mirrored);
@@ -287,6 +308,7 @@ function init(forcerObj, timeScaleOps) {
         if (animationInProgress || $(this.parentElement).hasClass("active")) {
             return;
         }
+        animationInProgress = true;
         var phase = $(this).parent().find("text").text();
         var currentIndex = timeKeys.indexOf(phase);
         TP = phase.replace(/Y/g, "Years").replace(/K/g, "Thousand ").replace(/M/g, "Million ");
@@ -297,7 +319,6 @@ function init(forcerObj, timeScaleOps) {
         // Set active state
         $("#timeline g").removeClass("active");
         $(this.parentElement).addClass("active");
-        animationInProgress = true;
         console.log(currentIndex < previousIndex, currentIndex, previousIndex);
         updateBoxen(timeScaleOps[step], (currentIndex < previousIndex));
         previousIndex = currentIndex;

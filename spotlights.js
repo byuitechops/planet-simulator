@@ -42,8 +42,8 @@ var Spotlights = (function () {
      * Once the light has reached the proper location, it will fire the callback.
      * If no callback is specified, it will just end the process.
      */
-    protoBaggins.moveToDestination = function (position, durration = 1000, callback) {
-//        console.log(position);
+    protoBaggins.moveToDestination = function (position, durration = settings.SPOTLIGHT_MOVE_DURATION, callback) {
+        //        console.log(position);
         if (!position.offset)
             position.offset = {};
         if (!position.offset.x)
@@ -104,10 +104,10 @@ var Spotlights = (function () {
         this.lights = [];
 
     };
-    
+
     // Scene prototype
     var proto = lightCrew.prototype;
-    
+
     /*
      * Creates a spotlight with the specified bounds and id.
      * If no ID is provided, a random one will be generated for it.
@@ -127,28 +127,28 @@ var Spotlights = (function () {
     proto.deleteScene = function () {
         $("#" + this.id + "Group").remove();
     }
-    
-    proto.turnOnLights = function(durration = 1000, callback){
+
+    proto.turnOnLights = function (durration = 1000, callback) {
         this.generateScene(this.width, this.height, this.parent);
         var that = this;
-        this.lights.forEach(function(light){
+        this.lights.forEach(function (light) {
             document.getElementById(that.id).appendChild(light.rect);
         });
-        this.scene.setAttributeNS(null,"opacity","0");
-        if(!callback) callback = function(){};
+        this.scene.setAttributeNS(null, "opacity", "0");
+        if (!callback) callback = function () {};
         Snap.select("#" + this.id + "Group").animate({
             opacity: 1
-        }, durration, function(){
+        }, durration, function () {
             console.log("Done!");
             callback();
         });
     }
-    proto.turnOffLights = function(durration = 1000, callback){
+    proto.turnOffLights = function (durration = 1000, callback) {
         var that = this;
-        if(!callback) callback = function(){};
+        if (!callback) callback = function () {};
         Snap.select("#" + this.id + "Group").animate({
             opacity: 0
-        }, durration, function(){
+        }, durration, function () {
             console.log("Done!");
             that.deleteScene();
             callback();
