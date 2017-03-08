@@ -1,5 +1,5 @@
 /*jslint plusplus: true, browser: true, devel: true */
-/*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart, Spotlights, settings*/
+/*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart, Spotlights, settings, containerIndexes*/
 
 var boxen, animations,
     animationInProgress = false;
@@ -54,28 +54,23 @@ function animationsComplete() {
     hideMessageBox();
 }
 
-
-
 function checkAnimationStatus() {
     'use strict';
     var box = boxen[animations[0]];
     //console.log(box);
     if (box.targetFrame === box.currentFrame) {
-        animations.shift();
-        if (animations.length > 0) {
-            boxen[animations[0]].startingFrame = boxen[animations[0]].currentFrame;
-            goThroughText(boxen[animations[0]].text, function () {
+        goThroughText(boxen[animations[0]].text, function () {
+            animations.shift();
+            if (animations.length > 0) {
+                boxen[animations[0]].startingFrame = boxen[animations[0]].currentFrame;
                 updateMessageBoxInfo();
-                if (animations.length > 0) {
-                    moveToNext();
-                } else {
-                    animationsComplete();
-                }
+                moveToNext();
+            } else {
+                animationsComplete();
+            }
 
-            });
-        } else {
-            animationsComplete();
-        }
+        });
+
     } else {
         box.transition(checkAnimationStatus);
     }
@@ -171,9 +166,47 @@ function moveToNext() {
     });
 }
 
+function getProperOrder(stepData) {
+    console.log("stepData:", stepData);
+
+    //make array of objects that hold correct index from containers and timeing from csv stepData
+    //filter out any stepTimeings that are 0
+    //getCSV makes any timings that are blank equal 0
+    var steps = Object.keys(stepData).reduce(function (endArray, key) {
+        var stepTimeing = stepData[key].timing;
+
+        //skip the rowHeadings and anything with timing 0
+        if (key === "rowHeading" || stepTimeing === 0) {
+            return endArray;
+        }
+        //make objects that hold correct index and timeing
+        endArray.push({
+            index: containerIndexes[key], // get the index from the container array
+            timing: stepTimeing
+        });
+        return endArray;
+    }, []);
+
+    //sort on timing
+    steps.sort(function (a, b) {
+        return a.timing - b.timing;
+    });
+
+    //make array of just index numbers
+    steps = steps.map(function (step) {
+        return step.index;
+    });
+    console.log("steps:", steps);
+
+
+    return steps;
+
+}
+
+
 function updateBoxen(stepData, skipAnimations) {
     'use strict';
-    var properOrder = [3, 4, 2, 0, 1, 5, 6, 11, 9, 8, 7, 10];
+    var properOrder = getProperOrder(stepData);
 
     // Determine which animations need to fire
     animations = properOrder.filter(function (val) {

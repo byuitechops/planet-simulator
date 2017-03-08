@@ -205,3 +205,10 @@ var containers = [
     }
     //*/
 ];
+
+var containerIndexes = {};
+containers.forEach(function (container, index) {
+    containerIndexes[container.name] = index;
+});
+
+console.log("containerIndexes:", containerIndexes);
