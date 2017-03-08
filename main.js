@@ -303,7 +303,7 @@ function updateMessageBoxInfo() {
     var wasHappenin = "",
         box = boxen[animations[0]];
     //setup the string
-    wasHappenin += box.name + " ";
+    wasHappenin += box.label + ": ";
     wasHappenin += frameToValue(box.startingFrame, box);
     wasHappenin += " " + "&#11157; ";
     wasHappenin += frameToValue(box.targetFrame, box);
@@ -346,7 +346,7 @@ function init(forcerObj, timeScaleOps) {
         if (container.macaroni.needed) {
             box.createMacaroniMeter(container.macaroni.name + "MacaroniMeter", container.macaroni.x, container.macaroni.y, container.macaroni.mirrored);
         }
-
+        box.label = container.label;
         return box;
     });
 

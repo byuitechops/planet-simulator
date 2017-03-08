@@ -7,6 +7,7 @@
 var containers = [
     {
         name: "sea",
+        label: "Sea Level",
         isFrame: true,
         items: 5,
         width: 392,
@@ -22,6 +23,7 @@ var containers = [
     },
     {
         name: "volcano",
+        label: "Volcanic Activity",
         isFrame: true,
         items: 5,
         width: 401,
@@ -37,6 +39,7 @@ var containers = [
     },
     {
         name: "ice",
+        label: "Ice",
         isFrame: false,
         items: 5,
         width: 304,
@@ -52,6 +55,7 @@ var containers = [
     },
     {
         name: "insolation",
+        label: "Insolation",
         isFrame: true,
         items: 5,
         width: 334,
@@ -66,6 +70,7 @@ var containers = [
     },
     {
         name: "mountain",
+        label: "Mountains",
         isFrame: false,
         items: 5,
         width: 187,
@@ -81,6 +86,7 @@ var containers = [
     },
     {
         name: "co2",
+        label: "CO<sub>2</sub>",
         isFrame: true,
         items: 9,
         width: 126,
@@ -96,6 +102,7 @@ var containers = [
 
     {
         name: "temperature",
+        label: "Temperature",
         isFrame: true,
         items: 9,
         width: 148,
@@ -110,6 +117,7 @@ var containers = [
     },
     {
         name: "underwaterVolcano",
+        label: "Volcanic Activity",
         isFrame: true,
         items: 5,
         width: 164,
@@ -132,6 +140,7 @@ var containers = [
     },
     {
         name: "co3Desposition",
+        label: "Carbonate Desposition",
         isFrame: true,
         items: 5,
         width: 120,
@@ -154,6 +163,7 @@ var containers = [
     },
     {
         name: "sediment",
+        label: "Sediment (Carbon Burrial)",
         isFrame: true,
         items: 5,
         width: 129,
@@ -172,6 +182,7 @@ var containers = [
     },
     {
         name: "weatheringCRelease",
+        label: "Weathering (Carbon Release)",
         isFrame: true,
         items: 5,
         width: 204,
@@ -191,6 +202,7 @@ var containers = [
     },
     {
         name: "weatheringCBurial",
+        label: "Weathering (Carbon Burrial)",
         isFrame: true,
         items: 5,
         width: 23,
@@ -205,6 +217,7 @@ var containers = [
     }
     //*/
 ];
+
 
 var containerIndexes = {};
 containers.forEach(function (container, index) {
