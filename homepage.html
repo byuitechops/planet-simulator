@@ -30,10 +30,11 @@
             </div>
         </div>
     </script>
-
     <!-- HANDLEBARS and JQUERY-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-dsv/1.0.3/d3-dsv.js"></script>
+
     <!-- BOOTSTRAP imports -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -45,12 +46,12 @@
             background: linear-gradient(black, black, rgb(50, 121, 128), rgb(50, 121, 128));
             background-attachment: fixed;
         }
-
+        
         h1,
         h2 {
             font-family: 'arial';
         }
-
+        
         h1 {
             color: white;
             font-size: 50px;
@@ -61,19 +62,19 @@
             border: 0px solid rgb(57, 135, 144);
             /*background:linear-gradient( 0deg, rgba(47, 118, 125, 1), rgba(47, 118, 125, 0) );*/
         }
-
+        
         h2 {
             color: white;
             margin-bottom: 20px;
             text-shadow: rgba(0, 0, 0, 1) 3px 3px 6px;
         }
-
+        
         .innerwrap {
             box-sizing: border-box;
             border: 10px solid rgba(47, 118, 125, 1);
             background-color: rgba(57, 135, 144, 0.9);
         }
-
+        
         .button {
             margin-bottom: 30px;
             background-color: rgb(35, 82, 85);
@@ -81,8 +82,9 @@
             background-repeat: no-repeat;
             background-position: center center;
             position: relative;
+            min-height: 100px;
         }
-
+        
         .button p {
             font-family: 'arial';
             font-size: 20px;
@@ -90,7 +92,7 @@
             color: white;
             text-shadow: rgb(0, 0, 0) 1px 1px 5px;
         }
-
+        
         .button a {
             display: inline-block;
             height: 100%;
@@ -98,15 +100,15 @@
             text-decoration: none;
             padding: 15px;
         }
-
+        
         .button a:hover p {
             text-shadow: rgb(0, 0, 0) 5px 5px 5px;
         }
-
+        
         .space-4 {
             margin-bottom: 30px;
         }
-
+        
         .background {
             height: 100%;
             width: 100%;
@@ -119,7 +121,7 @@
             /*-webkit-animation: thefinalfrontier 30s linear infinite;   NO SCROLLING ANIMATION*/
             /*animation: thefinalfrontier 30s linear infinite;*/
         }
-
+        
         @-webkit-keyframes thefinalfrontier {
             from {
                 background-position: 0 0;
@@ -128,7 +130,7 @@
                 background-position: -1680px 0;
             }
         }
-
+        
         @keyframes thefinalfrontier {
             from {
                 background-position: 0 0;
@@ -143,14 +145,13 @@
     <div id="results">
         output results here.
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-dsv/1.0.3/d3-dsv.js"></script>
-    <script src="getCSV.js"></script>
+    <!--    <script src="getCSV.js"></script>-->
 
 
     <script>
         function parsingFunc(d) {
             "use strict";
+
             function zeroOrNum(textIn) {
                 var num = parseInt(textIn, 10);
                 return isNaN(num) ? 0 : num;
@@ -175,6 +176,35 @@
             init(csvData);
         }
 
+
+        function getFileNameFromURL() {
+            //This assumes that there will only be one parameter and it doesn't matter what it is
+            var fileName = window.location.search
+                .substr(1)
+                .split("=")[1];
+            return fileName;
+        }
+
+        function ajaxFile(fileName, ajaxCallback) {
+            var extension = ".csv";
+
+            if (fileName.length < 4 || fileName.substr(fileName.length - extension.length) !== extension) {
+                fileName += extension;
+            }
+
+            $.ajax('./csvs/' + fileName, {
+                dataType: 'text',
+                success: function(fileText) {
+                    ajaxCallback(null, fileText);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    var errorText = "Ajax Error " + textStatus + ':' + errorThrown;
+                    ajaxCallback(errorText, null);
+                }
+
+            });
+        }
+
         function init(csvData) {
             var tpl_source = $("#item_tmpl").html();
             var h = Handlebars.compile(tpl_source);
@@ -184,8 +214,37 @@
             var results = document.getElementById("results");
             results.innerHTML = content;
         }
+
+        function parseNewCSV(fileText, parsingFunc) {
+
+            return d3.csvParse(fileText, parsingFunc);
+        }
+
         //MAKE IT HAPPEN CAP'N
-        getCSV(parsingFunc, callbackForGetCSV);
+        function getCSV(callback) {
+
+            var fileName = getFileNameFromURL();
+
+            if (!fileName) {
+                callBack("No filename in URL.", null);
+                return;
+            }
+
+            ajaxFile(fileName, function(error, fileText) {
+                var fileDataRaw;
+
+                if (error) {
+                    callBack(error, null);
+                    return;
+                }
+
+                fileDataRaw = parseNewCSV(fileText, parsingFunc);
+
+                callback(null, fileDataRaw);
+            });
+
+        }
+        getCSV(callbackForGetCSV);
 
     </script>
 </body>
