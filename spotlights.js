@@ -1,3 +1,4 @@
+/* global settings, Snap, $*/
 var Spotlights = (function () {
 
     /*
@@ -13,7 +14,7 @@ var Spotlights = (function () {
         this.id = id || generateRandomCharacterString(12);
 
         // Renders the spotlight SVG
-        var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect")
+        var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
         rect.setAttributeNS(null, "width", this.width);
         rect.setAttributeNS(null, "height", this.height);
         rect.setAttributeNS(null, "x", this.x);
@@ -42,7 +43,8 @@ var Spotlights = (function () {
      * Once the light has reached the proper location, it will fire the callback.
      * If no callback is specified, it will just end the process.
      */
-    protoBaggins.moveToDestination = function (position, durration = settings.SPOTLIGHT_MOVE_DURATION, callback) {
+    protoBaggins.moveToDestination = function (position, durration, callback) {
+        durration = durration || settings.SPOTLIGHT_MOVE_DURATION;
         //        console.log(position);
         if (!position.offset)
             position.offset = {};
@@ -64,11 +66,11 @@ var Spotlights = (function () {
             y: (position.y + position.offset.y) - (position.height * position.scale.y) / 2,
             width: position.width * (position.scale.x),
             height: position.height * (position.scale.y)
-        }
+        };
         Snap(this.rect).animate(dest, durration, function () {
             callback();
         });
-    }
+    };
 
     /*
      * Updates the bounds of the spotlight object
@@ -79,7 +81,7 @@ var Spotlights = (function () {
         this.rect.setAttributeNS(null, "x", this.x);
         this.rect.setAttributeNS(null, "y", this.y);
         this.rect.setAttributeNS(null, "id", this.id);
-    }
+    };
 
     //generates a random number within the specified bounds.
     function getRandomInt(min, max) {
@@ -115,10 +117,10 @@ var Spotlights = (function () {
      */
     proto.addLight = function (x, y, width, height, id) {
         var newSpot = new light(x, y, width, height, id);
-        newSpot.rect.setAttributeNS(null, "fill", "url(#" + this.id + "Spotlight)")
+        newSpot.rect.setAttributeNS(null, "fill", "url(#" + this.id + "Spotlight)");
         this.lights.push(newSpot);
         document.getElementById(this.id).appendChild(newSpot.rect);
-    }
+    };
 
 
     /*
@@ -126,9 +128,10 @@ var Spotlights = (function () {
      */
     proto.deleteScene = function () {
         $("#" + this.id + "Group").remove();
-    }
+    };
 
-    proto.turnOnLights = function (durration = 1000, callback) {
+    proto.turnOnLights = function (durration, callback) {
+        durration = durration || settings.TURN_ON_LIGHTS_LENGTH;
         this.generateScene(this.width, this.height, this.parent);
         var that = this;
         this.lights.forEach(function (light) {
@@ -142,8 +145,9 @@ var Spotlights = (function () {
             console.log("Done!");
             callback();
         });
-    }
-    proto.turnOffLights = function (durration = 1000, callback) {
+    };
+    proto.turnOffLights = function (durration, callback) {
+        durration = durration || settings.TURN_OFF_LIGHTS_LENGTH;
         var that = this;
         if (!callback) callback = function () {};
         Snap.select("#" + this.id + "Group").animate({
@@ -153,7 +157,7 @@ var Spotlights = (function () {
             that.deleteScene();
             callback();
         });
-    }
+    };
 
     // fires callback when all spotlights reach the destination
     var recieved = 0;
@@ -189,7 +193,7 @@ var Spotlights = (function () {
             return;
         }
         this.lights[light].moveToDestination(position, durration, callback);
-    }
+    };
 
 
     /*
@@ -200,7 +204,7 @@ var Spotlights = (function () {
             return;
         this.deleteScene();
         this.generateScene(this.width, this.height, this.parent);
-    }
+    };
 
     /*
      * Creates the dark canvas that the spotlights shine on with the specified width
@@ -254,6 +258,6 @@ var Spotlights = (function () {
         $(parent).append(group);
 
 
-    }
+    };
     return lightCrew;
 }());
