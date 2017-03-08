@@ -1,13 +1,13 @@
 /*jslint plusplus: true, browser: true, devel: true */
-/*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart, Spotlight, settings*/
+/*global $, Frame, Animator, getCSV, containers, resetSpotlightPosition, moveSpotlight, moveToStart, Spotlights, settings, containerIndexes*/
 
 var boxen, animations,
     animationInProgress = false;
 //    spotlight = new Spotlight();
 var lightCrew = new Spotlights();
-lightCrew.generateScene(1730, 938, "#spots")
+lightCrew.generateScene(1730, 938, "#spots");
 lightCrew.addLight(50, 50, 200, 200);
-lightCrew.turnOffLights(0, function () {})
+lightCrew.turnOffLights(0, function () {});
 
 function setForcers(forcerObj) {
     "use strict";
@@ -48,9 +48,10 @@ function setForcers(forcerObj) {
 
 function animationsComplete() {
     "use strict";
+
     lightCrew.turnOffLights(settings.TURNOFFLIGHTS_LENGTH, function () {
         animationInProgress = false;
-    })
+    });
     hideMessageBox();
 }
 
@@ -61,21 +62,18 @@ function checkAnimationStatus() {
     var box = boxen[animations[0]];
     //console.log(box);
     if (box.targetFrame === box.currentFrame) {
-        animations.shift();
-        if (animations.length > 0) {
-            boxen[animations[0]].startingFrame = boxen[animations[0]].currentFrame;
-            goThroughText(boxen[animations[0]].text, function () {
+        goThroughText(boxen[animations[0]].text, function () {
+            animations.shift();
+            if (animations.length > 0) {
+                boxen[animations[0]].startingFrame = boxen[animations[0]].currentFrame;
                 updateMessageBoxInfo();
-                if (animations.length > 0) {
-                    moveToNext();
-                } else {
-                    animationsComplete();
-                }
+                moveToNext();
+            } else {
+                animationsComplete();
+            }
 
-            });
-        } else {
-            animationsComplete();
-        }
+        });
+
     } else {
         box.transition(checkAnimationStatus);
     }
@@ -96,7 +94,7 @@ function grabSegment(word, maxLength) {
     var maxReached = false;
     var newWord = word.split(" ").filter(function (value, index) {
         if (!maxReached && totalLength + (value.length * averageLen) < maxLength) {
-            totalLength += ((value.length + 1) * averageLen)
+            totalLength += ((value.length + 1) * averageLen);
             console.log("item ", value);
             return true;
         }
@@ -134,12 +132,12 @@ function getCurrentAnimationBounds() {
         boxen[animations[0]].offset = {
             x: 0,
             y: 0
-        }
+        };
     if (!boxen[animations[0]].scale)
         boxen[animations[0]].scale = {
             x: 1,
             y: 1
-        }
+        };
     var larger = (boxen[animations[0]].states[0].width > boxen[animations[0]].states[0].height) ? boxen[animations[0]].states[0].width : boxen[animations[0]].states[0].height;
     var bounds = {
         width: larger,
@@ -154,7 +152,7 @@ function getCurrentAnimationBounds() {
             x: (boxen[animations[0]].offset.x || 0) + boxen[animations[0]].states[0].width / 2,
             y: (boxen[animations[0]].offset.y || 0) + boxen[animations[0]].states[0].height / 2
         }
-    }
+    };
     if (boxen[animations[0]].name === "sediment" || boxen[animations[0]].name === "weatheringCBurial") {
         bounds.scale.x = 2;
         bounds.scale.y = 2;
@@ -162,6 +160,7 @@ function getCurrentAnimationBounds() {
     //    console.log(bounds);
     return bounds;
 }
+
 
 function moveToNext() {
 
@@ -171,14 +170,94 @@ function moveToNext() {
     });
 }
 
+function getProperOrder(stepData) {
+    console.log("stepData:", stepData);
+
+    //make array of objects that hold correct index from containers and timeing from csv stepData
+    //filter out any stepTimeings that are 0
+    //getCSV makes any timings that are blank equal 0
+    var steps = Object.keys(stepData).reduce(function (endArray, key) {
+        var stepTimeing = stepData[key].timing;
+
+        //skip the rowHeadings and anything with timing 0
+        if (key === "rowHeading" || stepTimeing === 0) {
+            return endArray;
+        }
+        //make objects that hold correct index and timeing
+        endArray.push({
+            index: containerIndexes[key], // get the index from the container array
+            timing: stepTimeing
+        });
+        return endArray;
+    }, []);
+
+    //sort on timing
+    steps.sort(function (a, b) {
+        return a.timing - b.timing;
+    });
+
+    //make array of just index numbers
+    steps = steps.map(function (step) {
+        return step.index;
+    });
+    console.log("steps:", steps);
+
+
+    return steps;
+
+}
+
+function doneAnimating() {
+    animationInProgress = false;
+}
+
+function doAnimationPeices(thingsToAnimate, overAllCallback) {
+    //update the text title at the bottom
+
+    //update the spotlight(s)
+
+    //update the thing(s)
+
+    //update the text body at the bottom
+
+}
+
+
+function runAnimations(csvData, timeStep, runAnimations) {
+    //get the orderd list of things to animate
+    var thingsToAnimate = getProperOrder(csvData[timeStep]);
+
+    //do it!
+    if (thingsToAnimate.length > 0) {
+        animationInProgress = true;
+        if (runAnimations) {
+            doAnimationPeices(thingsToAnimate, doneAnimating);
+        } else {
+            // SKIPS ANIMATIONS
+            thingsToAnimate.forEach(function (item) {
+                var stateNumber = csvData[timeStep][boxen[item].name].value - 1;
+                boxen[item].setState(stateNumber);
+            });
+            doneAnimating();
+        }
+    } else {
+        // NO CHANGES MADE
+        $('#noChangeMessage').delay(500).fadeIn(800, function () {
+            $('#noChangeMessage').delay(1000).fadeOut(800, animationsComplete);
+        });
+    }
+}
+
 function updateBoxen(stepData, skipAnimations) {
     'use strict';
-    var properOrder = [3, 4, 2, 0, 1, 5, 6, 11, 9, 8, 7, 10];
+    //var properOrder = [3, 4, 2, 0, 1, 5, 6, 11, 9, 8, 7, 10];
+    var properOrder = getProperOrder(stepData);
 
     // Determine which animations need to fire
     animations = properOrder.filter(function (val) {
         var box = boxen[val];
         var newTarget = stepData[box.name].value - 1;
+        //check if the last animation made it what we allready want it to be
         if (box.targetStep === newTarget) {
             return false;
         }
@@ -214,7 +293,7 @@ function updateBoxen(stepData, skipAnimations) {
             lightCrew.turnOnLights(settings.TURN_ON_LIGHTS_LENGTH, function () {
                 console.log("Spotlight is on!");
                 console.log("Moving To Next...");
-                console.log("TPz: ", TP)
+                console.log("TPz: ", TP);
                 moveToNext();
             });
         });
@@ -267,10 +346,32 @@ function setAnimationStates(state) {
         item.setState(state);
     });
 }
+var once = false;
+
+function transistionAnimationStates(state) {
+    var count = 0;
+    boxen[containerIndexes.volcano].setStateTransition(state, function () {
+        count += 1;
+        if (count == 2 && once === false) {
+            once = true;
+            transistionAnimationStates(0);
+        }
+    });
+    boxen[containerIndexes.underwaterVolcano].setStateTransition(state, function () {
+        count += 1;
+        if (count == 2 && once === false) {
+            once = true;
+            transistionAnimationStates(0);
+        }
+    });
+
+}
+
+
 
 function init(forcerObj, timeScaleOps) {
     "use strict";
-    console.log(forcerObj, timeScaleOps)
+    console.log(forcerObj, timeScaleOps);
     setForcers(forcerObj);
 
     boxen = containers.map(function (container, index) {
@@ -327,10 +428,10 @@ function init(forcerObj, timeScaleOps) {
 
 }
 
-const timeKeys = ["INITIAL", "100-1000 Y", "100 KY", "1 MY", "10 MY"];
+var timeKeys = ["INITIAL", "100-1000 Y", "100 KY", "1 MY", "10 MY"];
 
 var TP = "";
-var previousIndex = 0
+var previousIndex = 0;
 
 function callbackForGetCSV(err, csvData) {
     "use strict";

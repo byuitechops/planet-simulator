@@ -1,5 +1,5 @@
 /*jslint plusplus: true, browser: true, devel: true */
-/*global $, states*/
+/*global $, states, settings*/
 
 
 function appendImageToSVG(element, url, x, y, width, height) {
@@ -62,13 +62,16 @@ var Animator = (function () {
         this.targetFrame = targetStep * this.framesPerStep;
         this.currentFrame = this.targetFrame;
         this.name = name;
-        this.transitionDuration = 500;
+        this.transitionDuration = settings.ANIMATOR_DURATION;
         this.frames = [];
         this.scale = getScale(scale);
         this.width = this.states[0].width;
         this.height = this.states[0].height;
         this.MiniMacaroniMeter = null;
     }
+
+
+
 
     Animator.prototype.display = function () {
         var framesPerStep,
@@ -124,9 +127,87 @@ var Animator = (function () {
         this.group = group;
         return this;
     };
+
+    Animator.prototype.setStateTransition = function (state, overallCallback) {
+        //should do this.isanimating = true but what about the callback? pass error?
+
+        var that = this,
+            targetFrame,
+            targetFrameLoop,
+            frameDirection,
+            framesToChange = [],
+            i;
+
+        function done() {
+            that.currentFrame = targetFrame;
+            //make callback optional
+            if (overallCallback) {
+                overallCallback();
+            }
+
+        }
+
+        function thePowerToMoveYou(frames, frameDirection) {
+            var opacity = {
+                opacity: frameDirection > 0 ? 1 : 0
+            };
+
+            $(that.frames[frames[0]]).animate(opacity, settings.ANIMATOR_DURATION, function () {
+                //drop the first one
+                frames.shift();
+                //do it again if we need
+                if (frames.length > 0) {
+                    thePowerToMoveYou(frames, frameDirection);
+                } else {
+                    done();
+                }
+            });
+        }
+
+        //make sure state is with in bounds
+        if (state > 4) {
+            state = 4;
+        } else if (state < 0) {
+            state = 0;
+        }
+
+        //where do you need to be
+        targetFrame = state * this.framesPerStep;
+
+        console.log("targetFrame:", targetFrame);
+
+        if (that.currentFrame === targetFrame) {
+            done();
+
+        } else {
+            //whats the right direction
+            if (that.currentFrame < targetFrame) {
+                frameDirection = +1;
+                targetFrameLoop = targetFrame + 1;
+            } else {
+                frameDirection = -1;
+                targetFrameLoop = targetFrame;
+            }
+
+            //make the list of frames we need to do something with
+            for (i = this.currentFrame; i != targetFrameLoop; i += frameDirection) {
+                framesToChange.push(i);
+                console.log("framesToChange:", framesToChange);
+            }
+
+            //have to start somewhere
+            thePowerToMoveYou(framesToChange, frameDirection);
+        }
+
+
+
+    };
+
     // SKIPS ANIMATIONS AND INSTANTLY SETS STATES
     //state in is a number between 0-4
     Animator.prototype.setState = function (state) {
+
+
         var that = this;
 
         //make sure state is with in bounds
@@ -137,7 +218,8 @@ var Animator = (function () {
         }
 
         //update current frame so animations work later
-        this.currentFrame = state * that.framesPerStep;
+        this.targetStep = this.currentFrame = state * that.framesPerStep;
+
 
         //set the frames and states themselfs
         this.states.forEach(function (frame, index) {
@@ -156,7 +238,8 @@ var Animator = (function () {
         if (this.MiniMacaroniMeter) {
             this.MiniMacaroniMeter.setState(state);
         }
-    }
+    };
+
     Animator.prototype.createMacaroniMeter = function (name, x, y, mirrored) {
         var i,
             files = [],
