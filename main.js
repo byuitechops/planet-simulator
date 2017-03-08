@@ -48,12 +48,14 @@ function setForcers(forcerObj) {
 
 function animationsComplete() {
     "use strict";
-
+    // animateThroughTimePeriods returns true if it actually done
     lightCrew.turnOffLights(settings.TURNOFFLIGHTS_LENGTH, function () {
         animationInProgress = false;
     });
-
-    hideMessageBox();
+    if(animateThroughTimePeriods()){
+        hideMessageBox();
+    }
+//    animateThroughTimePeriods()
 }
 
 function checkAnimationStatus() {
@@ -126,7 +128,7 @@ function goThroughText(text, complete) {
 
 function getCurrentAnimationBounds() {
     //    console.log(boxen[animations[0]]);
-    console.log(boxen[animations[0]].name);
+//    console.log(boxen[animations[0]].name);
     if (!boxen[animations[0]].offset)
         boxen[animations[0]].offset = {
             x: 0,
@@ -161,7 +163,6 @@ function getCurrentAnimationBounds() {
 }
 
 function moveToNext() {
-
 
     lightCrew.moveLightToLocation(0, getCurrentAnimationBounds(), settings.SPOTLIGHT_MOVE_DURATION, function () {
         boxen[animations[0]].transition(checkAnimationStatus);
@@ -206,6 +207,22 @@ function getProperOrder(stepData) {
 
 }
 
+function animateThroughTimePeriods(){
+    console.log(CurrentTP,TargetTP)
+    var actuallyDone = true;
+    if(CurrentTP < TargetTP){
+        CurrentTP++
+        updateBoxen(csv_data[CurrentTP], false)
+        actuallyDone = false;
+    } else if (TargetTP < CurrentTP){
+        CurrentTP = TargetTP
+        updateBoxen(csv_data[CurrentTP], true)
+    } else {
+        console.log("Uhhhh")
+    }
+    console.log("Actually Done:",actuallyDone)
+    return actuallyDone;
+}
 
 function updateBoxen(stepData, skipAnimations) {
     'use strict';
@@ -215,7 +232,7 @@ function updateBoxen(stepData, skipAnimations) {
     animations = properOrder.filter(function (val) {
         var box = boxen[val];
         var newTarget = stepData[box.name].value - 1;
-        console.log("box.text:", stepData[box.name].text);
+//        console.log("box.text:", stepData[box.name].text);
         if (box.targetStep === newTarget && stepData[box.name].text === '') {
             return false;
         }
@@ -251,7 +268,7 @@ function updateBoxen(stepData, skipAnimations) {
             lightCrew.turnOnLights(settings.TURN_ON_LIGHTS_LENGTH, function () {
                 console.log("Spotlight is on!");
                 console.log("Moving To Next...");
-                console.log("TPz: ", TP);
+                console.log("TPz: ",  timeKeys[CurrentTP]);
                 moveToNext();
             });
         });
@@ -299,7 +316,7 @@ function updateMessageBoxInfo() {
         return Math.floor(num / box.framesPerStep) + 1;
     }
 
-    $("#timePeriod").text("Time Period: " + TP);
+    $("#timePeriod").text("Time Period: " + timeKeys[CurrentTP]);
     var wasHappenin = "",
         box = boxen[animations[0]];
     //setup the string
@@ -365,27 +382,26 @@ function init(forcerObj, timeScaleOps) {
         }
         animationInProgress = true;
         var phase = $(this).parent().find("text").text();
-        var currentIndex = timeKeys.indexOf(phase);
-        TP = phase.replace(/Y/g, "Years").replace(/K/g, "Thousand ").replace(/M/g, "Million ");
-        console.log('TP: ', TP);
         // IE 11 Support
         var parent = this.parentElement || this.parentNode,
             step = parseInt(parent.id.slice(-1), 10) - 1;
         // Set active state
         $("#timeline g").removeClass("active");
         $(this.parentElement).addClass("active");
-        console.log(currentIndex < previousIndex, currentIndex, previousIndex);
-        updateBoxen(timeScaleOps[step], (currentIndex < previousIndex));
-        previousIndex = currentIndex;
+
+        TargetTP = step
+        console.log(TargetTP < CurrentTP, TargetTP, CurrentTP);
+        animateThroughTimePeriods()
+
         return false;
     });
 
 }
 
-var timeKeys = ["INITIAL", "100-1000 Y", "100 KY", "1 MY", "10 MY"];
-
-var TP = "";
-var previousIndex = 0;
+var timeKeys = ["INITIAL", "100-1000 Years", "100 Thousand Years", "1 Million Years", "10 Million Years"];
+var CurrentTP = 0;
+var TargetTP = 0;
+var csv_data;
 
 function callbackForGetCSV(err, csvData) {
     "use strict";
@@ -401,6 +417,7 @@ function callbackForGetCSV(err, csvData) {
     forcerObj = csvData.shift();
     console.log("scenario:", csvData);
     console.log("forcerObj:", forcerObj);
+    csv_data = csvData
 
     init(forcerObj, csvData);
 }
