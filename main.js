@@ -48,9 +48,11 @@ function setForcers(forcerObj) {
 
 function animationsComplete() {
     "use strict";
+
     lightCrew.turnOffLights(settings.TURNOFFLIGHTS_LENGTH, function () {
         animationInProgress = false;
     });
+
     hideMessageBox();
 }
 
@@ -253,8 +255,26 @@ function updateBoxen(stepData, skipAnimations) {
         });
     } else {
         // NO CHANGES MADE
-        $('#noChangeMessage').delay(500).fadeIn(800, function () {
-            $('#noChangeMessage').delay(1000).fadeOut(800, animationsComplete);
+        var bigAndCenter = {
+            x: 1730 / 2, //the new x position
+            y: 938 / 2, // the new y position
+            width: 1730 * 0.9, // new spotlight width
+            height: 938 / 0.9, // new spotlight height
+            scale: {
+                x: 1, // scales the object x by the specified amount
+                y: 1 // scales the object y by the specified amount
+            },
+            offset: {
+                x: 1, // offsets the object x by the specified amount
+                y: 1
+            } // offsets the object y by the specified amount
+        };
+        lightCrew.moveLightToLocation(0, bigAndCenter, 0, function () {
+            lightCrew.turnOnLights(settings.TURN_ON_LIGHTS_LENGTH, function () {
+                $('#noChangeMessage').delay(500).fadeIn(800, function () {
+                    $('#noChangeMessage').delay(1000).fadeOut(800, animationsComplete);
+                });
+            });
         });
     }
 }
