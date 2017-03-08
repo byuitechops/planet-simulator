@@ -77,7 +77,11 @@ window.getCSV = (function () {
             // setup the skeleton if this is a new section
             if (section) {
                 var timeZone = data.columns.reduce(function (timeZone, column, i) {
-                    if (!i) {
+                    if (column === "other") {
+                        return timeZone;
+                    }
+
+                    if (i === 0) {
                         timeZone[column] = section.input;
                     } else {
                         timeZone[column] = {
@@ -97,8 +101,8 @@ window.getCSV = (function () {
                 for (var element in row) {
                     var valOut = row[element];
 
-                    if (element != "rowHeading" && element != "other") {
-                        //timeing has to be a number
+                    if (element !== "rowHeading" && element !== "other") {
+                        //timing has to be a number
                         if (row.rowHeading === "timing") {
                             valOut = toNum(row[element]);
                         }
