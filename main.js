@@ -16,7 +16,7 @@ function setForcers(forcerObj) {
         processedText;
     //show the ones we want
     forcers.forEach(function (forcer, forcerIndex) {
-        if (forcerObj[forcer] === 1) {
+        if (forcerObj[forcer] === "1") {
             //hide the image
             $("#forcers g:nth-child(" + (forcerIndex + 1) + ") image:nth-of-type(2)").toggleClass("hide");
             //fix the text
