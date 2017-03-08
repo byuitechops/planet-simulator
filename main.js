@@ -305,7 +305,7 @@ function updateMessageBoxInfo() {
     //setup the string
     wasHappenin += box.label + ": ";
     wasHappenin += frameToValue(box.startingFrame, box);
-    wasHappenin += " " + "&#11157; ";
+    wasHappenin += " " + "&#10140; ";
     wasHappenin += frameToValue(box.targetFrame, box);
 
 
@@ -457,3 +457,4 @@ function placeSomething(selectorIn) {
 }
 
 //placeSomething("#insolation");
+
