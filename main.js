@@ -60,25 +60,25 @@ function checkAnimationStatus() {
     'use strict';
     var box = boxen[animations[0][0]];
     //console.log(box);
-    //    if (box.targetFrame === box.currentFrame) {
-    goThroughText(boxen[animations[0][0]].text, function () {
-        animations.shift();
-        if (animations.length > 0) {
-            console.log(animations);
-            boxen[animations[0][0]].startingFrame = boxen[animations[0][0]].currentFrame;
-            updateMessageBoxInfo();
-            if(lightCrew.lights.length > 1)
-                lightCrew.deleteLights(1,lightCrew.lights.length-1);
-            moveToNext();
-        } else {
-            animationsComplete();
-        }
+    if (box.targetFrame === box.currentFrame) {
+        goThroughText(boxen[animations[0][0]].text, function () {
+            animations.shift();
+            if (animations.length > 0) {
+                console.log(animations);
+                boxen[animations[0][0]].startingFrame = boxen[animations[0][0]].currentFrame;
+                updateMessageBoxInfo();
+                if (lightCrew.lights.length > 1)
+                    lightCrew.deleteLights(1, lightCrew.lights.length - 1);
+                moveToNext();
+            } else {
+                animationsComplete();
+            }
 
-    });
+        });
 
-    //    } else {
-    //        box.transition(checkAnimationStatus);
-    //    }
+    } else {
+        box.transition(checkAnimationStatus);
+    }
 }
 
 function grabSegment(word, maxLength) {
@@ -188,7 +188,7 @@ function moveToNext() {
         for (var i in animations[0])
             boxen[animations[0][i]].transition(function () {
                 completed++;
-                if (completed >= animations[0].length){
+                if (completed >= animations[0].length) {
                     console.log("DONE!");
                     checkAnimationStatus();
                 }
