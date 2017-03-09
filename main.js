@@ -8,6 +8,10 @@ var lightCrew = new Spotlights();
 lightCrew.generateScene(1730, 938, "#spots");
 lightCrew.addLight(-50, -50, 20, 20);
 lightCrew.turnOffLights(0, function () {});
+var bgMusic = new Audio("./music/background.mp3");
+bgMusic.loop = true;
+bgMusic.volume = .50;
+bgMusic.play();
 
 function setForcers(forcerObj) {
     "use strict";
@@ -56,29 +60,43 @@ function animationsComplete() {
     hideMessageBox();
 }
 
+function playSound(sound, volume, loop) {
+    var audio = new Audio(sound);
+    audio.loop = loop || false;
+    audio.volume = volume;
+    audio.play();
+    return audio;
+}
+var screams;
 function checkAnimationStatus() {
     'use strict';
     var box = boxen[animations[0][0]];
-    //console.log(box);
-    //    if (box.targetFrame === box.currentFrame) {
-    goThroughText(boxen[animations[0][0]].text, function () {
-        animations.shift();
-        if (animations.length > 0) {
-            console.log(animations);
-            boxen[animations[0][0]].startingFrame = boxen[animations[0][0]].currentFrame;
-            updateMessageBoxInfo();
-            if(lightCrew.lights.length > 1)
-                lightCrew.deleteLights(1,lightCrew.lights.length-1);
-            moveToNext();
-        } else {
-            animationsComplete();
-        }
+    console.log(box);
+    if (box.targetFrame === box.currentFrame) {
+        if(screams)
+            setTimeout(function(){    
+                screams.pause();
+            },1000)
+        goThroughText(boxen[animations[0][0]].text, function () {
+            animations.shift();
+            if (animations.length > 0) {
+                console.log(animations);
+                boxen[animations[0][0]].startingFrame = boxen[animations[0][0]].currentFrame;
+                updateMessageBoxInfo();
+                if (lightCrew.lights.length > 1)
+                    lightCrew.deleteLights(1, lightCrew.lights.length - 1);
+                moveToNext();
+            } else {
+                animationsComplete();
+            }
 
-    });
-
-    //    } else {
-    //        box.transition(checkAnimationStatus);
-    //    }
+        });
+    } else {
+            setTimeout(function () {
+                box.transition(checkAnimationStatus)
+            }, 2500);
+        
+    }
 }
 
 function grabSegment(word, maxLength) {
@@ -121,6 +139,7 @@ function goThroughText(text, complete) {
     var completed = false;
     $("#next").click(function () {
         if (!completed) {
+            playSound("./music/click.mp3", .3);
             complete();
             completed = true;
         }
@@ -168,7 +187,11 @@ function getCurrentAnimationBounds(index) {
 function moveToNext() {
 
     var arrived = 0;
-    lightCrew.moveLightToLocation(0, getCurrentAnimationBounds(), settings.SPOTLIGHT_MOVE_DURATION, syncLightArrival);
+    var scrape = playSound("./music/scrape.mp3", .6, true);
+    lightCrew.moveLightToLocation(0, getCurrentAnimationBounds(), 10000/*settings.SPOTLIGHT_MOVE_DURATION*/, function () {
+        syncLightArrival();
+        scrape.pause();
+    });
     for (var i in animations[0])
         if (i !== "0") {
             var bounds = getCurrentAnimationBounds(i);
@@ -185,14 +208,33 @@ function moveToNext() {
 
     function startTransitions() {
         var completed = 0;
-        for (var i in animations[0])
+        for (var i in animations[0]) {
+            console.log(i);
+            if (boxen[animations[0][i]].name === "mountain") {
+                console.log("TERROR!");
+                screams = playSound("./music/screams.mp3",.7,true);
+            }else if(boxen[animations[0][i]].name.match(/volcano/gi)){
+                console.log("LAVA TERROR");
+                screams = playSound("./music/lava.mp3",.8,true);
+            }else if(boxen[animations[0][i]].name.match(/insolation|co2|temp/gi)){
+                console.log("LAVA TERROR");
+                screams = playSound("./music/radiation.mp3",.8,true);
+            }else if(boxen[animations[0][i]].name.match(/sea/gi)){
+                console.log("LAVA TERROR");
+                screams = playSound("./music/water.mp3",.8,true);
+            }
+            console.log(boxen[animations[0][i]]);
+            console.log(boxen[animations[0][i]].startingFrame, boxen[animations[0][i]].currentFrame, boxen[animations[0][i]].targetFrame);
             boxen[animations[0][i]].transition(function () {
                 completed++;
-                if (completed >= animations[0].length){
+                if (completed >= animations[0].length) {
                     console.log("DONE!");
                     checkAnimationStatus();
                 }
             });
+            console.log(boxen[animations[0][i]].name);
+
+        }
     }
 }
 
@@ -274,6 +316,7 @@ function updateBoxen(stepData, skipAnimations) {
                 box.MiniMacaroniMeter.targetStep = newTarget;
                 box.MiniMacaroniMeter.targetFrame = box.MiniMacaroniMeter.targetStep * box.MiniMacaroniMeter.framesPerStep;
             }
+            console.log(box.targetFrame);
             return true;
         });
 
@@ -411,6 +454,7 @@ function init(forcerObj, timeScaleOps) {
 
     // modified to make text clickable too
     $("a, a + * + text").on("click", function () {
+        playSound("./music/click.mp3", .3);
         if (animationInProgress || $(this.parentElement).hasClass("active")) {
             return;
         }
