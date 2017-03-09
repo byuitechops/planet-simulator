@@ -30,7 +30,9 @@ svg {
     width: 100%;
     height: auto;
 }
-
+html, body{
+    background-color: #0b1312;
+}
 
 /*
     IE 11 Support
@@ -162,7 +164,8 @@ text.disabled {
     font-family: 'Roboto', sans-serif;
     margin
     text-align: center;
-    color: white;
+    color: hsl(0, 0%, 85%);
+    min-height: 150px;
     padding: 1.5%;
     border: 3px solid #43B0C0;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#121212+0,0f0e0e+100&0.87+0,0.98+100 */

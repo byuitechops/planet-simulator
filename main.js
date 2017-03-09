@@ -6,7 +6,7 @@ var boxen, animations,
 //    spotlight = new Spotlight();
 var lightCrew = new Spotlights();
 lightCrew.generateScene(1730, 938, "#spots");
-lightCrew.addLight(50, 50, 200, 200);
+lightCrew.addLight(50, 50, -200, -200);
 lightCrew.turnOffLights(0, function () {});
 
 function setForcers(forcerObj) {
