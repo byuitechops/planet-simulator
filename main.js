@@ -6,7 +6,7 @@ var boxen, animations,
 //    spotlight = new Spotlight();
 var lightCrew = new Spotlights();
 lightCrew.generateScene(1730, 938, "#spots");
-lightCrew.addLight(50, 50, -200, -200);
+lightCrew.addLight(-50, -50, 20, 20);
 lightCrew.turnOffLights(0, function () {});
 
 function setForcers(forcerObj) {
@@ -58,24 +58,27 @@ function animationsComplete() {
 
 function checkAnimationStatus() {
     'use strict';
-    var box = boxen[animations[0]];
+    var box = boxen[animations[0][0]];
     //console.log(box);
-    if (box.targetFrame === box.currentFrame) {
-        goThroughText(boxen[animations[0]].text, function () {
-            animations.shift();
-            if (animations.length > 0) {
-                boxen[animations[0]].startingFrame = boxen[animations[0]].currentFrame;
-                updateMessageBoxInfo();
-                moveToNext();
-            } else {
-                animationsComplete();
-            }
+    //    if (box.targetFrame === box.currentFrame) {
+    goThroughText(boxen[animations[0][0]].text, function () {
+        animations.shift();
+        if (animations.length > 0) {
+            console.log(animations);
+            boxen[animations[0][0]].startingFrame = boxen[animations[0][0]].currentFrame;
+            updateMessageBoxInfo();
+            if(lightCrew.lights.length > 1)
+                lightCrew.deleteLights(1,lightCrew.lights.length-1);
+            moveToNext();
+        } else {
+            animationsComplete();
+        }
 
-        });
+    });
 
-    } else {
-        box.transition(checkAnimationStatus);
-    }
+    //    } else {
+    //        box.transition(checkAnimationStatus);
+    //    }
 }
 
 function grabSegment(word, maxLength) {
@@ -124,35 +127,37 @@ function goThroughText(text, complete) {
     });
 }
 
-function getCurrentAnimationBounds() {
+function getCurrentAnimationBounds(index) {
+    index = index || 0;
     //    console.log(boxen[animations[0]]);
-    console.log(boxen[animations[0]].name);
-    if (!boxen[animations[0]].offset)
-        boxen[animations[0]].offset = {
+    var currentAnimation = animations[0][index];
+    console.log(boxen[currentAnimation].name);
+    if (!boxen[currentAnimation].offset)
+        boxen[currentAnimation].offset = {
             x: 0,
             y: 0
         };
-    if (!boxen[animations[0]].scale)
-        boxen[animations[0]].scale = {
+    if (!boxen[currentAnimation].scale)
+        boxen[currentAnimation].scale = {
             x: 1,
             y: 1
         };
-    var larger = (boxen[animations[0]].states[0].width > boxen[animations[0]].states[0].height) ? boxen[animations[0]].states[0].width : boxen[animations[0]].states[0].height;
+    var larger = (boxen[currentAnimation].states[0].width > boxen[currentAnimation].states[0].height) ? boxen[currentAnimation].states[0].width : boxen[currentAnimation].states[0].height;
     var bounds = {
         width: larger,
         height: larger,
-        x: boxen[animations[0]].x,
-        y: boxen[animations[0]].y,
+        x: boxen[currentAnimation].x,
+        y: boxen[currentAnimation].y,
         scale: {
-            x: boxen[animations[0]].scale.x * 1.5,
-            y: boxen[animations[0]].scale.y * 1.5
+            x: boxen[currentAnimation].scale.x * 1.5,
+            y: boxen[currentAnimation].scale.y * 1.5
         },
         offset: {
-            x: (boxen[animations[0]].offset.x || 0) + boxen[animations[0]].states[0].width / 2,
-            y: (boxen[animations[0]].offset.y || 0) + boxen[animations[0]].states[0].height / 2
+            x: (boxen[currentAnimation].offset.x || 0) + boxen[currentAnimation].states[0].width / 2,
+            y: (boxen[currentAnimation].offset.y || 0) + boxen[currentAnimation].states[0].height / 2
         }
     };
-    if (boxen[animations[0]].name === "sediment" || boxen[animations[0]].name === "weatheringCBurial") {
+    if (boxen[currentAnimation].name === "sediment" || boxen[currentAnimation].name === "weatheringCBurial") {
         bounds.scale.x = 2;
         bounds.scale.y = 2;
     }
@@ -162,10 +167,33 @@ function getCurrentAnimationBounds() {
 
 function moveToNext() {
 
+    var arrived = 0;
+    lightCrew.moveLightToLocation(0, getCurrentAnimationBounds(), settings.SPOTLIGHT_MOVE_DURATION, syncLightArrival);
+    for (var i in animations[0])
+        if (i !== "0") {
+            var bounds = getCurrentAnimationBounds(i);
+            lightCrew.addLight(bounds.x, bounds.y, 1, 1);
+            lightCrew.moveLightToLocation(i, getCurrentAnimationBounds(i), 1000, syncLightArrival);
+        }
 
-    lightCrew.moveLightToLocation(0, getCurrentAnimationBounds(), settings.SPOTLIGHT_MOVE_DURATION, function () {
-        boxen[animations[0]].transition(checkAnimationStatus);
-    });
+
+    function syncLightArrival() {
+        arrived++;
+        if (arrived >= animations[0].length)
+            setTimeout(startTransitions, 500);
+    }
+
+    function startTransitions() {
+        var completed = 0;
+        for (var i in animations[0])
+            boxen[animations[0][i]].transition(function () {
+                completed++;
+                if (completed >= animations[0].length){
+                    console.log("DONE!");
+                    checkAnimationStatus();
+                }
+            });
+    }
 }
 
 function getProperOrder(stepData) {
@@ -189,17 +217,31 @@ function getProperOrder(stepData) {
         return endArray;
     }, []);
 
-
     //sort on timing
     steps.sort(function (a, b) {
         return a.timing - b.timing;
     });
 
-    //make array of just index numbers
+    /*
+     * Groups animations with same timing together.
+     */
+    var used = [];
     steps = steps.map(function (step) {
-        return step.index;
+        return steps.filter(function (stp) {
+            return stp.timing === step.timing;
+        })
+    }).filter(function (step) {
+        if (used.indexOf(JSON.stringify(step)) >= 0)
+            return false;
+        used.push(JSON.stringify(step));
+        return true;
+    }).map(function (items) {
+        return items.map(function (item) {
+            return item.index;
+        });
     });
-    console.log("steps:", steps);
+
+    //    console.log("steps:", steps);
 
 
     return steps;
@@ -210,41 +252,50 @@ function getProperOrder(stepData) {
 function updateBoxen(stepData, skipAnimations) {
     'use strict';
     var properOrder = getProperOrder(stepData);
-
+    console.log(properOrder);
     // Determine which animations need to fire
-    animations = properOrder.filter(function (val) {
-        var box = boxen[val];
-        var newTarget = stepData[box.name].value - 1;
-        console.log("box.text:", stepData[box.name].text);
-        if (box.targetStep === newTarget && stepData[box.name].text === '') {
-            return false;
-        }
-        // Update properties
-        box.transitionDuration = settings.ANIMATION_LENGTH / (Math.abs(box.targetStep - newTarget)) / box.framesPerStep;
-        box.targetStep = newTarget;
-        box.targetFrame = box.targetStep * box.framesPerStep;
-        box.text = stepData[box.name].text;
-        box.timing = stepData[box.name].timing;
-        if (box.MiniMacaroniMeter) {
-            box.MiniMacaroniMeter.transitionDuration = settings.ANIMATION_LENGTH / (Math.abs(box.MiniMacaroniMeter.targetStep - newTarget)) / box.MiniMacaroniMeter.framesPerStep;
-            box.MiniMacaroniMeter.targetStep = newTarget;
-            box.MiniMacaroniMeter.targetFrame = box.MiniMacaroniMeter.targetStep * box.MiniMacaroniMeter.framesPerStep;
-        }
-        return true;
+    animations = properOrder.filter(function (vals) {
+        vals = vals.filter(function (val) {
+
+            var box = boxen[val];
+            var newTarget = stepData[box.name].value - 1;
+            console.log("box.text:", stepData[box.name].text);
+            if (box.targetStep === newTarget && stepData[box.name].text === '') {
+                return false;
+            }
+            // Update properties
+            box.transitionDuration = settings.ANIMATION_LENGTH / (Math.abs(box.targetStep - newTarget)) / box.framesPerStep;
+            box.targetStep = newTarget;
+            box.targetFrame = box.targetStep * box.framesPerStep;
+            box.text = stepData[box.name].text;
+            box.timing = stepData[box.name].timing;
+            if (box.MiniMacaroniMeter) {
+                box.MiniMacaroniMeter.transitionDuration = settings.ANIMATION_LENGTH / (Math.abs(box.MiniMacaroniMeter.targetStep - newTarget)) / box.MiniMacaroniMeter.framesPerStep;
+                box.MiniMacaroniMeter.targetStep = newTarget;
+                box.MiniMacaroniMeter.targetFrame = box.MiniMacaroniMeter.targetStep * box.MiniMacaroniMeter.framesPerStep;
+            }
+            return true;
+        });
+
+        return (vals.length > 0);
     });
+
+    console.log(animations);
 
     if (animations.length > 0) {
         // SKIPS ANIMATIONS
         if (skipAnimations) {
-            animations.forEach(function (item) {
-                var stateNumber = stepData[boxen[item].name].value - 1;
-                //console.log(boxen[item].name, "Set To State:", stateNumber);
-                boxen[item].setState(stateNumber);
+            animations.forEach(function (items) {
+                items.forEach(function (item) {
+                    var stateNumber = stepData[boxen[item].name].value - 1;
+                    //console.log(boxen[item].name, "Set To State:", stateNumber);
+                    boxen[item].setState(stateNumber);
+                })
             });
             animationInProgress = false;
             return;
         }
-        boxen[animations[0]].startingFrame = boxen[animations[0]].currentFrame;
+        boxen[animations[0][0]].startingFrame = boxen[animations[0][0]].currentFrame;
         updateMessageBoxInfo();
         showMessageBox();
         lightCrew.moveLightToLocation(0, getCurrentAnimationBounds(), 0, function () {
@@ -301,7 +352,7 @@ function updateMessageBoxInfo() {
 
     $("#timePeriod").text("Time Period: " + TP);
     var wasHappenin = "",
-        box = boxen[animations[0]];
+        box = boxen[animations[0][0]];
     //setup the string
     wasHappenin += box.label + ": ";
     wasHappenin += frameToValue(box.startingFrame, box);
@@ -331,7 +382,6 @@ function init(forcerObj, timeScaleOps) {
     boxen = containers.map(function (container, index) {
         var i, box,
             frames = [];
-
         //make a list of filenames
         for (i = 0; i < container.items; i++) {
             frames[i] = container.path + (i + 1) + container.ext;
@@ -349,6 +399,7 @@ function init(forcerObj, timeScaleOps) {
         box.label = container.label;
         return box;
     });
+
 
     // trims overflow arrows in IE 11
     var insolation = document.getElementById("insolation"),
@@ -457,4 +508,3 @@ function placeSomething(selectorIn) {
 }
 
 //placeSomething("#insolation");
-
