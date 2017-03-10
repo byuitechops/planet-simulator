@@ -387,7 +387,7 @@ function updateMessageBoxInfo() {
 
 
     $("#washappenin").html(wasHappenin);
-    $("#msgTxt").text("");
+    $("#msgTxt").text(boxen[animations[0][0]].text);
 }
 
 /*
