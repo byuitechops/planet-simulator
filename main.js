@@ -8,10 +8,11 @@ var lightCrew = new Spotlights();
 lightCrew.generateScene(1730, 938, "#spots");
 lightCrew.addLight(-50, -50, 20, 20);
 lightCrew.turnOffLights(0, function () {});
-$("#MRRECT").click(function(){
-//    alert("WHO DARE CLICK MR. RECT?!?");
-    window.location.href =("./homepage.html");
+$("#MRRECT").click(function () {
+    //    alert("WHO DARE CLICK MR. RECT?!?");
+    window.location.href = ("./homepage.html");
 });
+
 function setForcers(forcerObj) {
     "use strict";
     var forcers = ["mountain", "volcano", "weatheringCBurial", "weatheringCRelease", "insolation"],
@@ -55,10 +56,10 @@ function animationsComplete() {
     lightCrew.turnOffLights(settings.TURNOFFLIGHTS_LENGTH, function () {
         animationInProgress = false;
     });
-    if(animateThroughTimePeriods()){
+    if (animateThroughTimePeriods()) {
         hideMessageBox();
     }
-//    animateThroughTimePeriods()
+    //    animateThroughTimePeriods()
 }
 
 function checkAnimationStatus() {
@@ -126,7 +127,7 @@ function goThroughText(text, complete) {
 
     var completed = false;
     $("#next").click(function () {
-        if($(this).hasClass("disabled"))
+        if ($(this).hasClass("disabled"))
             return;
         if (!completed) {
             complete();
@@ -135,40 +136,77 @@ function goThroughText(text, complete) {
     });
 }
 
+/*
+ * Custom fitting of spotlight to objects
+ */
 function getCurrentAnimationBounds(index) {
     index = index || 0;
+
     //    console.log(boxen[animations[0]]);
     var currentAnimation = animations[0][index];
-    console.log(boxen[currentAnimation].name);
-  
-    if (!boxen[currentAnimation].offset)
-        boxen[currentAnimation].offset = {
+    var box = boxen[currentAnimation];
+    console.log(box.name);
+
+    if (!box.offset)
+        box.offset = {
             x: 0,
             y: 0
         };
-    if (!boxen[currentAnimation].scale)
-        boxen[currentAnimation].scale = {
+    if (!box.scale)
+        box.scale = {
             x: 1,
             y: 1
         };
-    var larger = (boxen[currentAnimation].states[0].width > boxen[currentAnimation].states[0].height) ? boxen[currentAnimation].states[0].width : boxen[currentAnimation].states[0].height;
+    var larger = (box.states[0].width > box.states[0].height) ? box.states[0].width : box.states[0].height;
     var bounds = {
         width: larger,
         height: larger,
-        x: boxen[currentAnimation].x,
-        y: boxen[currentAnimation].y,
+        x: box.x,
+        y: box.y,
         scale: {
-            x: boxen[currentAnimation].scale.x * 1.5,
-            y: boxen[currentAnimation].scale.y * 1.5
+            x: box.scale.x * 1.5,
+            y: box.scale.y * 1.5
         },
         offset: {
-            x: (boxen[currentAnimation].offset.x || 0) + boxen[currentAnimation].states[0].width / 2,
-            y: (boxen[currentAnimation].offset.y || 0) + boxen[currentAnimation].states[0].height / 2
+            x: (box.offset.x || 0) + box.states[0].width / 2,
+            y: (box.offset.y || 0) + box.states[0].height / 2
         }
     };
-    if (boxen[currentAnimation].name === "sediment" || boxen[currentAnimation].name === "weatheringCBurial") {
+    if (box.name === "sediment" || box.name === "weatheringCBurial") {
         bounds.scale.x = 2;
         bounds.scale.y = 2;
+    }
+    if (box.name === "insolation") {
+        bounds.y += 30;
+        bounds.scale.x = .9;
+        bounds.scale.y = .9;
+    }
+    if (box.name === "mountain") {
+        bounds.scale.x = 1.2;
+        bounds.scale.y = 1.2;
+    }
+    if (box.name === "volcano") {
+        bounds.scale.x = .9;
+        bounds.scale.y = .9;
+    }if (box.name === "temperature") {
+        bounds.x -= 25;
+        bounds.scale.x = .5;
+        bounds.scale.y = 1.2;
+    }if (box.name === "co2") {
+        bounds.x -= 30;
+        bounds.scale.x = .5;
+        bounds.scale.y = 1.2;
+    }
+    if (box.name === "underwaterVolcano") {
+        bounds.y += 50;
+        bounds.x -= 15;
+        bounds.scale.x = .65;
+        bounds.scale.y = 1.5;
+    } if (box.name === "weatheringCBurial") {
+        bounds.y -= 50;
+//        bounds.x -= 15;
+        bounds.scale.x = 5;
+        bounds.scale.y = 5;
     }
     //    console.log(bounds);
     return bounds;
@@ -258,20 +296,20 @@ function getProperOrder(stepData) {
 
 }
 
-function animateThroughTimePeriods(){
-    console.log(CurrentTP,TargetTP)
+function animateThroughTimePeriods() {
+    console.log(CurrentTP, TargetTP)
     var actuallyDone = true;
-    if(CurrentTP < TargetTP){
+    if (CurrentTP < TargetTP) {
         CurrentTP++
         updateBoxen(csv_data[CurrentTP], false)
         actuallyDone = false;
-    } else if (TargetTP < CurrentTP){
+    } else if (TargetTP < CurrentTP) {
         CurrentTP = TargetTP
         updateBoxen(csv_data[CurrentTP], true)
     } else {
         console.log("Uhhhh")
     }
-    console.log("Actually Done:",actuallyDone)
+    console.log("Actually Done:", actuallyDone)
     return actuallyDone;
 }
 
@@ -328,7 +366,7 @@ function updateBoxen(stepData, skipAnimations) {
             lightCrew.turnOnLights(settings.TURN_ON_LIGHTS_LENGTH, function () {
                 console.log("Spotlight is on!");
                 console.log("Moving To Next...");
-                console.log("TPz: ",  timeKeys[CurrentTP]);
+                console.log("TPz: ", timeKeys[CurrentTP]);
                 moveToNext();
             });
         });
