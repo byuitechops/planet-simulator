@@ -8,7 +8,10 @@ var lightCrew = new Spotlights();
 lightCrew.generateScene(1730, 938, "#spots");
 lightCrew.addLight(-50, -50, 20, 20);
 lightCrew.turnOffLights(0, function () {});
-
+$("#MRRECT").click(function(){
+//    alert("WHO DARE CLICK MR. RECT?!?");
+    window.location.href =("./homepage.html");
+});
 function setForcers(forcerObj) {
     "use strict";
     var forcers = ["mountain", "volcano", "weatheringCBurial", "weatheringCRelease", "insolation"],

@@ -163,6 +163,13 @@ text.disabled {
     color:#4f4f4f;
     border: 2px #4f4f4f solid;
 }
+.buttonContainer{
+    display: flex;
+    justify-content: space-between;
+}
+#MRRECT{
+    border: 2px solid red;
+}
 #washappenin{
     margin-top: 0;
     padding:0;
