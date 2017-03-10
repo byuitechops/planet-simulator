@@ -63,6 +63,7 @@ function checkAnimationStatus() {
     var box = boxen[animations[0][0]];
     //console.log(box);
     if (box.targetFrame === box.currentFrame) {
+        $("#next").removeClass("disabled");
         goThroughText(boxen[animations[0][0]].text, function () {
             animations.shift();
             if (animations.length > 0) {
@@ -122,6 +123,8 @@ function goThroughText(text, complete) {
 
     var completed = false;
     $("#next").click(function () {
+        if($(this).hasClass("disabled"))
+            return;
         if (!completed) {
             complete();
             completed = true;
@@ -170,7 +173,7 @@ function getCurrentAnimationBounds(index) {
 
 function moveToNext() {
 
-
+    $("#next").addClass("disabled");
     var arrived = 0;
     lightCrew.moveLightToLocation(0, getCurrentAnimationBounds(), settings.SPOTLIGHT_MOVE_DURATION, syncLightArrival);
     for (var i in animations[0])
