@@ -152,8 +152,23 @@ text.disabled {
     border: 2px white solid;
 }
 #next:hover{
-    background-color: #1b1b1b;
+/*    background-color: #1b1b1b;*/
     cursor: pointer;
+}
+#next.disabled:hover{
+    background-color: #0F1010;
+    cursor: not-allowed;
+}
+#next.disabled{
+    color:#4f4f4f;
+    border: 2px #4f4f4f solid;
+}
+.buttonContainer{
+    display: flex;
+    justify-content: space-between;
+}
+#MRRECT{
+    border: 2px solid red;
 }
 #washappenin{
     margin-top: 0;
