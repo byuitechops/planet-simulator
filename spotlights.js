@@ -122,6 +122,26 @@ var Spotlights = (function () {
         document.getElementById(this.id).appendChild(newSpot.rect);
     };
 
+    proto.deleteLights = function (index, span) {
+        var lights = this.lights.splice(index, span || 1);
+        if (lights.length)
+            for (var i in lights)
+                Snap(lights[i].rect).animate({
+                    opacity: 0,
+                    width: 1,
+                    height: 1
+                }, 500, function () {
+                    $("#" + lights[i].id).remove();
+                })
+        else
+            Snap(lights.rect).animate({
+                opacity: 0,
+                width: 1,
+                height: 1
+            }, 500, function () {
+                $("#" + lights.id).remove();
+            })
+    }
 
     /*
      * Deletes the scene from view

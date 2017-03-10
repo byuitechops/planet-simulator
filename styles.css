@@ -162,6 +162,7 @@ text.disabled {
 #messageBox {
     opacity: 0;
     font-family: 'Roboto', sans-serif;
+    font-size: 20px;
     margin
     text-align: center;
     color: hsl(0, 0%, 85%);
