@@ -187,12 +187,16 @@ var Animator = (function () {
         }
 
         // Determine frame to animate and set necessary values
-        if (this.targetFrame < this.currentFrame) {
+        if (this.targetFrame === this.currentFrame) {
+            if(callback) { callback(); }
+            return;
+        } else if (this.targetFrame < this.currentFrame) {
             frameIndex = this.currentFrame;
             this.states[frameIndex].opacity = 0;
             this.currentFrame = this.currentFrame - 1;
         } else {
             frameIndex = this.currentFrame + 1;
+            console.log(frameIndex)
             this.states[frameIndex].opacity = 1;
             this.currentFrame = frameIndex;
         }
