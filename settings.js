@@ -1,3 +1,4 @@
+/* exported settings */
 var bugging = false;
 
 var settings = {
@@ -6,5 +7,5 @@ var settings = {
     MESSAGEBOX_ANIMATION_LENGTH: 1000,
     TURN_OFF_LIGHTS_LENGTH: bugging ? 250 : 1000,
     TURN_ON_LIGHTS_LENGTH: bugging ? 250 : 1000,
-    SPOTLIGHT_MOVE_DURATION: bugging ? 250 : 1000,
+    SPOTLIGHT_MOVE_DURATION: bugging ? 250 : 1000
 };

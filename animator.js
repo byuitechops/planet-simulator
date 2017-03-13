@@ -1,20 +1,6 @@
 /*jslint plusplus: true, browser: true, devel: true */
-/*global $, states*/
-
-
-function appendImageToSVG(element, url, x, y, width, height) {
-    "use strict";
-    var image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-    image.setAttributeNS("http://www.w3.org/1999/xlink", "href", url);
-    image.setAttributeNS(null, "x", x);
-    image.setAttributeNS(null, "y", y);
-    image.setAttributeNS(null, "width", width);
-    image.setAttributeNS(null, "height", height);
-    image.setAttributeNS(null, "visibility", "visibile");
-
-    document.querySelector(element).appendChild(image);
-}
-
+/* global $ */
+/* exported Animator */
 
 var Frame = (function () {
     "use strict";
@@ -57,7 +43,7 @@ var Animator = (function () {
         this.y = y;
         this.states = states;
         this.isFrame = isFrame;
-        this.framesPerStep = Math.round((states.length) / 5);
+        this.framesPerStep = Math.round(states.length / 5);
         this.targetStep = targetStep;
         this.targetFrame = targetStep * this.framesPerStep;
         this.currentFrame = this.targetFrame;
@@ -71,8 +57,7 @@ var Animator = (function () {
     }
 
     Animator.prototype.display = function () {
-        var framesPerStep,
-            animator = this,
+        var animator = this,
             group = document.createElementNS("http://www.w3.org/2000/svg", "g");
 
         group.setAttributeNS(null, "id", animator.name);
@@ -90,7 +75,6 @@ var Animator = (function () {
 
         animator.states.forEach(function (frame, index) {
             var image,
-                svg = $(animator.name),
                 fadeOut;
 
             if (animator.frames.length < index + 1) {
@@ -103,8 +87,6 @@ var Animator = (function () {
 
                 group.appendChild(image);
                 animator.frames.push(image);
-            } else {
-                svg = animator.frames[index];
             }
             // INSTANT CHANGE OF ANIMATIONS
             // TURN TO OWN FUNCTION
@@ -176,7 +158,7 @@ var Animator = (function () {
     };
 
     Animator.prototype.mirror = function () {
-        this.group.setAttributeNS(null, "transform", "translate(" + (this.x) + "," + this.y + ") scale(" + this.scale.x * -1 + " " + this.scale.y + ")");
+        this.group.setAttributeNS(null, "transform", "translate(" + this.x + "," + this.y + ") scale(" + this.scale.x * -1 + " " + this.scale.y + ")");
     };
 
     Animator.prototype.frameTransition = function (callback) {
@@ -188,7 +170,9 @@ var Animator = (function () {
 
         // Determine frame to animate and set necessary values
         if (this.targetFrame === this.currentFrame) {
-            if(callback) { callback(); }
+            if (callback) {
+                callback();
+            }
             return;
         } else if (this.targetFrame < this.currentFrame) {
             frameIndex = this.currentFrame;
@@ -196,7 +180,6 @@ var Animator = (function () {
             this.currentFrame = this.currentFrame - 1;
         } else {
             frameIndex = this.currentFrame + 1;
-            console.log(frameIndex)
             this.states[frameIndex].opacity = 1;
             this.currentFrame = frameIndex;
         }
@@ -208,8 +191,7 @@ var Animator = (function () {
     Animator.prototype.crossfadeTransition = function (callback) {
 
         var startFrame = this.currentFrame,
-            nextFrame = (this.targetFrame < startFrame) ? startFrame - 1 : startFrame + 1,
-            that = this;
+            nextFrame = this.targetFrame < startFrame ? startFrame - 1 : startFrame + 1;
 
         // Update current frame
         this.currentFrame = nextFrame;

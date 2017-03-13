@@ -1,0 +1,18 @@
+linkName,url,icon
+Carbon Dioxide Down,co2Down,
+Carbon Dioxide Up,co2Up,
+Volcanoes Down,VolcanoesDown,volcanoes_active.png
+Volcanoes Up Ice house,VolcanoesUpIcehouse,volcanoes_active.png
+Volcanoes Up Hot house,VolcanoesUpHothouse,volcanoes_active.png
+Mountain Building Up,MountainBuildHothouse,mountains_active.png
+Mountain Building Down,MountainBuildDown,mountains_active.png
+Carbon Burial Up,CBurialUp,
+Carbon Burial Down,CBurialDown,
+Insulation Up,IsolationUp,insulation_active.png
+Insulation Down,IsolationDown,insulation_active.png
+Mountains Up and Volcanoes Down,MountainsUpVolcanoesDown,mountains_active.png
+Buried Carbon Release Up,BuriedCReleaselUpLT,
+Buried Carbon Release Pulse Up,BuriedCReleasePulseUp,
+Escape from Snowball Earth,EscapeSnowball,
+Weathering Down,WeatheringDown,
+Weathering Up,WeatheringUp,

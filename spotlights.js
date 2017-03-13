@@ -1,6 +1,7 @@
 /* global settings, Snap, $*/
+/* exported Spotlights */
 var Spotlights = (function () {
-
+    "use strict";
     /*
      * Spotlight Object
      * Creates a spotlight rect with the specified bounds and ID.
@@ -60,12 +61,11 @@ var Spotlights = (function () {
             position.scale.y = 1;
 
         if (!callback) callback = function () {};
-        var that = this;
         var dest = {
-            x: (position.x + position.offset.x) - (position.width * position.scale.x) / 2,
-            y: (position.y + position.offset.y) - (position.height * position.scale.y) / 2,
-            width: position.width * (position.scale.x),
-            height: position.height * (position.scale.y)
+            x: position.x + position.offset.x - position.width * position.scale.x / 2,
+            y: position.y + position.offset.y - position.height * position.scale.y / 2,
+            width: position.width * position.scale.x,
+            height: position.height * position.scale.y
         };
         Snap(this.rect).animate(dest, durration, function () {
             callback();
@@ -132,7 +132,7 @@ var Spotlights = (function () {
                     height: 1
                 }, 500, function () {
                     $("#" + lights[i].id).remove();
-                })
+                });
         else
             Snap(lights.rect).animate({
                 opacity: 0,
@@ -140,8 +140,8 @@ var Spotlights = (function () {
                 height: 1
             }, 500, function () {
                 $("#" + lights.id).remove();
-            })
-    }
+            });
+    };
 
     /*
      * Deletes the scene from view
@@ -162,7 +162,6 @@ var Spotlights = (function () {
         Snap.select("#" + this.id + "Group").animate({
             opacity: 1
         }, durration, function () {
-            console.log("Done!");
             callback();
         });
     };
@@ -173,7 +172,6 @@ var Spotlights = (function () {
         Snap.select("#" + this.id + "Group").animate({
             opacity: 0
         }, durration, function () {
-            console.log("Done!");
             that.deleteScene();
             callback();
         });
@@ -191,8 +189,8 @@ var Spotlights = (function () {
 
     /*
      * Moves the spotlight at the specified index to the specified position over
-     * the specified durration. The callback is fired when the spotlight is in 
-     * position. When "all" is passed as the light all the lights will be moved 
+     * the specified durration. The callback is fired when the spotlight is in
+     * position. When "all" is passed as the light all the lights will be moved
      * to the specified location.
      *
      * Parameters:
@@ -200,10 +198,10 @@ var Spotlights = (function () {
      * position - see spotlight.moveToDestination for object reference
      * durration - time in ms for the light(s) to reach the position
      * callback - fucntion to run when the light(s) reach the position
-     * 
+     *
      */
     proto.moveLightToLocation = function (light, position, durration, callback) {
-        if (light < 0 || (typeof light === "string" && light.toLowerCase() === "all")) {
+        if (light < 0 || typeof light === "string" && light.toLowerCase() === "all") {
 
             this.lights.forEach(function (spot) {
                 spot.moveToDestination(position, durration, function () {
@@ -232,7 +230,7 @@ var Spotlights = (function () {
      * The parent parameter can either be a selector or a node.
      */
     proto.generateScene = function (width, height, parent) {
-        //group 
+        //group
         var group = document.createElementNS("http://www.w3.org/2000/svg", "g");
         group.setAttributeNS(null, "id", this.id + "Group");
         var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");

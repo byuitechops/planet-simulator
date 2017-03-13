@@ -1,0 +1,196 @@
+/* IMPORTS */
+
+
+/* Roboto font */
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:400, 900');
+a+ *+ text,
+a> image,
+a+* {
+    cursor: pointer;
+}
+
+#timeline {
+    z-index: 10;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+main {
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+
+/* SVG */
+
+svg {
+    width: 100%;
+    height: auto;
+}
+html, body{
+    background-color: #0b1312;
+}
+
+/*
+    IE 11 Support
+    DONT ASK...IT JUST WORKS...
+*/
+
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
+    svg {
+        margin-top: 0;
+        height: 750px;
+        overflow: hidden;
+    }
+}
+
+text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    fill: #fff;
+    filter: url(#worldsbestestmaskfilterthinggy);
+}
+
+.textShadow {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    fill: #1f1f1f;
+}
+
+
+/*for the disabled forcer labels*/
+
+text.disabled {
+    fill: #297082;
+    filter: none;
+    font-weight: 300;
+}
+
+.notBold {
+    font-weight: 400;
+}
+
+.smallText {
+    font-size: 12px;
+    font-weight: 400;
+    /*    letter-spacing: 1.5px;*/
+}
+
+.smallTextShadow {
+    font-size: 12px;
+    font-weight: 400;
+    fill: #1f1f1f;
+    /*    letter-spacing: 1.5px;*/
+}
+
+.operator {
+    font-size: 28px
+}
+
+#timeline g text {
+    font-size: 12px;
+}
+
+#timeline g> image {
+    display: none;
+}
+
+#timeline g.active> image {
+    display: inline;
+}
+
+#timeline g.active text {
+    fill: #235255;
+}
+
+.hide {
+    display: none;
+}
+
+#forcerText text {
+    font-size: 50px;
+    font-weight: 400;
+    fill: white;
+}
+
+.forcerSubscript {
+    font-size: 25px;
+}
+
+#error {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    width: 50%;
+    margin: 15px auto;
+    color: red;
+}
+
+#noChangeMessage {
+    display: none;
+    font-size: 50px;
+}
+#navigation{
+    display: flex;
+    justify-content: space-between;
+}
+.yoda{
+    font-weight: normal;
+}
+#timePeriod{
+    border-bottom: 2px solid white;
+    margin:0
+}
+#next{
+    padding:1.5%;
+    height: 5%;
+    border: 2px white solid;
+}
+#next:hover{
+/*    background-color: #1b1b1b;*/
+    cursor: pointer;
+}
+#next.disabled:hover{
+    background-color: #0F1010;
+    cursor: not-allowed;
+}
+#next.disabled{
+    color:#4f4f4f;
+    border: 2px #4f4f4f solid;
+}
+.buttonContainer{
+    display: flex;
+    justify-content: space-between;
+}
+#MRRECT{
+    border: 2px solid red;
+}
+#washappenin{
+    margin-top: 0;
+    padding:0;
+}
+#messageBox {
+    opacity: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    margin
+    text-align: center;
+    color: hsl(0, 0%, 85%);
+    min-height: 150px;
+    padding: 1.5%;
+    border: 3px solid #43B0C0;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#121212+0,0f0e0e+100&0.87+0,0.98+100 */
+    background: -moz-linear-gradient(top, rgba(18, 18, 18, 0.87) 0%, rgba(15, 14, 14, 0.98) 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(18, 18, 18, 0.87) 0%, rgba(15, 14, 14, 0.98) 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(18, 18, 18, 0.87) 0%, rgba(15, 14, 14, 0.98) 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#de121212', endColorstr='#fa0f0e0e', GradientType=0);
+    /* IE6-9 */
+}

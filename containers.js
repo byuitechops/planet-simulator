@@ -221,7 +221,6 @@ var containers = [
 
 var containerIndexes = {};
 containers.forEach(function (container, index) {
+    "use strict";
     containerIndexes[container.name] = index;
 });
-
-console.log("containerIndexes:", containerIndexes);

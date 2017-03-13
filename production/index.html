@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <title>Climate Simulator</title>
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <link rel="stylesheet" href="styles.css" /> </head>
+
+<body>
+    <!--    
+        Firefox 49 Support
+        DONT ASK...IT JUST WORKS...
+-->
+    <style>
+        text {
+            filter: url(#worldsbestestmaskfilterthinggy);
+        }
+        
+        .boxText {
+            font-family: monospace;
+            font-size: 18px;
+            fill: #69a6d5;
+        }
+        
+        #ruler {
+            position: absolute;
+            visibility: hidden;
+            height: auto;
+            width: auto;
+            white-space: nowrap;
+        }
+    </style>
+    <main>
+        <div id="error" class="hide">
+            <p> Error loading the simulation file. It does not exisit or is not specified. </p>
+            <p> Check the file name and make sure that end of the URL looks like this: </p>
+            <p> ?file=nameOfFile </p>
+        </div>
+        <svg id="simPanel" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1730 938" preserveAspectRatio="xMidYMid meet">
+            <defs>
+                <filter id="worldsbestestmaskfilterthinggy" dx="0" dy="0" width="200%" height="200%">
+                    <feOffset result="offOut" in="SourceAlpha" dx="5" dy="5" />
+                    <feGaussianBlur result="blurOut" in="offOut" stdDeviation="5" />
+                    <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+                </filter>
+
+                <linearGradient id="Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="transparent" stop-opacity="0" />
+                    <stop offset="5%" stop-color="transparent" stop-opacity="0" />
+                    <stop offset="8%" stop-color="white" stop-opacity="1" />
+                </linearGradient>
+                <mask id="Mask">
+                    <rect x="0" y="0" width="100%" height="100%" fill="url(#Gradient)" />
+                </mask>
+
+
+                <!-- IE 11 Support - Clips overflowing light rays-->
+                <clipPath id="overflowClip">
+                    <rect x="95" y="0" width="334" height="412"></rect>
+                </clipPath>
+            </defs>
+            <g id="background">
+                <image xlink:href="./images/paper-doll/background.png" x="0" y="0" width="1730" height="938"></image>
+                <image xlink:href="images/paper-doll/waves.gif" x="1007" y="553" width="460" height="250" opacity=".7"></image>
+                <image xlink:href="images/paper-doll/seaFloor.png" x="1037" y="630" width="374" height="199"></image>
+                <image xlink:href="images/paper-doll/rainLeft.gif" x="880" y="404" width="204" height="168"></image>
+                <image xlink:href="images/paper-doll/rainRight.gif" x="1396" y="407" width="204" height="168"></image>
+            </g>
+            <!--All dynamically appended elements will be put into this group-->
+            <g id="child_container"> </g>
+            <!--All buttons and menus will be added last-->
+            <g>
+                <text x="126" y="90">FORCING &amp; RESPONSE SIMULATOR</text>
+                <image xlink:href="images/paper-doll/Initial%20State.png" x="136" y="118" width="46" height="46"></image>
+                <text x="160" y="187" text-anchor="middle">INITIAL STATE</text>
+                <text x="207" y="154" class="operator notBold">+</text>
+                <text x="110" y="233" class="operator notBold">+</text>
+                <text x="769" y="233" class="operator notBold">=</text>
+                <text x="874" y="90">PROCESS SIMULATOR</text>
+                <text x="535" y="790" class="notBold">CO
+                    <tspan class="smallText" dy="5">2</tspan>
+                </text>
+                <text x="550" y="831" class="notBold">TEMP.</text>
+                <text x="1075" y="212">ATMOSPHERE</text>
+                <text x="1027" y="510">WEATHERING</text>
+                <text x="1027" y="523" class="smallText">CARBON BURIAL</text>
+                <g id="weathering">
+                    <text x="1432" y="489">WEATHERING</text>
+                    <text x="1432" y="503" class="smallText">CARBON RELEASE</text>
+                </g>
+                <text x="1246" y="640">CARBONATE</text>
+                <text x="1246" y="655">DEPOSITION</text>
+                <text x="1246" y="669" class="smallText">CARBON BURIAL</text>
+                <text x="1003" y="666">SEDIMENT</text>
+                <text x="1003" y="679" class="smallText">CARBON BURIAL</text>
+                <text x="1412" y="677">VOLCANO</text>
+                <text x="1412" y="692" class="smallText">CARBON RELEASE</text>
+                <text x="900" y="596">IGNEOUS &amp;</text>
+                <text x="900" y="611">METAMORPHIC</text>
+                <text x="900" y="629">ROCK</text>
+                <text x="1503" y="601">CARBONATE</text>
+                <text x="1545" y="615">ROCK</text>
+                <text x="136" y="854">CLIMATE SIMULATOR 7.5</text>
+            </g>
+            <g id="timeline" transform="translate(147,204) scale(1 1.2)">
+                <g id="time1" class="active" transform="translate(0,0)">
+                    <a href="javascript:void(0)">
+                        <image xlink:href="images/paper-doll/time1Off.png" x="0" y="0" width="64" height="30"></image>
+                    </a>
+                    <image xlink:href="images/paper-doll/time1On.png" x="0" y="0" width="64" height="30"></image>
+                    <text x="6" y="20">INITIAL</text>
+                </g>
+                <g id="time2" transform="translate(44,0)">
+                    <a href="javascript:void(0)">
+                        <image xlink:href="images/paper-doll/time2Off.png" x="0" y="0" width="90" height="30"></image>
+                    </a>
+                    <image xlink:href="images/paper-doll/time2On.png" x="0" y="0" width="90" height="30"></image>
+                    <text x="17" y="20">100-1000 Y</text>
+                </g>
+                <g id="time3" transform="translate(113,0)">
+                    <a href="javascript:void(0)">
+                        <image xlink:href="images/paper-doll/time3Off.png" x="0" y="0" width="119" height="30"></image>
+                    </a>
+                    <image xlink:href="images/paper-doll/time3On.png" x="0" y="0" width="119" height="30"></image>
+                    <text x="22" y="20">100 KY</text>
+                </g>
+                <g id="time4" transform="translate(217,0)">
+                    <a href="javascript:void(0)">
+                        <image xlink:href="images/paper-doll/time4Off.png" x="0" y="0" width="162" height="30"></image>
+                    </a>
+                    <image xlink:href="images/paper-doll/time4On.png" x="0" y="0" width="162" height="30"></image>
+                    <text x="22" y="20">1 MY</text>
+                </g>
+                <g id="time5" transform="translate(364,0)">
+                    <a href="javascript:void(0)">
+                        <image xlink:href="images/paper-doll/time5Off.png" x="0" y="0" width="229" height="30"></image>
+                    </a>
+                    <image xlink:href="images/paper-doll/time5On.png" x="0" y="0" width="229" height="30"></image>
+                    <text x="22" y="20">10 MY</text>
+                </g>
+            </g>
+            <g id="forcers" transform="translate(272,107)">
+                <g transform="translate(0,0)">
+                    <image xlink:href="images/paper-doll/mountains_inactive.png" x="0" y="0" width="56" height="70"></image>
+                    <image class="hide" xlink:href="images/paper-doll/mountains_active.png" x="0" y="0" width="56" height="70"></image>
+                    <text x="26" y="80" class="disabled" text-anchor="middle">MOUNTAINS</text>
+                </g>
+                <g transform="translate(116,-2)">
+                    <image xlink:href="images/paper-doll/volcanoes_inactive.png" x="0" y="0" width="54" height="70"></image>
+                    <image class="hide" xlink:href="images/paper-doll/volcanoes_active.png" x="0" y="0" width="54" height="70"></image>
+                    <text x="27" y="82" class="disabled" text-anchor="middle">VOLCANOES</text>
+                </g>
+                <g transform="translate(220,3)">
+                    <image xlink:href="images/paper-doll/carbon%20burial_inactive.png" x="0" y="0" width="74" height="65"></image>
+                    <image class="hide" xlink:href="images/paper-doll/carbonBurial_active.png" x="0" y="0" width="74" height="65"></image>
+                    <text x="37" y="77" class="disabled" text-anchor="middle">CARBON BURIAL</text>
+                </g>
+                <g transform="translate(336,3)">
+                    <image xlink:href="images/paper-doll/carbon%20release_inactive.png" x="0" y="0" width="81" height="66"></image>
+                    <image class="hide" xlink:href="images/paper-doll/carbon%20release_active.png" x="0" y="0" width="81" height="66"></image>
+                    <text x="42" y="77" class="disabled" text-anchor="middle">CARBON RELEASE</text>
+                </g>
+                <g transform="translate(471,-1)">
+                    <image xlink:href="images/paper-doll/insulation_inactive.png" x="0" y="0" width="52" height="70"></image>
+                    <image class="hide" xlink:href="images/paper-doll/insulation_active.png" x="0" y="0" width="52" height="70"></image>
+                    <text x="26" y="81" class="disabled" text-anchor="middle">INSULATION</text>
+                </g>
+            </g>
+            <g id="home">
+                <rect x="47" y="780" width="67" height="67" fill="transparent" id="MRRECT">
+                </rect>
+            </g>
+            <g id="forcerText" class="hide">
+                <text text-anchor="middle" x="512" y="162">
+                    <tspan>Testing</tspan>
+                </text>
+            </g>
+            <g id="globeShadow" transform="translate(227, 369) scale(1)">
+                <image xlink:href="images/paper-doll/shadow1.png" width="392" height="392"></image>
+            </g>
+            <g id="spots">
+            </g>
+            <text id="noChangeMessage" transform="translate(750, 500)">No Change</text>
+        </svg>
+        <div id="messageBox">
+            <div id="navigation">
+                <div id="headerinfo">
+                    <h2 id="timePeriod">Time Period: 1000-3000 Years</h2>
+                    <h3 id="washappenin"> Volcanoes Yoda 4 &#11157; 5 </h3>
+                </div>
+                <div class="disabled" id="next">Next</div>
+            </div>
+            <p id="msgTxt">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper felis lacus, ut bibendum nunc dignissim vel. Maecenas eleifend ac velit at finibus. Etiam in nulla ac orci consequat scelerisque. Proin vitae dignissim mauris. Proin id aliquet nunc. In vel massa lectus. Sed ullamcorper posuere sapien ut porttitor. Praesent mattis eros vitae aliquam consectetur. Ut placerat dolor vel ex tristique faucibus. Suspendisse cursus hendrerit vestibulum. Integer sit amet dapibus ante. Pellentesque eget tincidunt ante, non eleifend sem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed porta sed quam eget interdum. Curabitur tincidunt quam quis turpis tincidunt condimentum. Curabitur urna enim, porttitor vitae nisl quis, finibus pretium mauris. Sed consectetur, dui et convallis euismod, nibh quam dignissim massa, sed eleifend odio erat et urna. Ut in enim nisi. Vivamus et ex dictum, viverra mi eu, rutrum lacus. Aliquam tempor lectus venenatis viverra dignissim. Sed aliquet sem vel efficitur feugiat. Donec elementum, est placerat viverra imperdiet, ante massa sollicitudin urna, eget sollicitudin lacus nulla ut nibh. Aenean ac nulla porttitor quam sollicitudin rhoncus ut vitae massa. Suspendisse non erat nec ipsum accumsan vehicula nec id mauris. Vestibulum hendrerit cursus leo, efficitur scelerisque orci dignissim in. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam et sem nunc. Duis justo turpis, auctor ac malesuada ut, tincidunt sit amet nibh. Aliquam nec libero aliquam, rhoncus libero non, laoreet enim. Curabitur cursus arcu vitae arcu commodo sagittis. Donec accumsan ultricies maximus. Aliquam vulputate gravida justo ac ultricies. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque venenatis condimentum odio, ut rutrum ante sodales nec. Nullam odio nibh, congue ac tempus sed, faucibus ac elit. Suspendisse id ipsum convallis, porta ligula vehicula, rutrum erat. Mauris venenatis pharetra tempor. Maecenas eu auctor velit, sed rhoncus lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean bibendum eros sit amet egestas aliquet. Cras ornare suscipit faucibus. Donec non eleifend quam, sed tempus ipsum. In mollis mi non justo elementum faucibus. Donec enim velit, congue et ante eu, porttitor accumsan libero. Quisque id nisl ac neque euismod commodo. Ut lobortis accumsan leo. Nunc in tempus tellus. Pellentesque auctor suscipit ex, sit amet finibus augue ullamcorper ut. Aliquam mollis neque eros, non laoreet magna aliquet ut. Suspendisse quis nisl vel mauris aliquet aliquam. Suspendisse sodales egestas libero id commodo. Suspendisse commodo lorem vel quam tincidunt tristique. Morbi laoreet nisl ac consectetur suscipit. In varius molestie sem, quis faucibus leo. Duis semper consequat ante, eget egestas tortor tincidunt porta. Proin imperdiet et dolor tincidunt rutrum. Pellentesque sodales maximus pellentesque. Vivamus tempus orci purus, non elementum justo suscipit in. Aliquam erat volutpat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus pulvinar dolor sem.
+            </p>
+        </div>
+    </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-dsv/1.0.3/d3-dsv.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
+    <script src="planetsim-min.js"></script>
+</body>
+
+</html>
