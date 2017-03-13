@@ -8,10 +8,12 @@ var lightCrew = new Spotlights();
 lightCrew.generateScene(1730, 938, "#spots");
 lightCrew.addLight(-50, -50, 20, 20);
 lightCrew.turnOffLights(0, function () {});
+/*
 $("#MRRECT").click(function () {
     //    alert("WHO DARE CLICK MR. RECT?!?");
     window.location.href = ("./homepage.html");
 });
+*/
 
 function setForcers(forcerObj) {
     "use strict";
@@ -483,7 +485,7 @@ function init(forcerObj, timeScaleOps) {
     volcano.setAttribute("mask", "url(#Mask)");
 
     // modified to make text clickable too
-    $("a, a + * + text").on("click", function () {
+    $("#timeline a, #timeline a + * + text").on("click", function () {
         if (animationInProgress || $(this.parentElement).hasClass("active")) {
             return;
         }
