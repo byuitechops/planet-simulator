@@ -64,28 +64,34 @@ function animationsComplete() {
 
 function checkAnimationStatus() {
     'use strict';
-    var box = boxen[animations[0][0]];
     //console.log(box);
-    if (box.targetFrame === box.currentFrame) {
-        $("#next").removeClass("disabled");
-        goThroughText(boxen[animations[0][0]].text, function () {
-            animations.shift();
-            if (animations.length > 0) {
-                console.log(animations);
-                boxen[animations[0][0]].startingFrame = boxen[animations[0][0]].currentFrame;
-                updateMessageBoxInfo();
-                if (lightCrew.lights.length > 1)
-                    lightCrew.deleteLights(1, lightCrew.lights.length - 1);
-                moveToNext();
-            } else {
-                animationsComplete();
+    var there = 0;
+    animations[0].forEach(function (item,index) {
+        console.log(index);
+        var box = boxen[animations[0][index]];
+        if (box.targetFrame === box.currentFrame) {
+            if (++there >= animations[0].length) {
+                $("#next").removeClass("disabled");
+                goThroughText(boxen[animations[0][0]].text, function () {
+                    animations.shift();
+                    if (animations.length > 0) {
+                        console.log(animations);
+                        boxen[animations[0][0]].startingFrame = boxen[animations[0][0]].currentFrame;
+                        updateMessageBoxInfo();
+                        if (lightCrew.lights.length > 1)
+                            lightCrew.deleteLights(1, lightCrew.lights.length - 1);
+                        moveToNext();
+                    } else {
+                        animationsComplete();
+                    }
+
+                });
             }
 
-        });
-
-    } else {
-        box.transition(checkAnimationStatus);
-    }
+        } else {
+            box.transition(checkAnimationStatus);
+        }
+    })
 }
 
 function grabSegment(word, maxLength) {
@@ -188,11 +194,13 @@ function getCurrentAnimationBounds(index) {
     if (box.name === "volcano") {
         bounds.scale.x = .9;
         bounds.scale.y = .9;
-    }if (box.name === "temperature") {
+    }
+    if (box.name === "temperature") {
         bounds.x -= 25;
         bounds.scale.x = .5;
         bounds.scale.y = 1.2;
-    }if (box.name === "co2") {
+    }
+    if (box.name === "co2") {
         bounds.x -= 30;
         bounds.scale.x = .5;
         bounds.scale.y = 1.2;
@@ -202,9 +210,10 @@ function getCurrentAnimationBounds(index) {
         bounds.x -= 15;
         bounds.scale.x = .65;
         bounds.scale.y = 1.5;
-    } if (box.name === "weatheringCBurial") {
+    }
+    if (box.name === "weatheringCBurial") {
         bounds.y -= 50;
-//        bounds.x -= 15;
+        //        bounds.x -= 15;
         bounds.scale.x = 5;
         bounds.scale.y = 5;
     }
