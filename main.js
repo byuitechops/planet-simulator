@@ -64,6 +64,14 @@ function animationsComplete() {
     //    animateThroughTimePeriods()
 }
 
+function playSound(sound, volume, loop) {
+    var audio = new Audio(sound);
+    audio.loop = loop || false;
+    audio.volume = volume;
+    audio.play();
+    return audio;
+}
+
 function checkAnimationStatus() {
     'use strict';
     //console.log(box);
@@ -72,6 +80,9 @@ function checkAnimationStatus() {
         console.log(index);
         var box = boxen[animations[0][index]];
         if (box.targetFrame === box.currentFrame) {
+            setTimeout(function(){
+                box.sfxPlayer.pause();
+            },1000);
             if (++there >= animations[0].length) {
                 $("#next").removeClass("disabled");
                 goThroughText(boxen[animations[0][0]].text, function () {
@@ -244,14 +255,19 @@ function moveToNext() {
 
     function startTransitions() {
         var completed = 0;
-        for (var i in animations[0])
-            boxen[animations[0][i]].transition(function () {
+        for (var i in animations[0]){
+            var box = boxen[animations[0][i]];
+            if(box.sound && box.sound.location !== ""){
+                box.sfxPlayer = playSound(box.sound.location, box.sound.volume || .3, box.sound.loop || false);
+            }
+            box.transition(function () {
                 completed++;
                 if (completed >= animations[0].length) {
                     console.log("DONE!");
                     checkAnimationStatus();
                 }
             });
+        }
     }
 }
 
@@ -467,6 +483,7 @@ function init(forcerObj, timeScaleOps) {
             return frame;
         });
         box = new Animator(container.name, frames, container.isFrame, container.x, container.y, container.scale, timeScaleOps[0][container.name].value - 1);
+        box.sound = container.sound;
         box.display();
         if (container.macaroni.needed) {
             box.createMacaroniMeter(container.macaroni.name + "MacaroniMeter", container.macaroni.x, container.macaroni.y, container.macaroni.mirrored);

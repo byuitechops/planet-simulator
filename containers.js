@@ -66,6 +66,10 @@ var containers = [
         ext: ".png",
         macaroni: {
             needed: false
+        },
+        sound:{
+            location:"./_sfx/radiation.mp3",
+            loop:true
         }
     },
     {
