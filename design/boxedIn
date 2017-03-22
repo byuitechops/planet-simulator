@@ -1,0 +1,115 @@
+graph TB
+
+next.onClick
+back.onClick
+
+subgraph Main
+Mconstructor[Constructor]
+onclick
+end
+ 
+subgraph Animator
+Aconstructor[Constructor]
+Arun[run]
+Acallback[callback]
+AsetState[setState]
+end
+
+subgraph TimePeriodTransition
+TPTconstructor[Constructor]
+makeChunkList
+createAnimationStep
+makeFilteredList
+chunk["chunks[index]"]
+goToNext
+goToPrev
+runArray
+cleanUp
+TPTcallback[callback]
+end
+
+subgraph AnimatedObject
+AOconstructor[Constructor]
+animateToState
+AOsetState[setState]
+end
+
+subgraph SpotlightStage
+SSconstructor[Constructor]
+createLight
+dimLights
+undimLights
+SSmove[move]
+killLight
+end
+
+subgraph Spotlight
+Sconstructor[Constructor]
+turnOn
+turnOff
+Smove[move]
+end
+
+subgraph TextController
+TCconstructor[Constructor]
+removeText
+displayText
+enable
+goToNext
+disable
+goToPrev
+setTimePeriod
+end
+
+Mconstructor --> Aconstructor
+
+Aconstructor --> AOconstructor
+Aconstructor --> TCconstructor
+Aconstructor --> SSconstructor
+
+SSconstructor --> createLight
+
+createLight --> Sconstructor
+killLight --> turnOff
+
+Sconstructor --> turnOn
+
+onclick -->Arun
+
+Arun --> dimLights
+Arun --> TPTconstructor
+Arun --> undimLights
+Arun --> Acallback
+Arun --> AsetState
+
+TPTconstructor --> setTimePeriod
+TPTconstructor --> makeFilteredList
+TPTconstructor --> makeChunkList
+TPTconstructor --> chunk
+
+next.onClick --> goToNext
+back.onClick --> goToPrev
+
+goToNext --> chunk
+goToNext --> disable
+goToPrev --> chunk
+goToPrev --> disable
+
+chunk --> removeText
+chunk --> SSmove
+chunk --> displayText
+chunk --> runArray
+chunk --> cleanUp
+
+SSmove --> createLight
+SSmove --> Smove
+SSmove --> killLight
+
+Smove --> turnOn
+
+runArray --> animateToState
+AsetState --> AOsetState
+
+cleanUp --> enable
+
+makeChunkList --> createAnimationStep

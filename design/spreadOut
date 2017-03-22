@@ -1,0 +1,127 @@
+graph TB
+
+next.onClick
+back.onClick
+
+
+classDef default stroke:#333,stroke-width:2px;
+classDef Main fill:#3bddcd
+classDef Animator fill:#cc8d30
+classDef TimePeriodTransition fill:#6daee8
+classDef AnimatedObject fill:#8a64eb
+classDef SpotlightStage fill:#a6d646
+classDef Spotlight fill:#f9b907
+classDef TextController fill:#db4cc1
+
+subgraph Key
+Main
+Animator
+TimePeriodTransition
+AnimatedObject
+SpotlightStage
+Spotlight
+TextController
+end
+
+Mconstructor[Constructor]
+onclick
+class Mconstructor,onclick,Main Main
+
+Aconstructor[Constructor]
+Arun[Run]
+Acallback[callback -> onclick]
+AsetState[setState]
+class Aconstructor,Arun,Acallback,AsetState,Animator Animator
+
+TPTconstructor[Constructor]
+makeChunkList
+createAnimationStep
+makeFilteredList
+chunk["chunks[index]"]
+goToNext
+goToPrev
+runArray
+cleanUp
+TPTcallback[callback -> Run]
+class TPTconstructor,makeChunkList,createAnimationStep,makeFilteredList,chunk,goToNext,goToPrev,runArray,cleanUp,TPTcallback,TimePeriodTransition TimePeriodTransition
+
+AOconstructor[Constructor]
+animateToState
+AOsetState[setState]
+class AOconstructor,animateToState,AOsetState,AnimatedObject AnimatedObject
+
+SSconstructor[Constructor]
+createLight
+dimLights
+undimLights
+SSmove[move]
+killLight
+class SSconstructor,createLight,dimLights,undimLights,SSmove,killLight,SpotlightStage SpotlightStage
+
+Sconstructor[Constructor]
+turnOn
+turnOff
+Smove[move]
+class Sconstructor,turnOn,turnOff,Smove,Spotlight Spotlight
+
+TCconstructor[Constructor]
+removeText
+displayText
+enable
+goToNext
+disable
+goToPrev
+setTimePeriod
+class TCconstructor,removeText,displayText,enable,goToNext,disable,goToPrev,setTimePeriod,TextController TextController
+
+Mconstructor ==> Aconstructor
+
+Aconstructor ==> AOconstructor
+Aconstructor ==> TCconstructor
+Aconstructor ==> SSconstructor
+
+SSconstructor -.-> createLight
+
+createLight ==> Sconstructor
+killLight ==> turnOff
+
+onclick ==>Arun
+
+Arun ==> dimLights
+Arun ==> TPTconstructor
+Arun ==> undimLights
+Arun ==> Acallback
+Arun -.-> AsetState
+
+TPTconstructor ==> chunk
+TPTconstructor ==> setTimePeriod
+TPTconstructor ==> makeFilteredList
+TPTconstructor ==> makeChunkList
+
+next.onClick ==> goToNext
+back.onClick ==> goToPrev
+
+goToPrev ==> disable
+goToPrev ==> chunk
+goToNext ==> disable
+goToNext ==> chunk
+
+chunk ==> removeText
+chunk ==> SSmove
+chunk ==> displayText
+chunk ==> runArray
+chunk ==> cleanUp
+
+SSmove ==> createLight
+SSmove ==> Smove
+SSmove ==> killLight
+
+Smove ==> turnOn
+
+runArray ==> animateToState
+AsetState ==> AOsetState
+
+cleanUp ==> enable
+cleanUp -.-> TPTcallback
+
+makeChunkList ==> createAnimationStep
