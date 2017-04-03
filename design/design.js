@@ -1,22 +1,43 @@
+// START
+getCSV( (err,csvData) => {
+	if(err){
+		console.log("couldn't get csv data")
+	} else {
+		var main = new Main(csvData)
+		$("button").click( function() { main.onClick($(this).attr('data-phase')) })
+	}
+})
+
+
 /* King of the world */
 class Main {
     /*
      * Properties
-     *   animator    {Animator}  - We will only ever create on of these
+     *   animator    {Animator} - We will only ever create on of these
      *   isAnimating {Boolean}  - tells us if we are busy animating
-     *   currentTP   {Integer}  - says which Time Period we are currently on
      *   csvData     {Object}   - contains all the information we got from the csv
      */
 
     constructor(csvData){
+		this.csvData = csvData
         // Create an instance of the Animate Class
+		this.animator = new Animator(csvData)
+		this.isAnimating = false;
     }
 
     /* Somehow this is called when one of the time periods is clicked */
-    onclick(){
+    onClick(newPhase){
         // Check if we are already doing something
-        // Parse which button they clicked
-        // pass the information to the Animator Object
+		if(this.isAnimating) { return }
+		// well we are doing something now
+		this.isAnimating = true
+
+		// pass the information to the Animator Object
+		this.animator.run(newPhase,() => {
+			// this arrow function will cause trouble if switched
+			// to a normal function because then 'this' will be undefined
+			this.isAnimating = false
+		})
     }
 }
 
@@ -24,27 +45,59 @@ class Main {
 class Animator {
     /*
      * Properties
-     *    stage  {SpotLightStage}  - An array of spotlight objects to pass on
+     *    stage   {SpotLightStage} - An array of spotlight objects to pass on
      *    csvData         {Object} - contains all the information we got from the csv
-	 *	  animatedObjects {Array}  - List of all the animated objects
+	 *	  animatedObjects  {Array} - List of all the animated objects
+     *    currentTP      {Integer} - says which Time Period we are currently on
      */
 
-    constuctor(csvData){
+    constructor(csvData){
         // save the csv Data
+		this.csvData = csvData
+		this.currentTP = 0;
         // create an instance of the spotlightStage
+		this.stage = new SpotlightStage()
+        // create an instance of the Text Controller
+		this.txtControl = new TextController()
+		this.animatedObjects = []
+
 		// create all the animated Objects
+		imageData.forEach( image => {
+			// get all of the csv data relevant to this AO
+			var relevantData = csvData.map( TP => TP[image.name] )
+			// create the AO
+			var tempAO = new AnimatedObject(image,relevantData)
+			// and add it too our collection
+			this.animatedObjects.push(tempAO)
+		})
     }
 
     /* The main run function that is called after the user clicks on a time period */
-    run(from,to,callback){
+    run(newTP,callback){
         // if going backwards just set state
+		if(newTP <= this.currentTP){
+			this.setState(newTP)
+			callback()
+			return
+		}
         // Create an array of Time Period Transitions one for each period we have to go through
+		var TPTransitions = []
+		for(var TPnumber = +this.currentTP+1; TPnumber <= newTP; TPnumber++){
+			var TPTran = new TimePeriodTransition(TPnumber,this.animatedObjects,
+												  this.txtControl,this.stage)
+			TPTransitions.push(TPTran)
+		}
         // turn on spotlight
-        // Run all of the objects passing them thier corresponding csvData and the spotlight object
-        // turn off spotlight
+		this.stage.dimLights()
+        // Run all of the objects by chaining their promises together
+
+		// turn off spotlight
+		this.currentTP = newTP
+		callback()
     }
 
-	setState(state){
+	setState(newTP){
+		this.currentTP = newTP
 		// run through the list of animated objects
 	}
 }
@@ -53,16 +106,15 @@ class Animator {
 class TimePeriodTransition {
     /*
      * Properties
-     *    spotlights {Array}    - An array of spotlight objects to use
-     *    csvData    {Object}   - contains the information relavate to our time period
-     *    currentIndex {Number} - Which index we are currently at in out array
-     *    isActive   {Boolean}  - True if the 'next' button should be disabled
-	 *	  chunks     {Array}	- An array of Functions that all return promises
-	 *	  targerTP   {Number}   - The Time Perid we are shooting for
-	 *	  animatedObjects {Array}  - List of all the animated objects
+     *    stage  {SpotlightStage} - An array of spotlight objects to use
+     *    currentIndex   {Number} - Which index we are currently at in out array
+     *    isActive      {Boolean} - True if the 'next' button should be disabled
+	 *	  chunks          {Array} - An array of Functions that all return promises
+	 *	  targerTP       {Number} - The Time Perid we are shooting for
+	 *	  animatedObjects {Array} - List of all the animated objects
      */
 
-    constructor(csvData,spotlights,textController,animatedObjects,periodNumber,callback){
+    constructor(periodNumber,animatedObjects,textController,stage){
         // save the passed data
         // set the textBoxController's title to the periodName
         // create the list of animations that need to happen
@@ -126,12 +178,17 @@ class AnimatedObject {
      * Properties
      *    currentState {Integer} - The state we are showing from 0 to 4
      *    currentFrame {Integer} - For animations that have multiple frames
-     *    constants    {Object}  - Contains all of the info from the json file
+     *    imageData    {Object}  - Contains all of the info from the json file
+	 *	  forcer       {String}  - I still don't know what this is
+	 *	  TPdata       {Object}  - The relevant data from the csvData
      */
 
-    constructor(itemNumber,csvData){
-        // read the animationData.json (containers.json)
-        // join the csvData and animationData objects to create the constants object
+    constructor(imageData,csvData){
+//		console.log(imageData,csvData)
+		this.imageData = imageData
+		this.forcer = csvData.shift()
+		this.TPdata = csvData
+        // join the csvData and imageData objects to create the constants object
     }
 
     animateToState(state){
@@ -152,10 +209,13 @@ class SpotlightStage {
      *    spotlights {Array}   - The Array of all our spotlights
      */
     constructor(){
-        // Initalize our array with one spotlight
+        // Initalize our array
+		this.spotlights = []
+		this.isActive = false
     }
-    /* called when they want to start the show */
-    dimLights(){
+
+	/* called when they want to start the show */
+	dimLights(){
         // do the magic to add the mask filter
     }
 

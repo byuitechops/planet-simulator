@@ -1,0 +1,15 @@
+Row Heading,Temperature,CO2,Volcano,Mountains,Ice,Sea,Insolation,Weathering C Burial,CO3 Desposition,Sediment,Weathering C Release,Other
+forcer,,,,,,,,,,,,Testing
+initial,1,1,1,1,1,1,1,1,1,1,1,
+100-200 years,2,2,2,2,2,2,2,2,2,2,2,
+timing,7,6,3,2,4,5,1,8,10,9,11,
+text,7th,6th,3rd,2nd,4th,5th,1st,8th,10th,9th,11th,
+100 ky years,3,3,3,3,3,3,3,3,3,3,3,
+timing,5,6,9,10,8,7,11,4,2,3,1,
+text,5th,6th,9th,10th,8th,7th,11th,4th,2nd,3rd,1st,
+1MY years,4,4,4,4,4,4,4,4,4,4,4,
+timing,1,2,3,4,5,6,7,8,9,10,11,
+text,1st,2nd,3rd,4th,5th,6th,7th,8th,9th,10th,11th,
+10 MY years,5,5,5,5,5,5,5,5,5,5,5,
+timing,7,6,3,2,4,5,1,8,10,9,11,
+text,7th,6th,3rd,2nd,4th,5th,1st,8th,10th,9th,11th,
