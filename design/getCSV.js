@@ -92,7 +92,7 @@ window.getCSV = (function () {
                         }
                         //set it
                         timeZone[column] = {
-                            value: +row[column] || 0,
+                            value: +row[column]-1 || 0,
                             timing: timingDefault,
                             text: ""
                         };

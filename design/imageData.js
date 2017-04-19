@@ -16,7 +16,10 @@ var imageData = [
         y: 369,
         path: "./images/animations/flooding/flood",
         ext: ".png",
-        scale: 1,
+		scale: {
+            x: 1,
+            y: 1
+        },
         macaroni: {
             needed: false
         }
@@ -30,9 +33,12 @@ var imageData = [
         height: 417,
         x: 229,
         y: 377,
-        scale: 1,
         path: "./images/animations/volcanoes/volcano",
         ext: ".png",
+		scale: {
+            x: 1,
+            y: 1
+        },
         macaroni: {
             needed: false
         }
@@ -48,7 +54,10 @@ var imageData = [
         y: 368,
         path: "./images/animations/iceCaps/iceCap",
         ext: ".png",
-        scale: 1,
+		scale: {
+            x: 1,
+            y: 1
+        },
         macaroni: {
             needed: false
         }
@@ -64,6 +73,10 @@ var imageData = [
         y: 150,
         path: "./images/animations/lightRays/lightRay",
         ext: ".png",
+		scale: {
+            x: 1,
+            y: 1
+        },
         macaroni: {
             needed: false
         }
@@ -77,9 +90,12 @@ var imageData = [
         height: 238,
         x: 154,
         y: 459,
-        scale: 1,
         path: "./images/animations/mountains/mountain",
         ext: ".png",
+		scale: {
+            x: 1,
+            y: 1
+        },
         macaroni: {
             needed: false
         }
@@ -88,29 +104,36 @@ var imageData = [
         name: "co2",
         label: "CO<sub>2</sub>",
         isFrame: true,
-        items: 9,
+        items: 10,
         width: 126,
         height: 440,
         x: 563,
         y: 346,
         path: "./images/animations/co2Meter/co2Meter",
         ext: ".png",
+		scale: {
+            x: 1,
+            y: 1
+        },
         macaroni: {
             needed: false
         }
     },
-
     {
         name: "temperature",
         label: "Temperature",
         isFrame: true,
-        items: 9,
+        items: 10,
         width: 148,
         height: 522,
         x: 589,
         y: 307,
         path: "./images/animations/tempMeter/tempMeter",
         ext: ".png",
+		scale: {
+            x: 1,
+            y: 1
+        },
         macaroni: {
             needed: false
         }
@@ -123,7 +146,7 @@ var imageData = [
         width: 164,
         height: 305,
         x: 1287,
-        y: 330,
+        y: 375,
         path: "./images/animations/underwaterVolcanoes/volcano",
         ext: ".gif",
         scale: {
@@ -132,8 +155,8 @@ var imageData = [
         },
         macaroni: {
             needed: true,
-            x: 1386,
-            y: 653,
+            x: 1384,
+            y: 654,
             mirrored: false,
             name: "underwaterVolcano"
         }
@@ -145,8 +168,8 @@ var imageData = [
         items: 5,
         width: 120,
         height: 216,
-        x: 1165,
-        y: 564,
+        x: 1155,
+        y: 540,
         path: "./images/animations/seaSnow/seaSnow",
         ext: ".gif",
         scale: {
@@ -155,15 +178,15 @@ var imageData = [
         },
         macaroni: {
             needed: true,
-            x: 1215,
-            y: 624,
+            x: 1195,
+            y: 618,
             mirrored: false,
             name: "co3Desposition"
         }
     },
     {
         name: "sediment",
-        label: "Sediment (Carbon Burrial)",
+        label: "Sediment (Carbon Burial)",
         isFrame: true,
         items: 5,
         width: 129,
@@ -172,10 +195,14 @@ var imageData = [
         y: 527,
         path: "./images/animations/sediment/sediment",
         ext: ".gif",
+		scale: {
+            x: 1,
+            y: 1
+        },
         macaroni: {
             needed: true,
-            x: 979,
-            y: 642,
+            x: 975,
+            y: 643,
             mirrored: false,
             name: "sediment"
         }
@@ -191,6 +218,10 @@ var imageData = [
         y: 396,
         path: "./images/animations/carbonateRock/carbonateRock",
         ext: ".gif",
+		scale: {
+            x: 1,
+            y: 1
+        },
         macaroni: {
             needed: true,
             x: 1560,
@@ -202,15 +233,19 @@ var imageData = [
     },
     {
         name: "weatheringCBurial",
-        label: "Weathering (Carbon Burrial)",
+        label: "Weathering (Carbon Burial)",
         isFrame: true,
         items: 5,
         width: 23,
         height: 54,
-        x: 994,
-        y: 485,
+        x: 997,
+        y: 489,
         path: "./images/animations/MininMacaroniMeter/miniMacMeter",
         ext: ".png",
+		scale: {
+            x: 1,
+            y: 1
+        },
         macaroni: {
             needed: false
         }

@@ -5,7 +5,9 @@ getCSV( (err,csvData) => {
 	} else {
 		var main = new Main(csvData)
 		// while main is in scope, I need to give it access to the outside world
-		$("#TimePeriodButtons button").click( function() { main.onClick($(this).attr('data-phase')) })
+		$('[data-phase]').click( function() {
+			main.onClick($(this).attr('data-phase'))
+		})
 	}
 })
 
@@ -308,11 +310,12 @@ class AnimatedObject {
      */
 
     constructor(imageData,csvData){
-//		console.log(imageData,csvData)
+		console.log(csvData)
 		this.imageData = imageData
 		this.forcer = csvData.shift()
 		this.TPdata = csvData
-        // join the csvData and imageData objects to create the constants object
+		this.itemsPerFrame = this.imageData.items/5
+		this.setState(this.TPdata[0].value)
     }
 
     animateToState(state,callback){
@@ -324,12 +327,19 @@ class AnimatedObject {
 		}
         // run through all of our frames
 		console.log("Imagine a pretty animation of",this.imageData.name,"to state",state)
-		this.currentState = state
+		console.log(this.currentState,state)
 		callback()
     }
 
     setState(state){
         // Immediately set our state to the requested one
+		console.log(state,this.TPdata[state].value)
+		var targetFrame = this.TPdata[state].value*this.itemsPerFrame
+		for(var i = 0; i < this.imageData.items; i++){
+			var frame = this.imageData.handle.select('[data-frame="'+i+'"]')
+			console.log(i,targetFrame,+(i <= targetFrame))
+			frame.opacity(+(i <= targetFrame))
+		}
 		this.currentState = state
 		console.log("Imagine",this.imageData.name,"got set to",state)
     }
@@ -341,23 +351,27 @@ class SpotlightStage {
      * Properties
      *    isActive   {Boolean} - True if the lights are dimmed
      *    spotlights {Array}   - The Array of all our spotlights
+	 *	  blackVeil  {svg}     - The big black box that blackens everything
      */
     constructor(){
         // Initalize our array
 		this.spotlights = []
 		this.isActive = false
+		this.blackVeil = draw.rect(draw.width(),draw.height()).attr('visibility','hidden')
     }
 
 	/* called when they want to start the show */
 	dimLights(){
         // do the magic to add the mask filter
 		console.log("Pretend the lights just dimned")
+//		this.blackVeil.attr('visibility','visable').opacity(0).animate().opacity(.9)
 		this.isActive = true;
     }
 
     /* called when the show ends */
     undimLights(){
         // do the magic to take off the mask filter
+//		this.blackVeil.animate().opacity(0).attr('visibility','hidden')
 		this.spotlights.forEach( spotlight => spotlight.turnOff() )
 		console.log("Pretend the lights turned back on")
 		this.isActive = false;
