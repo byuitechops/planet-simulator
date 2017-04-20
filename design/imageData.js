@@ -65,7 +65,7 @@ var imageData = [
     {
         name: "insolation",
         label: "Insolation",
-        isFrame: true,
+        isFrame: false,
         items: 5,
         width: 334,
         height: 412,
@@ -103,7 +103,7 @@ var imageData = [
     {
         name: "co2",
         label: "CO<sub>2</sub>",
-        isFrame: true,
+        isFrame: false,
         items: 10,
         width: 126,
         height: 440,
@@ -122,7 +122,7 @@ var imageData = [
     {
         name: "temperature",
         label: "Temperature",
-        isFrame: true,
+        isFrame: false,
         items: 10,
         width: 148,
         height: 522,
@@ -234,7 +234,7 @@ var imageData = [
     {
         name: "weatheringCBurial",
         label: "Weathering (Carbon Burial)",
-        isFrame: true,
+        isFrame: false,
         items: 5,
         width: 23,
         height: 54,

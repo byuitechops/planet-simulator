@@ -1,3 +1,6 @@
+const ANIMATION_DURATION = 500
+
+
 // START
 getCSV( (err,csvData) => {
 	if(err){
@@ -310,7 +313,6 @@ class AnimatedObject {
      */
 
     constructor(imageData,csvData){
-		console.log(csvData)
 		this.imageData = imageData
 		this.forcer = csvData.shift()
 		this.TPdata = csvData
@@ -320,28 +322,55 @@ class AnimatedObject {
 
     animateToState(state,callback){
         // if they are trying to make us animate backwards, just skip to it
+		console.log(state,this.currentState)
 		if(state <= this.currentState){
 			this.setState(state)
 			callback()
 			return;
 		}
+		this.currentState = state
+		console.log(state,this.currentState)
         // run through all of our frames
 		console.log("Imagine a pretty animation of",this.imageData.name,"to state",state)
-		console.log(this.currentState,state)
-		callback()
-    }
+		// for some reason js dosen't have this range function
+		function range(s,e){return Array(e-s).fill().map((e,i)=>+s+i+1)}
+		// the list of frames that need to become visable
+		var queue = []
+		// get the list of frames that need to become visable
+		range(this.currentState,state*this.itemsPerFrame).forEach(i => {
+				queue.push(this.imageData.handle.select('[data-frame="'+i+'"][data-macaroni=false]').first())
+				if(this.imageData.macaroni.needed){
+					queue.push(this.imageData.handle.select('[data-frame="'+i/this.itemsPerFrame+'"][data-macaroni=true]').first())
+				}
+		})
+		// double wrap the the animations so that I can turn them into a promise chain
+		function promiseWrapper(frame){
+			return function(){
+				return new Promise(resolve => {
+					frame.animate(ANIMATION_DURATION).opacity(1).after(resolve)
+				})
+			}
+		}
+		queue.map(promiseWrapper) // turn the frames that need to be animated into promise functions
+			.reduce((prev, cur) => prev.then(cur), Promise.resolve()) // chain all the promise functions
+			.then(callback) // then call mom
+	}
 
     setState(state){
         // Immediately set our state to the requested one
-		console.log(state,this.TPdata[state].value)
-		var targetFrame = this.TPdata[state].value*this.itemsPerFrame
-		for(var i = 0; i < this.imageData.items; i++){
-			var frame = this.imageData.handle.select('[data-frame="'+i+'"]')
-			console.log(i,targetFrame,+(i <= targetFrame))
-			frame.opacity(+(i <= targetFrame))
-		}
 		this.currentState = state
-		console.log("Imagine",this.imageData.name,"got set to",state)
+		// Which frame are we trying to get to?
+		var targetFrame = this.TPdata[state].value*this.itemsPerFrame
+		var that = this // i'll need this in a sec
+		// turning on and off every single one of our images
+		this.imageData.handle.each(function(){
+			var i = this.data('frame')
+			// isFrame only knows about the main animation, but macaroni meters are also being processed here
+			if(that.imageData.isFrame && !this.data('macaroni'))
+				this.opacity(+(i <= targetFrame))
+			else
+				this.opacity(+(i == targetFrame/(this.data('macaroni')?that.itemsPerFrame:1))) // macaronis don't have more than one item per frame
+		})
     }
 }
 
