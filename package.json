@@ -1,0 +1,18 @@
+{
+  "name": "planet-simulator",
+  "version": "1.0.0",
+  "description": "No description",
+  "main": "",
+  "scripts": {
+    "test": "NA"
+  },
+  "author": "Joshua McKinney",
+  "contributors": [{
+    "name": "Hanson-Jay"
+  }, {
+    "name": "Eric Julander"
+  }, {
+    "name": "Benjamin Earl"
+  }],
+  "license": "UNLICENSED"
+}
