@@ -1,5 +1,5 @@
 # planet-simulator
-
+<div>
 <svg id="mermaidChart0" width="100%" xmlns="http://www.w3.org/2000/svg" height="100%" style="max-width:750px;" viewBox="-50 -10 750 347">
 <style type="text/css" title="mermaid-svg-internal-css">/*  */
 *, ::before, ::after { box-sizing: inherit;}
@@ -103,3 +103,4 @@ text { font-family: "trebuchet ms", verdana, arial; font-size: 14px;}
 <text x="475" y="308.5" class="actor" style="text-anchor: middle;">C</text>
 </g>
 </svg>
+</div>
